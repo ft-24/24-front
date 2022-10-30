@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 
 const styles = {
   wrapper: {
@@ -30,6 +30,7 @@ const styles = {
 const ImageCard = (props: { text: string, imagePath: string }) => {
   return (
     <div style={styles.wrapper}>
+      <Link to="/">
       <div style={styles.imageContainer}>
         <img
           src={props.imagePath}
@@ -40,6 +41,7 @@ const ImageCard = (props: { text: string, imagePath: string }) => {
       <div style={styles.TextContainer}>
         <span style={styles.Text}>{props.text}</span>
       </div>
+      </Link>
     </div>
   );
 }
