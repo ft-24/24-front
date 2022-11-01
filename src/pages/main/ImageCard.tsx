@@ -27,10 +27,10 @@ const styles = {
   },
 };
 
-const ImageCard = (props: { text: string, imagePath: string }) => {
+const ImageCard = (props: { text: string, imagePath: string, routePath: string }) => {
   return (
     <div style={styles.wrapper}>
-      <Link to="/">
+      <Link to={props.routePath}>
       <div style={styles.imageContainer}>
         <img
           src={props.imagePath}
