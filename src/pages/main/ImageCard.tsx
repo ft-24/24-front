@@ -1,48 +1,46 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-const styles = {
-  wrapper: {
-    margin: 8,
-    padding: 8,
-    display: "flex",
-    flexDirection: "column",
-    bordeRadius: 16,
-  },
-  imageContainer: {},
-  image: {
-    width: 250,
-    height: 250,
-    borderRadius: 25,
-  },
-  TextContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  Text: {
-    textAlign: "center",
-    color: "black",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-};
+const Wrapper = styled.div`
+  margin: 8;
+  padding: 8;
+  display: flex;
+  flex-direction: column;
+  bordeRadius: 16;
+`;
+const ImageContainer = styled.button`
+  width: 250px;
+  height: 250px;
+  border-radius: 25;
+`;
+const Image = styled.img`
+  width: 250px;
+  height: 250px;
+`;
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+const Text = styled.span`
+  text-align: center;
+  color: black;
+  font-size: 16;
+  font-weight: bold;
+`
 
 const ImageCard = (props: { text: string, imagePath: string, routePath: string }) => {
   return (
-    <div style={styles.wrapper}>
+    <Wrapper>
       <Link to={props.routePath}>
-      <div style={styles.imageContainer}>
-        <img
-          src={props.imagePath}
-          style={styles.image}
-        />
-      </div>
-
-      <div style={styles.TextContainer}>
-        <span style={styles.Text}>{props.text}</span>
-      </div>
+        <ImageContainer>
+        <Image src={props.imagePath}/>
+        </ImageContainer>
+      <TextContainer>
+        <Text>{props.text}</Text>
+      </TextContainer>
       </Link>
-    </div>
+    </Wrapper>
   );
 }
 

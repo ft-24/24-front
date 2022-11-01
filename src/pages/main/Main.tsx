@@ -6,7 +6,6 @@ const LayOut = styled.div`
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  justify-items: column;
   align-items: center;
 `
 
