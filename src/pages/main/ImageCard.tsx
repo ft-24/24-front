@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   padding: 8;
   display: flex;
   flex-direction: column;
-  bordeRadius: 16;
+  border-radius: 16;
 `;
 const ImageContainer = styled.button`
   width: 250px;

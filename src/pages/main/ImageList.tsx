@@ -3,12 +3,12 @@ import ImageCard from "./ImageCard";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  margin: 8,
-  padding: 8,
-  display: flex,
-  flex-direction: row,
-  borde-radius: 16,
-  overflow: auto,
+  margin: 8;
+  padding: 8;
+  display: flex;
+  flex-direction: row;
+  border-radius: 16;
+  overflow: auto;
 `;
 
 const ImageList = () => {
