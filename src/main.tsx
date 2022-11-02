@@ -15,6 +15,8 @@ import Auth from './auth/Auth';
 import Login from './pages/login/Login';
 import Main from "./pages/main/Main"
 import Matching from "./pages/matching/Matching"
+import Profile from "./pages/profile/ProfilePage"
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +40,13 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth/>,
+  },
+  {
+    path: "/profile",
+    element:
+      <RequireAuth>
+        <Profile />
+      </RequireAuth>,
   },
 ]);
 
