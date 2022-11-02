@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import './index.css'
-
 import {
   createBrowserRouter,
   RouterProvider,
@@ -15,6 +13,7 @@ import Auth from './auth/Auth';
 import Login from './pages/login/Login';
 import Main from "./pages/main/Main"
 import Matching from "./pages/matching/Matching"
+import GlobalStyle from './GlobalStyle';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +42,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <GlobalStyle/>
     <RouterProvider router={router} />
   </React.StrictMode>
 )
