@@ -7,6 +7,7 @@ const LayOut = styled.div`
   justify-content: center;
   align-items: center;
 `
+
 const Aggro = styled.h1`
 font-family: SBAggroM;
 `

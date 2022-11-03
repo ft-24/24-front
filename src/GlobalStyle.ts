@@ -2,7 +2,6 @@ import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
 * {
-
   --yellow : #ecf700;
   --purple: #8156ff;
   --light-gray: #4e4e4e;
@@ -27,3 +26,4 @@ export default createGlobalStyle`
   font-family: NanumSquareL;
 }
 `;
+

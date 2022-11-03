@@ -1,10 +1,57 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
+
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
+
+import ErrorPage from "./ErrorPage";
+import RequireAuth from './auth/RequireAuth';
+import Auth from './auth/Auth';
+import Login from './pages/login/Login';
+import Main from "./pages/main/Main"
+import Matching from "./pages/matching/Matching"
+import GlobalStyle from './GlobalStyle';
+import Profile from "./pages/profile/ProfilePage"
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/main",
+    element:
+      <RequireAuth>
+        <Main />
+      </RequireAuth>,
+  },
+  {
+    path: "/matching",
+    element:
+      <RequireAuth>
+        <Matching />
+      </RequireAuth>,
+  },
+  {
+    path: "/auth",
+    element: <Auth/>,
+  },
+  {
+    path: "/profile",
+    element:
+      <RequireAuth>
+        <Profile />
+      </RequireAuth>,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <GlobalStyle/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 )
