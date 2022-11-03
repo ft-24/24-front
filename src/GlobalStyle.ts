@@ -24,6 +24,9 @@ export default createGlobalStyle`
   background-color: var(--dark-gray);
   color: var(--white);
   font-family: NanumSquareL;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 `;
 
