@@ -8,12 +8,17 @@ const LayOut = styled.div`
   align-items: center;
 `
 
+const Aggro = styled.h1`
+font-family: SBAggroM;
+`
+
 function Login() {
 
     return (
 		<LayOut>
         <div>
-          <h1>Welcome</h1>
+          <h1>Welcome, 나눔 스퀘어 입니다ㅋㅋ</h1>
+          <Aggro>어그로에요 ㅎㅎ</Aggro>
         </div>
         <LoginButton/>
 		</LayOut>
