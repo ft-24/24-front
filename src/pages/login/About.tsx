@@ -5,10 +5,9 @@ const Wrapper = styled.div`
   margin: 2em 2em;
   width: 80%;
   background: var(--white);
-  color: black;
+  color: var(--dark-gray);
   display: flex;
   padding: 1em;
-  border-radius: 2em;
   background: var(--white);
 `;
 

@@ -19,7 +19,6 @@ const FeatureTextWrapper = styled.div`
 	}
 `;
 
-
 const FeaturesContainer = styled.div`
 	display:flex;
 	justify-content: center;
@@ -27,6 +26,7 @@ const FeaturesContainer = styled.div`
 `
 
 const FeatureWrapper = styled.div`
+	width: 25%;
 	padding: 1em;
 	& > h1 {
 		font-weight: 700;
