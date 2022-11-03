@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const HeadBar = styled.header`
+const HeadBar = styled.div`
   position: fixed;
   left: 0;
-  right: 100%;
+  width: 100%;
   top: 0;
   height: 50;
   background-color: #333333;
@@ -11,6 +11,7 @@ const HeadBar = styled.header`
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: row;
   width: 96%;
   margin: 0 auto;
 `;

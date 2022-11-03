@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
-const FootBar = styled.header`
-  height: 100%;
+const FootBar = styled.div`
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 50;
+  width: 100%;
   margin-top: auto;
   background-color: #333333;
 `;
