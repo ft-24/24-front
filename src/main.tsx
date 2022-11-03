@@ -6,7 +6,9 @@ import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
+  Routes,
   Route,
+  Outlet,
 } from "react-router-dom";
 
 import ErrorPage from "./ErrorPage";
@@ -16,6 +18,45 @@ import Login from './pages/login/Login';
 import Main from "./pages/main/Main"
 import Matching from "./pages/matching/Matching"
 import Profile from "./pages/profile/ProfilePage"
+import Header from './Header';
+import Footer from './Footer';
+
+const BasicLayout = () => {
+  return (
+    <>
+      <Header />
+        <Routes>
+        <Route path="/main"
+          element={
+            <RequireAuth>
+              <Main />
+            </RequireAuth>
+          } />
+        <Route path="/matching"
+          element={
+            <RequireAuth>
+              <Matching />
+            </RequireAuth>
+          } />
+        <Route path="/profile"
+          element={
+            <RequireAuth>
+              <Profile />
+            </RequireAuth >  
+          } />
+        </Routes>
+      <Footer />
+    </>
+  )
+}
+
+const WideLayout = () => {
+  return (
+    <>
+      <Outlet />
+    </>
+  )
+}
 
 const router = createBrowserRouter([
   {
@@ -24,30 +65,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/main",
-    element:
-      <RequireAuth>
-        <Main />
-      </RequireAuth>,
-  },
-  {
-    path: "/matching",
-    element:
-      <RequireAuth>
-        <Matching />
-      </RequireAuth>,
-  },
-  {
     path: "/auth",
     element: <Auth/>,
   },
   {
-    path: "/profile",
-    element:
-      <RequireAuth>
-        <Profile />
-      </RequireAuth>,
-  },
+    path: "/*",
+    element: <BasicLayout />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
