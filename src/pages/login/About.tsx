@@ -55,24 +55,33 @@ const Content = styled.div`
   background: var(--white);
   display: flex;
   padding: 5em;
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    padding: 0;
+  }
 `
 
 const section = styled.div`
   width: 50%;
-  height: 100%;
   display: flex;
-  background: var(--white);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  justify-content: center;
+  @media (max-width: 1100px) {
+    width: 100%;
+  }
 `
 
 const Stack = styled(section)`
-  justify-content: flex-end;
+  @media (max-width: 1100px) {
+    flex-direction: row;
+    width: 100%;
+  }
 `
 
 const Members = styled(section)`
-  justify-content: flex-start;
+  text-transform:uppercase;
 `
 
 
