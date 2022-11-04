@@ -38,18 +38,31 @@ const Wrapper = styled.div`
   border-radius: 1em;
   display: flex;
   align-items:center;
-    & > img {
-        background: inherit;
-        margin: 1em;
+  & > img {
+      background: inherit;
+      margin: 1em;
+      width:48px;
     }
+    & > p {
+        background: inherit;
+        color: inherit;
+    }
+    @media (max-width: 1100px) {
+        flex-direction: row;
+        justify-content: center;
+    width: 100%;
+    & > p {
+        display: none;
+    }
+  }
 `
 
 const Tech = ({img, title} : Props) => {
     const image = imageMap[img];
     return (
         <Wrapper>
-            <img width="48px" src={image}/>
-            {title}
+            <img src={image}/>
+            <p>{title}</p>
         </Wrapper>
     );
 };
