@@ -13,35 +13,24 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background: var(--dark-gray);
-`
-const buttonTextShadow = css`
-  text-shadow: 0.02em 0.02em var(--dark-gray), -0.02em -0.02em var(--dark-gray)
-  , 0.02em -0.02em var(--dark-gray), -0.02em 0.02em var(--dark-gray),
-  0.03em 0.03em var(--purple), -0.03em -0.03em var(--purple)
-  , 0.03em -0.03em var(--purple), -0.03em 0.03em var(--purple);
-`
+  min-width: 375px;
+`;
 
 const Button = styled.a`
-  display: inline-block;
   text-decoration: none;
   text-align: center;
-  ${buttonTextShadow}
   padding: 0.5em;
   font-size: 2em;
   border-radius: 0.5em;
-  border: 1px solid var(--white);
+  background: var(--yellow);
+  color:var(--dark-gray);
   margin: 1em;
   &:hover {
     transform: scale(1.1, 1.1);
-    border: 1px solid var(--dark-gray);
-    background:linear-gradient(
-    100deg,
-    var(--yellow),
-    var(--purple)
-  );
   }
   @media (max-width: 1100px) {
     position: static;
+    margin-top: 2em;
   }
 `;
 
