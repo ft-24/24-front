@@ -47,7 +47,23 @@ const Title = styled.h1`
   font-size: 3em;
   font-weight: 700;
   margin: 0 0 0.3em 0;
-  `;
+  @media (max-width: 1100px) {
+      display: none;
+  }
+`;
+
+const SubTitle = styled.h1`
+  width:100%;
+  display: none;
+  text-transform: uppercase;
+  ${titleShadow}
+  font-size: 3em;
+  font-weight: 700;
+  margin: 0 0 0.3em 0;
+  @media (max-width: 1100px) {
+      display: inline-block;
+  }
+`
 
 const ArticleWrapper = styled.div`
   padding: 3em;
@@ -65,6 +81,7 @@ const Hero = () => {
     <Wrapper>
       <SectionWrapper>
         <Title>ft_transcendence</Title>
+        <SubTitle>트뽀</SubTitle>
         <ArticleWrapper>
         <Article>
           Soon, you will realize that you already know things that you thought
