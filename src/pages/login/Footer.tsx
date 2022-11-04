@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 const Footer = () => {
 	return (
 		<Wrapper>
-			Go to Top
+			Go to Top↑
 		</Wrapper>
 	);
 }

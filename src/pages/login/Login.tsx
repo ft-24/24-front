@@ -1,28 +1,50 @@
-import styled from 'styled-components'
-import LoginButton from "./LoginButton";
+import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
-const LayOut = styled.div`
+import Header from './Header';
+import Hero from './Hero';
+import About from './About';
+import Features from './Features'
+import Footer from './Footer';
+
+const Wrapper = styled.div`
+  font-family: SBAggroM;
   display: flex;
-  justify-items: column;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-`
+  background: var(--dark-gray);
+  min-width: 375px;
+`;
 
-const Aggro = styled.h1`
-font-family: SBAggroM;
-`
+const Button = styled.a`
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5em;
+  font-size: 2em;
+  border-radius: 0.5em;
+  background: var(--yellow);
+  color:var(--dark-gray);
+  margin: 1em;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+  @media (max-width: 1100px) {
+    position: static;
+    margin-top: 2em;
+  }
+`;
 
-function Login() {
-
+const Login = () => {
     return (
-		<LayOut>
-        <div>
-          <h1>Welcome, 나눔 스퀘어 입니다ㅋㅋ</h1>
-          <Aggro>어그로에요 ㅎㅎ</Aggro>
-        </div>
-        <LoginButton/>
-		</LayOut>
-    );
+        <Wrapper>
+            <Header/>
+            <Hero/>
+            <Button href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-8da575687fd06cd856e002bd2352a348072433d4faec75f47bab2925ef6be4c2&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth&response_type=code">START</Button>
+            <About/>
+            <Features/>
+            <Footer/>
+        </Wrapper>
+    )
 };
 
 export default Login;

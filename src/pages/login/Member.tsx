@@ -10,6 +10,9 @@ const Wrapper = styled.div`
   width:70%;
   font-size: 2em;
   padding: 0.5em;
+  @media (max-width: 1100px) {
+    width: 100%;
+  }
 `
 
 const Member = ({name} : Props) => {

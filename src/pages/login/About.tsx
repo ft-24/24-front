@@ -7,7 +7,7 @@ import Member from "./Member";
 const Window = styled.div`
   margin-top: 5em;
   width: 80%;
-  height: 36em;
+  height: 100%;
   border-radius: 1em;
   background: var(--dark-gray);
   overflow: hidden;
@@ -33,10 +33,11 @@ const Tab = styled.div<tabType>`
   flex-grow: 1;
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
-  flex-wrap: nowrap;
-  width: 100%;
-  padding: 1.5em;
+  align-items: center;
+  width: 33%;
+  height: 100%;
+  font-size: 24px;
+  padding: 1em 2em 0em;
   border-radius: 1em;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -82,6 +83,9 @@ const Stack = styled(section)`
 
 const Members = styled(section)`
   text-transform:uppercase;
+  @media (max-width: 1100px) {
+    justify-content: flex-start;
+  }
 `
 
 

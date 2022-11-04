@@ -5,9 +5,9 @@ import img1 from "../../../public/images/hero.png";
 
 const Wrapper = styled.div`
   position: relative;
-  margin-top: 10rem;
+  margin-top: 130px;
   width: 100%;
-  min-width: 375px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
