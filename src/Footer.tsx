@@ -4,10 +4,13 @@ const FootBar = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 50;
+  height: 80px;
   width: 100%;
+  line-height: 80px;
   margin-top: auto;
-  background-color: #333333;
+  background: var(--dark-gray);
+  font-family: SBAggroM;
+  font-size: 20px;
 `;
 
 const Wrapper = styled.div`
@@ -19,11 +22,15 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
+const Text = styled.span`
+  color: var(--light-gray);
+`;
+
 const Footer = () => {
   return (
     <FootBar>
       <Wrapper>
-        <div>어쩌구 저쩌구</div>
+        <Text>42 ft_transcendence 팀 트센뽀개기</Text>
       </Wrapper>
     </FootBar>
   );
