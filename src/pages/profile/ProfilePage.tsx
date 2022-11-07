@@ -8,6 +8,13 @@ import RecordForm from "./RecordForm";
 import LoadingPage from "../../LoadingPage";
 import UserProfile from "./UserProfile";
 
+const BackGround = styled.div`
+  width : 100%;
+  height: 100%;
+  margin-top: 80px;
+  background-image : url("/images/background.jpg");
+`;
+
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,6 +22,7 @@ const Layout = styled.div`
   padding: 1em;
   justify-content: center;
   align-items: center;
+  background: rgba( 0, 0, 0, 0 );
 `;
 
 function Hello() {
@@ -40,7 +48,7 @@ const Profile = () => {
   }
 
   return (
-    <div>
+    <BackGround>
       <Layout>
       <UserProfile data={userData} />
       <Layout>
@@ -56,7 +64,7 @@ const Profile = () => {
       }
       </Layout>
       </Layout>
-    </div>
+    </BackGround>
   );
 }
 

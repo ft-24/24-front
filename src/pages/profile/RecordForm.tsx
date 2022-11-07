@@ -8,6 +8,7 @@ const RecordWrapper = styled.div`
   padding: 1em;
   justify-content: center;
   align-items: center;
+  background: rgba( 0, 0, 0, 0 );
 `;
 
 const RecordP = styled.p`
@@ -15,6 +16,7 @@ const RecordP = styled.p`
   border-style: solid;
   white-space: pre-line;
   text-align: center;
+  background: rgba( 0, 0, 0, 0 );
 `;
 
 function RecordForm(record: RecordProps) {

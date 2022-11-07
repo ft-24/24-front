@@ -10,6 +10,7 @@ const ProfileImg = styled.img`
   width: 400px;
   height: 400px;
   margin: 1em;
+  background: rgba( 0, 0, 0, 0 );
 `;
 
 const ProfileTitle = styled.h1`
@@ -18,6 +19,7 @@ const ProfileTitle = styled.h1`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: rgba( 0, 0, 0, 0 );
 `;
 
 const ProfileName = (name : {name : string} ) => {
@@ -29,7 +31,7 @@ const ProfileName = (name : {name : string} ) => {
     setTemp(event.currentTarget.value);
   }
   return (
-    <div>
+    <>
       <ProfileTitle>{ nickname }</ProfileTitle>
         { isChange ? <input id="input_name" type="text" onChange={handleChange}/> : null }
       <button onClick={() => {
@@ -41,7 +43,7 @@ const ProfileName = (name : {name : string} ) => {
           setIsChange(prev => !prev)
         }
       }}>{isChange ? "submit" : "change nickname"}</button>
-    </div>
+    </>
   );
 }
 
