@@ -1,24 +1,21 @@
 import axios from "axios";
-import React from "react";
 import { useState, useEffect } from 'react';
-import RecordForm, { RecordProps } from "./RecordForm";
+import styled from 'styled-components';
 
-class UserProps {
-  Record: Map<string, RecordProps>;
-  nickname: string;
-  profimgdir: string;
-  rank: number;
+import { UserProps } from "./ProfileProps";
+import RecordForm from "./RecordForm";
 
-  constructor (record: Map<string, RecordProps>,
-    nickname: string,
-    profimgdir: string,
-    rank: number,) {
-    this.Record = new Map(Object.entries(record));
-    this.nickname = nickname;
-    this.profimgdir = profimgdir;
-    this.rank = rank;
-  }
-}
+import LoadingPage from "../../LoadingPage";
+import UserProfile from "./UserProfile";
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 3em;
+  padding: 1em;
+  justify-content: center;
+  align-items: center;
+`;
 
 function Hello() {
   console.log("hello");
@@ -31,29 +28,22 @@ const Profile = () => {
     const getData = async() => {
       const res = await axios.get(`https://my-24-ver1-default-rtdb.asia-southeast1.firebasedatabase.app/Users/seonhjeo.json`);
       const data: UserProps = await res.data;
-      setUserData(prev => prev = new UserProps(data.Record, data.nickname, data.profimgdir, data.rank));
+      setUserData(prev => prev = new UserProps(data.Stats, data.Record, data.nickname, data.profimgdir, data.rank));
     }
     getData();
   }, [])
 
   if (userData === undefined ) {
     return (
-      <div>Loading...</div>
+      <LoadingPage />
     );
   }
 
   return (
-    <div className='align-center'>
-      <img src={""}></img>
-      <h1>{userData.nickname + "'s Profile"}</h1>
-      <hr/>
-      <button
-        onClick={function (event) {
-          Hello();
-          }
-        }
-      >Press to add</button>
-      <div>
+    <div>
+      <Layout>
+      <UserProfile data={userData} />
+      <Layout>
       { userData.Record && (Array.from(userData.Record.values()).map((value) => <RecordForm
         key = {value.time}
         time = {value.time}
@@ -64,7 +54,8 @@ const Profile = () => {
         opscore = {value.opscore}
       />))
       }
-      </div>
+      </Layout>
+      </Layout>
     </div>
   );
 }
