@@ -20,6 +20,31 @@ const ProfileTitle = styled.h1`
   align-items: center;
 `;
 
+const ProfileName = (name : {name : string} ) => {
+  const [nickname, setNickname] = React.useState(name.name ?? "default");
+  const [isChange, setIsChange] = React.useState(false);
+
+  const [temp, setTemp] = React.useState("");
+  const handleChange = (event: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
+    setTemp(event.currentTarget.value);
+  }
+  return (
+    <div>
+      <ProfileTitle>{ nickname }</ProfileTitle>
+        { isChange ? <input id="input_name" type="text" onChange={handleChange}/> : null }
+      <button onClick={() => {
+        if (isChange === false) {
+          setIsChange(prev => !prev);
+        } else {
+          setNickname(temp);
+          // TODO : axios.set();
+          setIsChange(prev => !prev)
+        }
+      }}>{isChange ? "submit" : "change nickname"}</button>
+    </div>
+  );
+}
+
 const ProfileImage = ({data} : {data : UserProps}) => {
   const [images, setImages] = React.useState([]);
   const maxNumber = 1;
@@ -28,7 +53,6 @@ const ProfileImage = ({data} : {data : UserProps}) => {
     imageList: ImageType,
     addUpdateIndex: number[] | undefined
   ) => {
-    // data for submit
     console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
@@ -53,8 +77,10 @@ const ProfileImage = ({data} : {data : UserProps}) => {
             <ProfileImg src={ imageList[0] ? imageList[0].dataURL : "" }></ProfileImg>
             <button
               style={isDragging ? { color: "red" } : undefined}
-              onClick={ imageList[0] && imageList[0].file ? () => onImageUpdate(0) : onImageUpload }
-              {...dragProps}
+              onClick={ () => {
+                imageList[0] && imageList[0].file ? () => onImageUpdate(0) : onImageUpload
+                // TODO : axios.set();
+              }} {...dragProps}
             >
               {"change profile image"}
             </button>
@@ -66,10 +92,9 @@ const ProfileImage = ({data} : {data : UserProps}) => {
 }
 
 const UserProfile = ({data} : {data : UserProps}) => {
-
   return (
     <div>
-      <ProfileTitle>{data.nickname}</ProfileTitle>
+      <ProfileName name={data.nickname} />
       <ProfileImage data={data} />
     </div>
   );

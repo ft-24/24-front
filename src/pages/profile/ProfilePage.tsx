@@ -17,15 +17,6 @@ const Layout = styled.div`
   align-items: center;
 `;
 
-const ProfileTitle = styled.h1`
-  font-size: 4em;
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  justify-content: center;
-  align-items: center;
-`;
-
 function Hello() {
   console.log("hello");
 }
@@ -52,7 +43,7 @@ const Profile = () => {
     <div>
       <Layout>
       <UserProfile data={userData} />
-      <div>
+      <Layout>
       { userData.Record && (Array.from(userData.Record.values()).map((value) => <RecordForm
         key = {value.time}
         time = {value.time}
@@ -63,7 +54,7 @@ const Profile = () => {
         opscore = {value.opscore}
       />))
       }
-      </div>
+      </Layout>
       </Layout>
     </div>
   );
