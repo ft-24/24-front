@@ -44,7 +44,7 @@ const Circle = styled.div<dynamicColor>`
   width: 0.4em;
   height: 0.4em;
   border-radius: 50%;
-  background-color: ${props=>props.color};
+  background-color: ${props => props.color};
 `;
 
 const FriendsList = [
@@ -62,7 +62,7 @@ const FriendsList = [
   }
 ]
 
-const Sidebar = (props: { visible: boolean }) => {
+const Sidebar = () => {
   return (
     <Wrapper className='sidebar'>
       <OnlineList count={FriendsList.length}>

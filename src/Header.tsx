@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Sidebar from './components/Sidebar';
 
 const HeadBar = styled.div`
   position: fixed;
@@ -34,10 +36,11 @@ const Logo = styled.div`
   text-align: center;
 `;
 
-const Friends = styled.div`
+const Friends = styled.button`
   position: relative;
   width: 20%;
   text-align: right;
+  border: none;
 `;
 
 const StyledLink = styled(Link)`
@@ -45,6 +48,8 @@ const StyledLink = styled(Link)`
 `
 
 const Header = () => {
+  const [toggle, setToggle] = useState(false);
+
   return (
     <HeadBar>
       <Wrapper>
@@ -54,9 +59,8 @@ const Header = () => {
         <Logo>
           <StyledLink to="/main">로 고</StyledLink>
         </Logo>
-        <Friends>
-          <StyledLink to="/friends">친 구</StyledLink>
-        </Friends>
+        <Friends onClick={() => setToggle(!toggle)}>친 구</Friends>
+        { toggle ? <Sidebar /> : null }
       </Wrapper>
     </HeadBar>
   );
