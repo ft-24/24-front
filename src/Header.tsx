@@ -8,8 +8,8 @@ const HeadBar = styled.div`
   left: 0;
   width: 100%;
   top: 0;
-  height: 80px;
-  line-height: 84px;
+  height: 60px;
+  line-height: 64px;
   background: var(--dark-gray);
   font-family: SBAggroM;
   font-size: 24px;

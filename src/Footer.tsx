@@ -4,9 +4,9 @@ const FootBar = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 80px;
+  height: 60px;
   width: 100%;
-  line-height: 80px;
+  line-height: 60px;
   margin-top: auto;
   background: var(--dark-gray);
   font-family: SBAggroM;
