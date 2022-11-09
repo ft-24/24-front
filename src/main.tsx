@@ -19,6 +19,7 @@ import GlobalStyle from './GlobalStyle';
 import Profile from "./pages/profile/ProfilePage"
 import Header from './Header';
 import Footer from './Footer';
+import App from './pages/app';
 
 const BasicLayout = () => {
   return (
@@ -41,7 +42,13 @@ const BasicLayout = () => {
           element={
             <RequireAuth>
               <Profile />
-            </RequireAuth >  
+            </RequireAuth >
+          } />
+          <Route path="/chat"
+          element={
+            <RequireAuth>
+              <App />
+            </RequireAuth >
           } />
         </Routes>
       <Footer />
