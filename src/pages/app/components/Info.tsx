@@ -11,6 +11,7 @@ const Container = styled.div`
 	padding: 1rem;
 	border-left: 1px solid white;
 	background: var(--dark-gray);
+	font-family:NanumSquareL;
 `
 
 const ControlSection = styled.div`

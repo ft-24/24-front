@@ -8,7 +8,7 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1rem;
+	padding: 2rem 1rem;
 	border-right: 1px solid white;
 	background: var(--dark-gray);
 `
@@ -22,24 +22,25 @@ const IconSection = styled.div`
 	line-height: 4rem;
 	align-items: center;
 	& > * {
-		font-size: 1rem;
+		font-size: 2rem;
 	}
 `
 
 const Button = styled.div`
+	margin: 1rem 0;
 	&:hover {
 		transform: scale(1.5);
 	}
 `
 
-const Nav = ({setLocate} : any) => {
+const Nav = ({setLocate, setIsDetailOn} : any) => {
 	return (
 			<Container>
 				<div>LOGO</div>
 				<IconSection>
-					<Button onClick={()=>setLocate("home")}>🏠</Button>
-					<Button onClick={()=>setLocate("dm")}>👨‍👧‍👦</Button>
-					<Button onClick={()=>setLocate("dm")}>🤫</Button>
+					<Button onClick={()=>{setLocate("home"); setIsDetailOn(false);}}>🏠</Button>
+					<Button onClick={()=>{setLocate("dm"); setIsDetailOn(true);}}>👨‍👧‍👦</Button>
+					<Button onClick={()=>{setLocate("dm"); setIsDetailOn(true);}}>🤫</Button>
 				</IconSection>
 				<div>
 				<Avatar.txt>😊</Avatar.txt>
