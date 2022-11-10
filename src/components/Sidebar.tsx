@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { Children, useEffect, useState } from 'react';
-import { getCookie } from '../Cookie';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -77,7 +76,7 @@ const Sidebar = () => {
   friendsList.push(new Item("young-ch", true));
 
   const getData = async() => {
-    let token = getCookie('token');
+    let token = ""; // cookie
     console.log("getData() in Sidebar Called");
     try {
       const response = await axios({
@@ -93,7 +92,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     getData();
-  })
+  }, []);
 
   return (
     <Wrapper className='sidebar'>
