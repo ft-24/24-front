@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import axios from 'axios';
+import { Children, useEffect, useState } from 'react';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -6,23 +8,21 @@ const Wrapper = styled.div`
   right: 0;
   height: 100vh;
   width: 8em;
-  background: var(--light-gray);
+  background: var(--dark-gray);
 `;
 
-type dynamicHeight = {
-  count : number
-}
-
 type dynamicColor = {
-  color : string
+  color: string
 }
 
-const OnlineList = styled.div<dynamicHeight>`
+const OnlineList = styled.div`
   margin: 0.5em 0.25em 0 0.25em;
-  height: ${props=>(props.count * 1.25).toString()}em;
+  height: auto;
 `;
 
 const OfflineList = styled.div`
+  margin: 0 0.25em 0.5em 0.25em;
+  height: auto;
 `;
 
 const FriendWrapper = styled.div`
@@ -33,10 +33,18 @@ const FriendWrapper = styled.div`
   height: 1em;
 `;
 
-const FriendText = styled.div`
+const OnlineText = styled.div`
   padding: 0.2em 0 0 0;
   line-height: 1em;
   font-size: 0.8em;
+  font-color: var(--white);
+`;
+
+const OfflineText = styled.div`
+  padding: 0.2em 0 0 0;
+  line-height: 1em;
+  font-size: 0.8em;
+  color: var(--light-gray);
 `;
 
 const Circle = styled.div<dynamicColor>`
@@ -44,39 +52,70 @@ const Circle = styled.div<dynamicColor>`
   width: 0.4em;
   height: 0.4em;
   border-radius: 50%;
-  background-color: ${props => props.color};
+  background-color: ${props=>props.color};
 `;
 
-const FriendsList = [
-  {
-    nickname: 'Name1',
-    online: true,
-  },
-  {
-    nickname: 'Name2',
-    online: true,
-  },
-  {
-    nickname: 'Name3',
-    online: true,
-  }
-]
+class Item {
+  nickname: string;
+  online: boolean;
 
-const Sidebar = () => {
+  constructor(n: string, o: boolean) {
+    this.nickname = n;
+    this.online = o;
+  }
+}
+
+const Sidebar = (props: {intra: string}) => {
+  let friendsList = new Array<Item>;
+
+  friendsList.push(new Item("sunhkim", true));
+  friendsList.push(new Item("yoahn", false));
+  friendsList.push(new Item("seonhjeo", true));
+  friendsList.push(new Item("chanhuil", false));
+  friendsList.push(new Item("young-ch", true));
+
+  const getData = async() => {
+    try {
+      const response = await axios.get('http://user/friends/profile/' + props.intra);
+      friendsList = response.data;
+    } catch (error) {
+      console.error("[Error] frends Lish Get Failed!");
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  })
+
   return (
     <Wrapper className='sidebar'>
-      <OnlineList count={FriendsList.length}>
+      <OnlineList>
         {
-          FriendsList.map((item, index) => (
-            <FriendWrapper>
-              {item.online? <Circle color='var(--yellow)' /> : <Circle color='var(--purple)' />}
-              <FriendText>{item.nickname}</FriendText>
-            </FriendWrapper>
+          friendsList.map((item : Item, index) => (
+            <>
+            {item.online ?
+              <FriendWrapper>
+                <Circle color='var(--yellow)' />
+                <OnlineText>{item.nickname}</OnlineText>
+              </FriendWrapper>
+              : null}
+            </>
           ))
         }
       </OnlineList>
       <OfflineList>
-
+        {
+          friendsList.map((item : Item, index) => (
+            <>
+            {!item.online ?
+              <FriendWrapper>
+                <Circle color='var(--purple)' />
+                <OfflineText>{item.nickname}</OfflineText>
+              </FriendWrapper>
+              : null}
+            </>
+          ))
+        }
       </OfflineList>
     </Wrapper>
   );
