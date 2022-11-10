@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { UserProps } from "./ProfileProps";
-import ImageUploading, { ImageType } from "react-images-uploading";
+import axios from "axios";
 
 const ProfileImg = styled.img`
   display: flex;
@@ -21,6 +21,16 @@ const ProfileTitle = styled.h1`
   align-items: center;
   background: rgba( 0, 0, 0, 0 );
 `;
+
+const Input = styled.input`
+  display: none;
+`;
+
+const Label = styled.label`
+  height: 3rem;
+  background: var(--white);
+  color: var(--dark-gray);
+`
 
 const ProfileName = (name : {name : string} ) => {
   const [nickname, setNickname] = React.useState(name.name ?? "default");
@@ -48,47 +58,24 @@ const ProfileName = (name : {name : string} ) => {
 }
 
 const ProfileImage = ({data} : {data : UserProps}) => {
-  const [images, setImages] = React.useState([]);
-  const maxNumber = 1;
 
-  const onChange = (
-    imageList: ImageType,
-    addUpdateIndex: number[] | undefined
-  ) => {
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList as never[]);
-  };
+  const [image, setImage] = React.useState(data.profimgdir);
+
+  const onImgChange = async (event: any) => {
+    const file = event.currentTarget.files[0];
+    if (file !== undefined) {
+      setImage(URL.createObjectURL(file));
+      const formData = new FormData();
+      formData.append('file', event.currentTarget.files[0]);
+      const response = await axios.putForm(" ", formData);
+    }
+  }
 
   return (
     <div>
-      <ImageUploading
-        multiple
-        value={images}
-        onChange={onChange}
-        maxNumber={maxNumber}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageUpdate,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div>
-            <ProfileImg src={ imageList[0] ? imageList[0].dataURL : "" }></ProfileImg>
-            <button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={ () => {
-                imageList[0] && imageList[0].file ? () => onImageUpdate(0) : onImageUpload
-                // TODO : axios.set();
-              }} {...dragProps}
-            >
-              {"change profile image"}
-            </button>
-          </div>
-        )}
-      </ImageUploading>
+      <ProfileImg src={ image } alt="not fount"></ProfileImg>
+      <Input type='file' id='ProfileImg' accept='image/*' name='file' onChange={onImgChange}></Input>
+      <Label htmlFor="ProfileImg">Click me to upload image</Label>
     </div>
   );
 }
