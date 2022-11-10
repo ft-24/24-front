@@ -7,27 +7,32 @@ const Wrapper = styled.div`
   flex-direction: column;
   background: rgba(0, 0, 0, 0);
 `;
+
 const ImageContainer = styled.div`
   width: 240px;
   height: 240px;
   text-align: center;
 `;
+
 const Image = styled.img`
   margin: auto;
   display: block;
   width: 240px;
   height: 240px;
-
 `;
+
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
 `
+
 const Text = styled.span`
   text-align: center;
   color: var(--white);
-  font-size: 1.5em;
+  margin-top: 14px;
+  font-family: SBAggroM;
+  font-size: 18px;
   font-weight: bold;
   background: none;
 `

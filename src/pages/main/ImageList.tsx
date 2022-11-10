@@ -3,13 +3,14 @@ import ImageCard from "./ImageCard";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  max-width: 90%;
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
   scrollbar-width: none;
   white-space: nowrap;
   background: var(--dark-gray);
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
