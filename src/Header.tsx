@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { UserProps } from './pages/profile/ProfileProps';
 import styled from 'styled-components';
+import axios from 'axios'
 import Sidebar from './components/Sidebar';
 
 const HeadBar = styled.div`
@@ -57,6 +59,37 @@ const variants = {
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
+  const [intra, setIntra] = useState("");
+  
+  const getData = async() => {
+    let token = ""; // cookie
+    if (token == "")
+      throw new Error("[Error] token dose not exist");
+    console.log("getData() in Header Called");
+    try {
+      const response = await axios({
+        url: 'http://user/friends',
+        method: 'get',
+        headers: { 'token': 'bearer ' + token }
+      });
+      const data: UserProps = await response.data;
+    } catch (error) {
+      console.error("[Error] get frends List failed");
+    }
+  };
+
+  useEffect(() => {
+    if (intra == "")
+      setIntra('sunhkim'); // cookie
+    if (intra == "") {
+      try {
+        getData();
+      } catch (error) {
+        console.error(error);
+        // redirect to home
+      }
+    }
+  }, []);
 
   return (
     <HeadBar>
