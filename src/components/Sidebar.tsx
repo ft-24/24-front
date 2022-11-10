@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { Children, useEffect, useState } from 'react';
+import { getCookie } from '../Cookie';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -76,14 +77,14 @@ const Sidebar = () => {
   friendsList.push(new Item("young-ch", true));
 
   const getData = async() => {
+    let token = getCookie('token');
     console.log("getData() in Sidebar Called");
-    const instance = axios.create({
-      url: 'http://user/friends',
-      method: 'get',
-      //headers: { 'token': 'bearer ' }
-    })
     try {
-      const response = await axios.get('http://user/friends/');
+      const response = await axios({
+        url: 'http://user/friends',
+        method: 'get',
+        headers: { 'token': 'bearer ' + token }
+      });
       friendsList = response.data;
     } catch (error) {
       console.error("[Error] frends List Get Failed!");
