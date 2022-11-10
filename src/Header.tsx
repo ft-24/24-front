@@ -60,7 +60,7 @@ const Header = () => {
           <StyledLink to="/main">로 고</StyledLink>
         </Logo>
         <Friends onClick={() => setToggle(!toggle)}>친 구</Friends>
-        { toggle ? <Sidebar intra='sunhkim' /> : null }
+        { toggle ? <Sidebar /> : null }
       </Wrapper>
     </HeadBar>
   );

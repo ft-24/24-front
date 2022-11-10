@@ -65,7 +65,7 @@ class Item {
   }
 }
 
-const Sidebar = (props: {intra: string}) => {
+const Sidebar = () => {
   let friendsList = new Array<Item>;
 
   friendsList.push(new Item("sunhkim", true));
@@ -75,11 +75,17 @@ const Sidebar = (props: {intra: string}) => {
   friendsList.push(new Item("young-ch", true));
 
   const getData = async() => {
+    console.log("getData() in Sidebar Called");
+    const instance = axios.create({
+      url: 'http://user/friends',
+      method: 'get',
+      //headers: { 'token': 'bearer ' }
+    })
     try {
-      const response = await axios.get('http://user/friends/profile/' + props.intra);
+      const response = await axios.get('http://user/friends/');
       friendsList = response.data;
     } catch (error) {
-      console.error("[Error] frends Lish Get Failed!");
+      console.error("[Error] frends List Get Failed!");
     }
   };
 
