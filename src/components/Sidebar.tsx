@@ -76,17 +76,19 @@ const Sidebar = () => {
   friendsList.push(new Item("young-ch", true));
 
   const getData = async() => {
-    let token = ""; // cookie
-    console.log("getData() in Sidebar Called");
-    try {
-      const response = await axios({
-        url: 'http://user/friends',
-        method: 'get',
-        headers: { 'token': 'bearer ' + token }
-      });
-      friendsList = response.data;
-    } catch (error) {
-      console.error("[Error] frends List Get Failed!");
+    let token = localStorage.getItem('token');
+    if (token) {
+      console.log("getData() in Sidebar Called");
+      try {
+        const response = await axios({
+          url: 'http://user/friends',
+          method: 'get',
+          headers: { 'token': 'bearer ' + token }
+        });
+        friendsList = response.data;
+      } catch (error) {
+        console.error("[Error] frends List Get Failed!");
+      }
     }
   };
 
@@ -101,7 +103,7 @@ const Sidebar = () => {
           friendsList.map((item : Item, index) => (
             <>
             {item.online ?
-              <FriendWrapper>
+              <FriendWrapper key={index}>
                 <Circle color='var(--yellow)' />
                 <OnlineText>{item.nickname}</OnlineText>
               </FriendWrapper>

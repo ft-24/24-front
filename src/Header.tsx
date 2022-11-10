@@ -62,32 +62,30 @@ const Header = () => {
   const [intra, setIntra] = useState("");
   
   const getData = async() => {
-    let token = ""; // cookie
-    if (token == "")
-      throw new Error("[Error] token dose not exist");
-    console.log("getData() in Header Called");
-    try {
-      const response = await axios({
-        url: 'http://user/friends',
-        method: 'get',
-        headers: { 'token': 'bearer ' + token }
-      });
-      const data: UserProps = await response.data;
-    } catch (error) {
-      console.error("[Error] get frends List failed");
+    let token = localStorage.getItem('token');
+    if (token) {
+      console.log("getData() in Header Called");
+      try {
+        const response = await axios({
+          url: 'http://user/friends',
+          method: 'get',
+          headers: { 'token': 'bearer ' + token }
+        });
+        const data: UserProps = await response.data;
+      } catch (error) {
+        console.error("get frends List failed");
+      }
     }
   };
 
   useEffect(() => {
-    if (intra == "")
-      setIntra('sunhkim'); // cookie
     if (intra == "") {
-      try {
-        getData();
-      } catch (error) {
-        console.error(error);
-        // redirect to home
-      }
+      let tmp = localStorage.getItem('intra');
+      if (tmp)
+        setIntra(tmp);
+    }
+    if (intra == "") {
+      getData();
     }
   }, []);
 
@@ -95,7 +93,7 @@ const Header = () => {
     <HeadBar>
       <Wrapper>
         <Profile>
-          <StyledLink to="/profile">프로필</StyledLink>
+          <StyledLink to="/profile">{intra ? intra : 'noname'}</StyledLink>
         </Profile>
         <Logo>
           <StyledLink to="/main">로 고</StyledLink>
