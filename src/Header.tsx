@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Sidebar from './components/Sidebar';
 
 const HeadBar = styled.div`
+  z-index: 8;
   position: fixed;
   left: 0;
   width: 100%;
@@ -71,7 +72,7 @@ const Header = () => {
           animate={toggle ? "open" : "closed"}
           variants={variants}
         >
-        { toggle ? <Sidebar /> : null }
+        {toggle ? <Sidebar /> : null}
         </motion.nav>
       </Wrapper>
     </HeadBar>

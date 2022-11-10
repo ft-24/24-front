@@ -32,12 +32,6 @@ const BasicLayout = () => {
               <Main />
             </RequireAuth>
           } />
-        <Route path="/matching"
-          element={
-            <RequireAuth>
-              <Matching />
-            </RequireAuth>
-          } />
         <Route path="/profile"
           element={
             <RequireAuth>
@@ -73,6 +67,13 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth/>,
+  },
+  {
+    path:"/matching",
+    element:
+      <RequireAuth>
+        <Matching />
+      </RequireAuth>,
   },
   {
     path: "/*",
