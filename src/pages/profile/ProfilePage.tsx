@@ -25,10 +25,6 @@ const Layout = styled.div`
   background: rgba( 0, 0, 0, 0 );
 `;
 
-function Hello() {
-  console.log("hello");
-}
-
 const Profile = () => {
   const [userData, setUserData] = useState<UserProps>();
 
