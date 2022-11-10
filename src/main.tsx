@@ -19,6 +19,8 @@ import GlobalStyle from './GlobalStyle';
 import Profile from "./pages/profile/ProfilePage"
 import Header from './Header';
 import Footer from './Footer';
+import GamePage from './pages/game/PongGame';
+import App from './pages/app';
 
 const BasicLayout = () => {
   return (
@@ -31,17 +33,23 @@ const BasicLayout = () => {
               <Main />
             </RequireAuth>
           } />
-        <Route path="/matching"
-          element={
-            <RequireAuth>
-              <Matching />
-            </RequireAuth>
-          } />
         <Route path="/profile"
           element={
             <RequireAuth>
               <Profile />
-            </RequireAuth >  
+            </RequireAuth >
+          } />
+        <Route path="/game"
+          element={
+            <RequireAuth>
+              <GamePage />
+            </RequireAuth >
+          } />
+        <Route path="/chat"
+          element={
+            <RequireAuth>
+              <App />
+            </RequireAuth >
           } />
         </Routes>
       <Footer />
@@ -66,6 +74,13 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth/>,
+  },
+  {
+    path:"/matching",
+    element:
+      <RequireAuth>
+        <Matching />
+      </RequireAuth>,
   },
   {
     path: "/*",

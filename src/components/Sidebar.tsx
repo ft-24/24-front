@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Children, useEffect, useState } from 'react';
 
 const Wrapper = styled.div`
+  z-index: 4;
   position: fixed;
   top: 60px;
   right: 0;

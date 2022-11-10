@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const FootBar = styled.div`
+  z-index: 8;
   position: fixed;
   left: 0;
   bottom: 0;
