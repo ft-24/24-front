@@ -3,16 +3,24 @@ import ImageCard from "./ImageCard";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  max-width: 90%;
   display: flex;
   flex-direction: row;
-  overflow-x: hidden;
+  overflow-x: scroll;
+  scrollbar-width: none;
   white-space: nowrap;
   background: var(--dark-gray);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const ImageList = () => {
   return (
-    <Wrapper>
+    <Wrapper className="wrapper">
       <ImageCard text={"1:1"} imagePath={"/images/game.jpg"} routePath={"/matching"}/>
       <ImageCard text={"Ladder"} imagePath={"/images/earth.jpg"} routePath={"/matching"}/>
       <ImageCard text={"Classic"} imagePath={"/images/game.jpg"} routePath={"/matching"}/>

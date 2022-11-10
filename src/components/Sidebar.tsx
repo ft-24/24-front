@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  z-index: 4;
   position: fixed;
   top: 60px;
   right: 0;
