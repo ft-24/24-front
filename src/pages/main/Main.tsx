@@ -8,7 +8,7 @@ const LayOut = styled.div`
   justify-content: center;
   align-items: center;
   background-image: url("/images/background.jpg");
-`
+`;
 
 const Main = () => {
 	return (
