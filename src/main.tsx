@@ -19,6 +19,7 @@ import GlobalStyle from './GlobalStyle';
 import Profile from "./pages/profile/ProfilePage"
 import Header from './Header';
 import Footer from './Footer';
+import GamePage from './pages/game/PongGame';
 import App from './pages/app';
 
 const BasicLayout = () => {
@@ -44,7 +45,13 @@ const BasicLayout = () => {
               <Profile />
             </RequireAuth >
           } />
-          <Route path="/chat"
+        <Route path="/game"
+          element={
+            <RequireAuth>
+              <GamePage />
+            </RequireAuth >
+          } />
+        <Route path="/chat"
           element={
             <RequireAuth>
               <App />
