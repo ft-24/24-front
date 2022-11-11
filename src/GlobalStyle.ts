@@ -7,6 +7,7 @@ export default createGlobalStyle`
   --light-gray: #4e4e4e;
   --dark-gray: #1c1c1c;
   --white: white;
+  --translucent-white: rgba(255, 255, 255, 0.2);
 
   @font-face {
     font-family: 'NanumSquareL';
@@ -16,6 +17,11 @@ export default createGlobalStyle`
   @font-face {
     font-family: 'SBAggroM';
     src: url('../public/fonts/SBAggroM.otf');
+  }
+  
+  @font-face {
+    font-family: 'SBAggroL';
+    src: url('../public/fonts/SBAggroL.otf');
   }
 
   margin: 0;
