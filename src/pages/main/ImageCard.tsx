@@ -11,11 +11,14 @@ const Wrapper = styled.div`
 const ImageContainer = styled.div`
   width: 240px;
   height: 240px;
-  text-align: center;
 `;
 
-const Image = styled.img`
-  margin: auto;
+type DynamicPadding = {
+  padding: string;
+}
+
+const Image = styled.img<DynamicPadding>`
+  padding: ${props=>props.padding};
   display: block;
   width: 240px;
   height: 240px;
@@ -30,19 +33,19 @@ const TextContainer = styled.div`
 const Text = styled.span`
   text-align: center;
   color: var(--white);
-  margin-top: 14px;
+  margin-bottom: 10px;
   font-family: SBAggroM;
   font-size: 18px;
   font-weight: bold;
   background: none;
 `
 
-const ImageCard = (props: { text: string, imagePath: string, routePath: string }) => {
+const ImageCard = (props: { text: string, imagePath: string, imagePadding: string, routePath: string }) => {
   return (
     <Wrapper>
       <Link to={props.routePath}>
         <ImageContainer>
-        <Image src={props.imagePath}/>
+        <Image padding={props.imagePadding} src={props.imagePath}/>
         </ImageContainer>
       </Link>
       <TextContainer>
