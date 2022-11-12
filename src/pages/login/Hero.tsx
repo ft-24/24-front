@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-import img1 from "../../../public/images/hero.png";
+import img1 from "/src/images/hero.png";
 
 const Wrapper = styled.div`
   position: relative;

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-image : url("/images/background.jpg");
+	background-image : url("/src/images/background.jpg");
 	font-family:NanumSquareL;
 `
 

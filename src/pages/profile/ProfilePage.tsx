@@ -11,8 +11,8 @@ import UserProfile from "./UserProfile";
 const BackGround = styled.div`
   width : 100%;
   height: 100%;
-  margin-top: 80px;
-  background-image : url("/images/background.jpg");
+  margin-top: 60px;
+  background-image : url("/src/images/background.jpg");
 `;
 
 const Layout = styled.div`
