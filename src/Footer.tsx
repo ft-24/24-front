@@ -18,7 +18,8 @@ const FootBar = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
-  width: 96%;
+  padding: 10px 1em;
+  width: 100%;
   height: 100%;
   align-items: center;
   justify-content: center;
