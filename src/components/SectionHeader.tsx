@@ -13,7 +13,12 @@ const Wrapper = styled.div<dynamicColor>`
   padding: 1rem;
   background-color: ${props=>props.color};
   border-bottom: 1px solid var(--white);
-  text-shadow: 0 2px 0 black;
+  color: ${
+    props=>props.color == 'var(--purple)' ? "white" : "black"
+  };
+  text-shadow: ${
+    props=>props.color == 'var(--purple)' ? "0 2px 0 black" : "0 2px 0 var(--purple)"
+  };
 `;
 
 const SectionHeader = ({ children, title, color }: any) => {
