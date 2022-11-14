@@ -45,6 +45,7 @@ const ContentHeader = styled.div`
 	font-size: 1.5rem;
 	padding: 0.5rem;
 	background: var(--purple);
+	text-shadow: 0 2px 0 black;
 `
 
 const ChannelContainer = styled.div`
