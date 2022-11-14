@@ -7,13 +7,10 @@ import GameEngine from "./lib/GameEngine";
 import Constants from "./Constants";
 
 const BackGround = styled.div`
-  width: 100%;
-  height: 100%;
   min-height: 100vh;
   display: flex;
   overflow: hidden;
-  background-image: url("/images/background.jpg");
-  background-size: cover;
+  background-image: url("/src/images/background.jpg");
 `;
 
 const GameBoard = styled.canvas`
@@ -61,7 +58,7 @@ const PongGame = () => {
   }
 
   return (
-      <GameBoard ref={canvasRef} width={Constants.Game.CANVAS_WIDTH} height={Constants.Game.CANVAS_WIDTH}></GameBoard>
+      <GameBoard ref={canvasRef} width={Constants.Game.CANVAS_WIDTH} height={Constants.Game.CANVAS_HEIGHT}></GameBoard>
   );
 }
 
