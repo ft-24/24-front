@@ -1,4 +1,5 @@
 import Constants from "../Constants";
+import GraphicalElement from "../lib/GraphicalElement";
 
 export namespace Pong {
 
@@ -36,25 +37,23 @@ export namespace Pong {
       }
     }
 
-    update(ctx: CanvasRenderingContext2D) {
-      if (ctx !== undefined) {
-        let maxX = ctx.canvas.width;
-        let maxY = ctx.canvas.height;
+    update(deltaTime: number) {
+      let maxX: number = Constants.Game.CANVAS_WIDTH;
+      let maxY: number = Constants.Game.CANVAS_HEIGHT;
 
-        // ball moving
-        this.x += this.dx * this.speed;
-        this.y += this.dy * this.speed;
+      // ball moving
+      this.x += this.dx * this.speed * deltaTime;
+      this.y += this.dy * this.speed * deltaTime;
 
-        // ball hit wall
-        if (this.x >= maxX || this.x <= 0) {
-          this.destroyed = true;
-          this.dx = 0;
-          this.dy = 0;
-        }
+      // ball hit wall
+      if (this.x >= maxX || this.x <= 0) {
+        this.destroyed = true;
+        this.dx = 0;
+        this.dy = 0;
+      }
 
-        if (this.y >= maxY || this.y <= 0) {
-          this.dy = -this.dy
-        }
+      if (this.y >= maxY || this.y <= 0) {
+        this.dy = -this.dy
       }
     }
 

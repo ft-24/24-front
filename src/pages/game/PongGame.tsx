@@ -1,26 +1,32 @@
-import { filterProps } from "framer-motion";
-import {useRef, useState, useEffect} from "react";
+import {useRef, useState, useEffect } from "react";
 import styled from 'styled-components';
 
 import ErrorPage from "../../ErrorPage";
 
-import Constants from "./Constants";
 import GameEngine from "./lib/GameEngine";
+import Constants from "./Constants";
+
+const BackGround = styled.div`
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+  background-image: url("/src/images/background.jpg");
+`;
 
 const GameBoard = styled.canvas`
-  width: 1200px;
-  height: 600px;
+  width : 80%;
+  height : width / 2;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left:-600px;
-  margin-top:-300px;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin:auto;
 `;
 
 const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -28,32 +34,40 @@ const PongGame = () => {
     const canvas = canvasRef.current;
     setCanvas(canvas);
     setCtx(canvas.getContext("2d"));
-  }, [])
+  }, []);
 
-  if (ctx !== null) {
+  if (ctx !== null && canvas !== null) {
     let game = new GameEngine(ctx);
+    console.log(window.innerHeight);
+    console.log(window.innerWidth);
 
-    setInterval(() => {
+    let startTime: number = Date.now();
+    const callback = (timestamp: number) => {
+      let deltaTime = (timestamp - startTime) * 0.06;
+
       game.getInput();
-      game.update();
+      game.update(deltaTime);
       game.draw();
-    }, 1000 / Constants.Game.FPS / 2);
+
+      startTime = timestamp;
+      requestAnimationFrame(callback);
+    };
+    requestAnimationFrame(callback);
   } else {
     <ErrorPage/>
   }
 
-
   return (
-    <>
-      <GameBoard ref={canvasRef} width={1200} height={600}></GameBoard>
-    </>
+      <GameBoard ref={canvasRef} width={Constants.Game.CANVAS_WIDTH} height={Constants.Game.CANVAS_HEIGHT}></GameBoard>
   );
 }
 
 const GamePage = () => {
 
   return (
-    <PongGame/>
+    <BackGround>
+      <PongGame/>
+    </BackGround>
   );
 }
 
