@@ -36,7 +36,7 @@ const IconSection = styled.div`
 const Info = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<SectionHeader>
+			<SectionHeader color='var(--purple)'>
 				<div onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
 				<div>Q</div>
 			</SectionHeader>

@@ -19,7 +19,7 @@ const ChannelSection = styled.div`
 const List = ({setIsListOn, setLocate} : any) => {
     return (
         <Container>
-            <SectionHeader title="채널목록">
+            <SectionHeader color='var(--purple)' title="채널목록">
                 <div onClick={()=>setIsListOn(false)}>{"X"}</div>
             </SectionHeader>
             <ChannelSection>

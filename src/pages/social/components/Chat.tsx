@@ -57,8 +57,8 @@ const Input = styled.input`
 const Chat = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<SectionHeader title="other, me">
-				<p onClick={()=>setIsInfoOn(true)}>:</p>
+			<SectionHeader color='var(--purple)' title="other, me">
+				<div onClick={()=>setIsInfoOn(true)}>{":"}</div>
 			</SectionHeader>
 			<ChatContainer>
 				<OtherChat>Other: hi!</OtherChat>
