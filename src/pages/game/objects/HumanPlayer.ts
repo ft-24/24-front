@@ -1,5 +1,3 @@
-import React from "react";
-
 import Utils from "../lib/Utils";
 import Player from "./Player"
 import { Direction } from "../lib/Directions";
@@ -8,7 +6,6 @@ export namespace Pong {
   export class HumanPlayer extends Player {
 
     private handleKeydown = (evt: KeyboardEvent) => {
-      console.log(evt.key);
       switch (evt.key) {
         case Utils.KeyCode.UP_ARROW:
           this.direction = Direction.UP;

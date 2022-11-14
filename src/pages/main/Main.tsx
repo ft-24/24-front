@@ -7,7 +7,7 @@ const LayOut = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/images/background.jpg");
+  background-image: url("/src/images/background.jpg");
 `;
 
 const Main = () => {

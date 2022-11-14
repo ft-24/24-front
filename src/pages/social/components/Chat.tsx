@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SectionHeader from "./SectionHeader";
 import Avatar from "../../../components/Avatar";
 import Button from "../../../components/Button";
 
@@ -8,29 +9,17 @@ const Container = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	padding: 1rem;
 	background: var(--dark-gray);
 	overflow-x: hidden;
 `
 
-const HeaderSection = styled.div`
-	width: 100%;
-	flex: 1 10%;
-	display: flex;
-	justify-content: space-between;
-	& > * {
-		background: inherit;
-	}
-`
-
 const ChatContainer = styled.div`
 	width: 100%;
-	flex: 1 90%;
+	flex: 9;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	background: var(--dark-gray);
-	margin-bottom:2.5em;
 `
 
 const OtherChat = styled.div`
@@ -56,14 +45,12 @@ const MyChat = styled.div`
 
 const InputSection = styled.div`
 	display: flex;
-	position: absolute;
 	width: 100%;
-	display:flex;
-	bottom: 0;
 `
 
 const Input = styled.input`
-	width: 90%;
+	width: 100%;
+	padding: 1rem;
 	border-radius: 1.5rem;
 	background: var(--white);
 	color: var(--dark-gray);
@@ -72,10 +59,9 @@ const Input = styled.input`
 const Chat = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<HeaderSection>
-				<h2>Other, Me</h2>
+			<SectionHeader title="other, me">
 				<p onClick={()=>setIsInfoOn(true)}>:</p>
-			</HeaderSection>
+			</SectionHeader>
 			<ChatContainer>
 				<OtherChat>Other: hi!</OtherChat>
 				<MyChat>Me: hi!</MyChat>
@@ -83,7 +69,6 @@ const Chat = ({setIsInfoOn} : any) => {
 			</ChatContainer>
 			<InputSection>
 				<Input></Input>
-				<Button.button>{">"}</Button.button>
 			</InputSection>
 		</Container>
 	);

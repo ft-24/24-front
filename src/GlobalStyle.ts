@@ -11,12 +11,12 @@ export default createGlobalStyle`
 
   @font-face {
     font-family: 'NanumSquareL';
-    src: url('../public/fonts/NanumSquareL.otf');
+    src: url('/fonts/NanumSquareL.otf');
   }
 
   @font-face {
     font-family: 'SBAggroM';
-    src: url('../public/fonts/SBAggroM.otf');
+    src: url('/fonts/SBAggroM.otf');
   }
   
   @font-face {

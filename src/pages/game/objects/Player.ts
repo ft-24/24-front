@@ -2,6 +2,7 @@ import Constants from "../Constants";
 import Ball from "./Ball";
 import Utils from "../lib/Utils";
 import { Direction } from "../lib/Directions";
+import GraphicalElement from "../lib/GraphicalElement";
 
 export namespace Pong {
 
@@ -36,19 +37,22 @@ export namespace Pong {
       this.score = 0;
     }
 
-    update(ctx: CanvasRenderingContext2D) {
+    getInput() {
 
+    }
+
+    update(deltaTime: number) {
       if (this.direction !== null) {
         switch (this.direction) {
           case Direction.UP:
-            this.y -= this.speed;
+            this.y -= this.speed * deltaTime;
             break;
           case Direction.DOWN:
-            this.y += this.speed;
+            this.y += this.speed * deltaTime;
         }
       }
 
-      let maxY = ctx.canvas.height - this.paddleHeight;
+      let maxY = Constants.Game.CANVAS_HEIGHT - this.paddleHeight;
       if (this.y < 0) {
         this.y = 0;
       } else if (this.y > maxY) {

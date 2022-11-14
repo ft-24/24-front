@@ -19,8 +19,8 @@ namespace Pong {
       this.scene.draw();
     }
 
-    update() {
-      this.scene.update();
+    update(deltaTime: number) {
+      this.scene.update(deltaTime);
     }
 
     getInput() {
@@ -38,7 +38,6 @@ namespace Pong {
       if (params === undefined) {
         params = {};
       }
-
       this.scene.load(params);
     }
   }

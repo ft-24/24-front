@@ -21,11 +21,11 @@ const Wrapper = styled.div`
 const ImageList = () => {
   return (
     <Wrapper className="wrapper">
-      <ImageCard text={"1:1"} imagePath={"/images/game.jpg"} routePath={"/matching"}/>
-      <ImageCard text={"Ladder"} imagePath={"/images/earth.jpg"} routePath={"/matching"}/>
-      <ImageCard text={"Classic"} imagePath={"/images/game.jpg"} routePath={"/matching"}/>
-      <ImageCard text={"Arcade"} imagePath={"/images/earth.jpg"} routePath={"/matching"}/>
-      <ImageCard text={"Social"} imagePath={"/images/game.jpg"} routePath={"/matching"}/>
+      <ImageCard text={"Private"} imagePath={"/images/lock.png"} imagePadding="15px" routePath={"/matching"}/>
+      <ImageCard text={"Public"} imagePath={"/images/earth.png"} imagePadding="25px" routePath={"/matching"}/>
+      <ImageCard text={"Arcade"} imagePath={"/images/controller.png"} imagePadding="15px" routePath={"/matching"}/>
+      <ImageCard text={"Ladder"} imagePath={"/images/trophy.png"} imagePadding="15px" routePath={"/matching"}/>
+      <ImageCard text={"Social"} imagePath={"/images/chat.png"} imagePadding="20px" routePath={"/matching"}/>
     </Wrapper>
   )
 }

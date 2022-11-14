@@ -4,6 +4,7 @@ import Ball from "../objects/Ball";
 import Player from "../objects/Player";
 import HumanPlayer from "../objects/HumanPlayer"
 import EndScene from "./EndScene";
+import GraphicalElement from "../lib/GraphicalElement"
 
 namespace Pong {
   export class MainScene extends Scene {
@@ -85,7 +86,7 @@ namespace Pong {
       this.player1.unbind();
     }
 
-    update() {
+    update(deltaTime: number) {
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
           this.player2.givePoint();
@@ -101,7 +102,7 @@ namespace Pong {
         this.gameContext.loadScene(new EndScene(this.ctx, this.player2), { winner: this.player2 });
       } else {
         // Draw remaining objects
-        this.objectsInScene.forEach(object => object.update(this.ctx));
+        this.objectsInScene.forEach(object => object.update(deltaTime));
       }
     }
 
