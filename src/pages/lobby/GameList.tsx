@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SectionHeader from "../../components/SectionHeader";
-import ChannelCard from "../../components/ChannelCard";
+import GameCard from "./GameCard";
 
 const Container = styled.div`
 	width: 100%;
@@ -54,7 +54,7 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const GameList = ({setLocate, setTitle} : any) => {
+const GameList = ({toggleInfo, setTitle} : any) => {
 	let toggle = false;
 	return (
 		<Container>
@@ -65,7 +65,7 @@ const GameList = ({setLocate, setTitle} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
+					<GameCard toggleInfo={toggleInfo} setTitle={setTitle} title="트센뽀개기"></GameCard>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>

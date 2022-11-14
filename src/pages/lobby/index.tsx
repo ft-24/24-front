@@ -31,19 +31,23 @@ const InfoSection = styled.div`
 
 const Lobby = () => {
 	const [locate, setLocate] = useState("home");
-	const [info, setIsInfoOn] = useState(false);
+	const [info, setInfo] = useState(false);
 	const [title, setTitle] = useState("");
+
+	const toggleInfo = () => {
+		info ? setInfo(false) : setInfo(true);
+	}
 
 	return (
 		<Wrapper>
 			<Container>
 				<MainSection>
-          {locate === "home" ? <GameList setLocate={setLocate} setTitle={setTitle}></GameList> : null}
+          {locate === "home" ? <GameList toggleInfo={toggleInfo} setTitle={setTitle}></GameList> : null}
           {locate === "lobby" ? <GameLobby setLocate={setLocate} title={title}></GameLobby> : null}
 				</MainSection>
 				{info ? (
 					<InfoSection>
-						<GameInfo setIsInfoOn={setIsInfoOn} />
+						<GameInfo setInfo={setInfo} title={title} />
 					</InfoSection>
 				) : null}
 			</Container>

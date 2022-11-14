@@ -9,8 +9,8 @@ const Container = styled.div`
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	background: var(--light-gray);
 	overflow-x: hidden;
+	background: var(--dark-gray);
 `
 
 const PlayerContainer = styled.div`
