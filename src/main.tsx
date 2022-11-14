@@ -21,36 +21,43 @@ import Header from './Header';
 import Footer from './Footer';
 import GamePage from './pages/game/PongGame';
 import Social from './pages/social';
+import Lobby from './pages/lobby';
 
 const BasicLayout = () => {
   return (
     <>
       <Header />
         <Routes>
-        <Route path="/home"
-          element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          } />
-        <Route path="/profile"
-          element={
-            <RequireAuth>
-              <Profile />
-            </RequireAuth >
-          } />
-        <Route path="/game"
-          element={
-            <RequireAuth>
-              <GamePage />
-            </RequireAuth >
-          } />
-        <Route path="/social"
-          element={
-            <RequireAuth>
-              <Social />
-            </RequireAuth >
-          } />
+          <Route path="/home"
+            element={
+              <RequireAuth>
+                <Home />
+              </RequireAuth>
+            } />
+          <Route path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth >
+            } />
+          <Route path="/lobby"
+            element={
+              <RequireAuth>
+                <Lobby />
+              </RequireAuth >
+            } />
+          <Route path="/game"
+            element={
+              <RequireAuth>
+                <GamePage />
+              </RequireAuth >
+            } />
+          <Route path="/social"
+            element={
+              <RequireAuth>
+                <Social />
+              </RequireAuth >
+            } />
         </Routes>
       <Footer />
     </>
