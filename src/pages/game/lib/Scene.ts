@@ -10,7 +10,7 @@ namespace Pong {
 
     // Must be implemented
     abstract draw(): void;
-    abstract update(): void;
+    abstract update(deltaTime: number): void;
     abstract getInput(): void;
 
     // Optionally implement

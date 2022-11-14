@@ -26,16 +26,19 @@ export namespace Pong {
    }
 
    export enum Game {
-      FPS = 30,
       // Score needed to win
       WINNING_SCORE = 5,
+
+      // Size of canvas
+      CANVAS_WIDTH = 1200,
+      CANVAS_HEIGHT = 600,
 
       // Pixels the players are from the edge
       PLAYER_PADDING = 40,
 
       // Paddle size
       PADDLE_WIDTH = 10,
-      PADDLE_HEIGHT = 50,
+      PADDLE_HEIGHT = 80,
       PADDLE_SPEED = 5,
 
       BALL_SPEED = 2,

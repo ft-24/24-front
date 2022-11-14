@@ -9,10 +9,11 @@ import LoadingPage from "../../LoadingPage";
 import UserProfile from "./UserProfile";
 
 const BackGround = styled.div`
-  width : 100%;
-  height: 100%;
-  margin-top: 60px;
-  background-image : url("/src/images/background.jpg");
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image : url("/images/background.jpg");
 `;
 
 const Layout = styled.div`
