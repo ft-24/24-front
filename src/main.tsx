@@ -13,7 +13,7 @@ import ErrorPage from "./ErrorPage";
 import RequireAuth from './auth/RequireAuth';
 import Auth from './auth/Auth';
 import Login from './pages/login/Login';
-import Main from "./pages/main/Main"
+import Home from "./pages/home/Home"
 import Matching from "./pages/matching/Matching"
 import GlobalStyle from './GlobalStyle';
 import Profile from "./pages/profile/ProfilePage"
@@ -27,10 +27,10 @@ const BasicLayout = () => {
     <>
       <Header />
         <Routes>
-        <Route path="/main"
+        <Route path="/home"
           element={
             <RequireAuth>
-              <Main />
+              <Home />
             </RequireAuth>
           } />
         <Route path="/profile"
