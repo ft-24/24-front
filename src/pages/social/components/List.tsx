@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ChannelCard from "../../../components/ChannelCard";
+import ChannelCard from "./ChannelCard";
 import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
