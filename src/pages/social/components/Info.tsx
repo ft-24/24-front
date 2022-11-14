@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import SectionHeader from "./SectionHeader";
 
 const Container = styled.div`
 	width: 100%;
@@ -8,47 +9,37 @@ const Container = styled.div`
 	flex-direction: column;
 	justify-items: flex-start;
 	align-items: center;
-	padding: 1rem;
 	border-left: 1px solid white;
 	background: var(--dark-gray);
 	font-family:NanumSquareL;
 `
 
-const ControlSection = styled.div`
-	width: 100%;
-	flex: 1 10%;
-	display: flex;
-	justify-content: space-between;
-`
-
 const ProfileSection = styled.div`
 	width: 100%;
-	flex: 1 60%;
+	flex: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	`
+`
 
 const IconSection = styled.div`
 	background: var(--light-gray);
 	border-radius: 1rem;
 	width: 100%;
-	flex: 1 30%;
+	flex: 1;
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
 `
 
-
-
 const Info = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<ControlSection>
-				<p onClick={()=>setIsInfoOn(false)}>⏪</p>
-				<p>🔧</p>
-			</ControlSection>
+			<SectionHeader>
+				<div onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
+				<div>Q</div>
+			</SectionHeader>
 			<ProfileSection>
 				<Avatar.txt size="5">😊</Avatar.txt>
 				<br></br>

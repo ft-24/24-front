@@ -20,7 +20,7 @@ import Profile from "./pages/profile/ProfilePage"
 import Header from './Header';
 import Footer from './Footer';
 import GamePage from './pages/game/PongGame';
-import App from './pages/app';
+import Social from './pages/social';
 
 const BasicLayout = () => {
   return (
@@ -45,10 +45,10 @@ const BasicLayout = () => {
               <GamePage />
             </RequireAuth >
           } />
-        <Route path="/chat"
+        <Route path="/social"
           element={
             <RequireAuth>
-              <App />
+              <Social />
             </RequireAuth >
           } />
         </Routes>
