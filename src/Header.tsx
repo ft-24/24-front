@@ -53,7 +53,7 @@ const StyledLink = styled(Link)`
 `
 
 const variants = {
-  open: { opacity: 1, x:10, y:-10 },
+  open: { opacity: 1, x:20, y:-10 },
   closed: { opacity: 0, x:20, y:-10 },
 }
 
