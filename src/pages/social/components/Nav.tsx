@@ -10,7 +10,7 @@ const Container = styled.div`
 	align-items: center;
 	padding: 2rem 1rem;
 	border-right: 1px solid white;
-	background: var(--dark-gray);
+	background: var(--purple);
 `
 
 const IconSection = styled.div`
@@ -33,18 +33,17 @@ const Button = styled.div`
 	}
 `
 
-const Nav = ({setLocate, setIsDetailOn} : any) => {
+const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
 	return (
 			<Container>
-				<div>LOGO</div>
+				LOGO
 				<IconSection>
-					<Button onClick={()=>{setLocate("home"); setIsDetailOn(false);}}>🏠</Button>
-					<Button onClick={()=>{setLocate("dm"); setIsDetailOn(true);}}>👨‍👧‍👦</Button>
-					<Button onClick={()=>{setLocate("dm"); setIsDetailOn(true);}}>🤫</Button>
+					<Button onClick={()=>{setLocate("home"); setIsListOn(false); setIsInfoOn(false);}}>🏠</Button>
+					<Button onClick={()=>{setIsListOn(true);}}>👨‍👧‍👦</Button>
+					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
 				</IconSection>
-				<div>
-				<Avatar.txt>😊</Avatar.txt>
-				</div>
+				<p>you</p>
+				<Avatar.txt size="3" onClick={()=>{setIsInfoOn(true);}}>😊</Avatar.txt>
 			</Container>
 	)
 }
