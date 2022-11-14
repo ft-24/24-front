@@ -54,7 +54,7 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const GameList = ({setLocate} : any) => {
+const GameList = ({setLocate, setTitle} : any) => {
 	let toggle = false;
 	return (
 		<Container>
@@ -65,7 +65,7 @@ const GameList = ({setLocate} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate}></ChannelCard>
+					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>

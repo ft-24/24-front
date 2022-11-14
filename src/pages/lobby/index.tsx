@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import GameInfo from "./GameInfo";
 import GameList from "./GameList";
+import GameLobby from "./GameLobby";
 
 const Wrapper = styled.div`
 	width: 100vw;
@@ -31,12 +32,14 @@ const InfoSection = styled.div`
 const Lobby = () => {
 	const [locate, setLocate] = useState("home");
 	const [info, setIsInfoOn] = useState(false);
+	const [title, setTitle] = useState("");
 
 	return (
 		<Wrapper>
 			<Container>
 				<MainSection>
-					<GameList />
+          {locate === "home" ? <GameList setLocate={setLocate} setTitle={setTitle}></GameList> : null}
+          {locate === "lobby" ? <GameLobby setLocate={setLocate} title={title}></GameLobby> : null}
 				</MainSection>
 				{info ? (
 					<InfoSection>

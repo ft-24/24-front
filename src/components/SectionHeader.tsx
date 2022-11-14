@@ -16,11 +16,23 @@ const Wrapper = styled.div<dynamicColor>`
   text-shadow: 0 2px 0 black;
 `;
 
+const Title = styled.div`
+  position: relative;
+  max-width: 50%;
+`;
+
+const Children = styled.div`
+  display: flex;
+  position: relative;
+  right: 0;
+  max-width: 50%;
+`;
+
 const SectionHeader = ({ children, title, color }: any) => {
   return (
     <Wrapper color={color}>
-      {title}
-      {children}
+      <Title>{title}</Title>
+      <Children>{children}</Children>
     </Wrapper>
   );
 };

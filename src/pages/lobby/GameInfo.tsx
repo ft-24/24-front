@@ -33,12 +33,10 @@ const IconSection = styled.div`
 `
 
 const GameInfo = ({setIsInfoOn} : any) => {
-	let toggle = false;
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
-				<div onClick={()=>setIsInfoOn(toggle = !toggle)}>{"<<"}</div>
-				<div>Q</div>
+				{setIsInfoOn ? <div onClick={()=>setIsInfoOn(false)}>{"X"}</div> : null}
 			</SectionHeader>
 			<IconSection>	
 			</IconSection>
