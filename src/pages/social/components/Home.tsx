@@ -54,7 +54,7 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const Home = ({setLocate} : any) => {
+const Home = ({setLocate, setTitle} : any) => {
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="welcome home!"/>
@@ -64,7 +64,7 @@ const Home = ({setLocate} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate}></ChannelCard>
+					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>
