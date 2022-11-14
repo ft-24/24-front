@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import SectionHeader from "./SectionHeader";
-import Avatar from "../../../components/Avatar";
-import Button from "../../../components/Button";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	position: relative;

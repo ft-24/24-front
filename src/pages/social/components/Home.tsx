@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import SectionHeader from "./SectionHeader";
-import ChannelCard from "./ChannelCard";
+import SectionHeader from "../../../components/SectionHeader";
+import ChannelCard from "../../../components/ChannelCard";
 
 const Container = styled.div`
 	width: 100%;
@@ -57,7 +57,7 @@ const ChannelContainer = styled.div`
 const Home = ({setLocate} : any) => {
 	return (
 		<Container>
-			<SectionHeader title="welcome home!"/>
+			<SectionHeader color='var(--purple)' title="welcome home!"/>
 			<ContentHeader>공지사항</ContentHeader>
 			<NoticeSection>
 			</NoticeSection>

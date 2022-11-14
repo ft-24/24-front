@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	width: 100%;

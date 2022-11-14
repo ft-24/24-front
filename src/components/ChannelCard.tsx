@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import Avatar from "../../../components/Avatar"
+import Avatar from "./Avatar"
 
 const Wrapper = styled.div`
   width: 100%;

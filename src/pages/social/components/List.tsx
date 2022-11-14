@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import ChannelCard from "./ChannelCard";
-import SectionHeader from "./SectionHeader";
+import ChannelCard from "../../../components/ChannelCard";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	width: 100%;
