@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -11,6 +12,7 @@ const Wrapper = styled.div`
 const ImageContainer = styled.div`
   width: 240px;
   height: 240px;
+  background: rgba(0, 0, 0, 0);
 `;
 
 type DynamicPadding = {
@@ -22,6 +24,7 @@ const Image = styled.img<DynamicPadding>`
   display: block;
   width: 240px;
   height: 240px;
+  background: rgba(0, 0, 0, 0);
 `;
 
 const TextContainer = styled.div`
@@ -45,7 +48,9 @@ const ImageCard = (props: { text: string, imagePath: string, imagePadding: strin
     <Wrapper>
       <Link to={props.routePath}>
         <ImageContainer>
-        <Image padding={props.imagePadding} src={props.imagePath}/>
+          <motion.div whileHover={{ scale: 1.2 }}>
+            <Image padding={props.imagePadding} src={props.imagePath}/>
+          </motion.div>
         </ImageContainer>
       </Link>
       <TextContainer>
