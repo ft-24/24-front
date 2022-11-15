@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { UserProps } from "./ProfileProps";
+import { Item, UserProps } from "./ProfileProps";
 import axios from "axios";
 
 const ProfileImg = styled.img`
@@ -32,8 +32,14 @@ const Label = styled.label`
   color: var(--dark-gray);
 `
 
-const ProfileName = (name : {name : string} ) => {
-  const [nickname, setNickname] = React.useState(name.name ?? "default");
+const Stat = styled.div`
+  margin: 0.5em 0.25em 0 0.25em;
+  height: auto;
+  color: var(--light-gray);
+`
+
+const ProfileName = ({name} : {name : string} ) => {
+  const [nickname, setNickname] = React.useState(name ?? "default");
   const [isChange, setIsChange] = React.useState(false);
 
   const [temp, setTemp] = React.useState("");
@@ -59,7 +65,7 @@ const ProfileName = (name : {name : string} ) => {
 
 const ProfileImage = ({data} : {data : UserProps}) => {
 
-  const [image, setImage] = React.useState(data.profimgdir);
+  const [image, setImage] = React.useState(data.profile_url);
 
   const onImgChange = async (event: any) => {
     const file = event.currentTarget.files[0];
@@ -80,11 +86,27 @@ const ProfileImage = ({data} : {data : UserProps}) => {
   );
 }
 
+const ProfileStats = ({data} : {data : UserProps}) => {
+  return (
+    <div>
+      {
+        data.stats.map((item : Item, index) => (
+          <>
+            {console.log(item.label + ":" + item.value)}
+            <Stat>{item.label} : {item.value}</Stat>
+          </>
+        ))
+      }
+    </div>
+  )
+}
+
 const UserProfile = ({data} : {data : UserProps}) => {
   return (
     <div>
       <ProfileName name={data.nickname} />
       <ProfileImage data={data} />
+      <ProfileStats data={data} />
     </div>
   );
 }
