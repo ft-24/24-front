@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import SectionHeader from "../../../components/SectionHeader";
-import ChannelCard from "./ChannelCard";
+import SectionHeader from "../../components/SectionHeader";
+import GameCard from "./GameCard";
 
 const Container = styled.div`
 	width: 100%;
@@ -43,7 +43,7 @@ const ContentHeader = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
-	padding: 0.5rem;
+	padding: 0.5rem;	
 	background: var(--purple);
 	text-shadow: 0 2px 0 black;
 `
@@ -54,21 +54,22 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const Home = ({setLocate, setTitle} : any) => {
+const GameList = ({toggleInfo, setTitle} : any) => {
+	let toggle = false;
 	return (
 		<Container>
-			<SectionHeader color='var(--purple)' title="welcome home!"/>
+			<SectionHeader color='var(--purple)' title="Welcome to Pong Game World!"/>
 			<ContentHeader>공지사항</ContentHeader>
 			<NoticeSection>
 			</NoticeSection>
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
+					<GameCard toggleInfo={toggleInfo} setTitle={setTitle} title="트센뽀개기"></GameCard>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>
 	);
 }
 
-export default Home;
+export default GameList;

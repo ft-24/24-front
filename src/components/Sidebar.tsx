@@ -67,7 +67,7 @@ class Item {
 }
 
 const Sidebar = () => {
-  let friendsList = new Array<Item>;
+  let friendsList = new Array<Item>(0);
 
   friendsList.push(new Item("sunhkim", true));
   friendsList.push(new Item("yoahn", false));
