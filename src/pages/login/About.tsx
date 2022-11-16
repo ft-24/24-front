@@ -1,156 +1,79 @@
-import { useState } from 'react';
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import Tech from "./Tech";
-import Member from "./Member";
+import styled, {keyframes} from "styled-components";
+import Images from "./AboutImages";
 
-const Window = styled.div`
-  margin-top: 5em;
-  width: 80%;
-  height: 100%;
-  border-radius: 1em;
-  background: var(--dark-gray);
-  overflow: hidden;
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const Navbar = styled.nav`
-  background: var(--light-gray);
-  border-radius: 1em;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  height: 15%;
-  display: flex;
-  align-items:center;
+const scroll = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 8));
+  }
 `
 
-type tabType = {
-  active : boolean,
-}
-
-const Tab = styled.div<tabType>`
-  flex-grow: 1;
+const Slider = styled.div`
+  height: 250px;
+  margin: auto;
+  overflow-x: hidden;
+  position: relative;
+  width: auto;
+`
+const SlideTrack = styled.div`
+  animation: ${scroll} 40s linear infinite;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 33%;
-  height: 100%;
-  font-size: 24px;
-  padding: 1em 2em 0em;
-  border-radius: 1em;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom: 1em solid white;
-  background: ${props=>props.active ? `var(--white)` : `var(--light-gray)`};
-  color: ${props=>props.active ? `var(--light-gray)` : `var(--white)`};
+  width: calc(250px * 16);
+  gap: 2rem;
   &:hover {
-    background: var(--white);
-    color: var(--dark-gray);
-  }
-` 
-
-const Content = styled.div`
-  width: 100%;
-  height: 100%;
-  background: var(--white);
-  display: flex;
-  padding: 5em;
-  @media (max-width: 1100px) {
-    flex-direction: column;
-    padding: 0;
+    animation-play-state: paused;
   }
 `
-
-const section = styled.div`
-  width: 50%;
+const Slide = styled.div`
+  height: 250px;
+  width: 250px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-content: center;
-  @media (max-width: 1100px) {
-    width: 100%;
+  & > img {
+    width: 80%;
+    height: 80%;
+  }
+  &:hover {
+    transform: scale(1.1, 1.1);
   }
 `
-
-const Stack = styled(section)`
-  @media (max-width: 1100px) {
-    flex-direction: row;
-    width: 100%;
-  }
-`
-
-const Members = styled(section)`
-  text-transform:uppercase;
-  @media (max-width: 1100px) {
-    justify-content: flex-start;
-  }
-`
-
-
-type TechsMapType = {
-  [index: string] : string[][],
-}
-
-const Techs : TechsMapType = {
-  "common" : [
-    ["typescript", "TypeScript"],
-    ["docker", "Docker"],
-    ["github", "Github"],
-    ["computer", "Some CS"],
-  ],
-  "fe" : [
-    ["react", "React"],
-    ["vite", "Vite"],
-    ["styledComponents", "Styled-Components"],
-  ],
-  "be" : [
-    ["nestjs", "NestJS"],
-    ["postgresql", "PostgreSQL"],
-  ]
-};
-
-type MemberMapType = {
-  [index:string] : string[];
-}
-
-const MembersArray : MemberMapType = {
-  "common" : [
-    "chanhuil", "seonhjeo", "sunhkim", "yoahn", "young-ch"
-  ],
-  "fe" : [
-    "seonhjeo", "sunhkim", "young-ch"
-  ],
-  "be" : [
-    "chanhuil", "yoahn"
-  ]
-}
+const TitleWrapper = styled.div`
+	width:100%;
+	font-weight: 700;
+	font-size: 4em;
+  z-index: 10;
+  margin-bottom: 2rem;
+`;
 
 const About = () => {
-  const [tab, setTab] = useState<string>("common");
+  let ImageArray = [];
+  for (let image of Object.values(Images)) {
+    ImageArray.push(image);
+  }
 
-    return (
-      <Window>
-        <Navbar>
-          <Tab active={tab == "common"} onClick={()=>{setTab("common")}}>Common</Tab>
-          <Tab active={tab == "fe"} onClick={()=>{setTab("fe")}}>FrontEnd</Tab>
-          <Tab active={tab == "be"} onClick={()=>{setTab("be")}}>BackEnd</Tab>
-        </Navbar>
-        <Content>
-          <Stack>
-            {
-              Techs[tab].map((ele : string[]) => <Tech img={ele[0]} title={ele[1]}/>)
-            }
-          </Stack>
-          <Members>
-            {
-              MembersArray[tab].map((ele: string) => <Member name={ele}/>)
-            }
-          </Members>
-        </Content>
-      </Window>
-    );
+  return (
+    <>
+      <TitleWrapper>Stacks</TitleWrapper>
+      <Slider>
+          <SlideTrack>
+            {ImageArray.map(ele => {
+              return <Slide><img src={ele} key={ele}/></Slide>
+            })}
+            {ImageArray.map(ele => {
+              return <Slide><img src={ele} key={ele+"2"}/></Slide>
+            })}
+          </SlideTrack>
+      </Slider>
+    </>
+  )
 }
 
 export default About;
