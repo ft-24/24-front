@@ -38,9 +38,6 @@ const Wrapper = styled.a`
   border-radius: 1em;
   display: flex;
   align-items: center;
-  &:hover {
-    transform: scale(1.1, 1.1);
-  }
   & > img {
     background: inherit;
     margin: 1em;

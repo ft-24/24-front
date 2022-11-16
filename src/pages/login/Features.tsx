@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Feature from "./Feature";
 
@@ -5,6 +6,8 @@ const Wrapper = styled.div`
 	width: 100%;
 	margin-top: 10em;
 	font-size: 1em;
+	display: flex;
+	flex-direction: column;
 `
 
 const TitleWrapper = styled.div`
@@ -14,9 +17,10 @@ const TitleWrapper = styled.div`
 `;
 
 const FeaturesContainer = styled.div`
+	width: 100%;
 	display:flex;
+	flex-direction: column;
 	align-items: flex-start;
-	flex-wrap: wrap;
 `
 
 const featureArray = [
@@ -71,13 +75,20 @@ const featureArray = [
 ];
 
 const Features = () => {
+	const [isOn, setIsOn] = useState(new Array(featureArray.length).fill(false));
+	const spreadArticle = (idx : number) => {
+		const PrevState = isOn;
+		let newState = [...PrevState];
+		newState[idx] = !PrevState[idx];
+		setIsOn(newState);
+	};
 	return (
 		<Wrapper>
 			<TitleWrapper>
 			Feature
 			</TitleWrapper>
 			<FeaturesContainer>
-				{featureArray.map((ele) => <Feature title={ele.title} article={ele.article}/>)}
+				{featureArray.map((ele, idx) => <Feature title={ele.title} article={ele.article} isOn={isOn[idx]} handler={spreadArticle} idx={idx}/>)}
 			</FeaturesContainer>
 		</Wrapper>
 	);

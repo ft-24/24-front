@@ -1,4 +1,4 @@
-import styled, { StyledInterface } from "styled-components"
+import styled from "styled-components"
 
 type Props = {
     name : string,
@@ -9,6 +9,8 @@ const Wrapper = styled.div`
   background:var(--white);
   width:70%;
   font-size: 2em;
+  font-family:NanumSquareL;
+  font-weight: bold;
   padding: 0.5em;
   @media (max-width: 1100px) {
     width: 100%;

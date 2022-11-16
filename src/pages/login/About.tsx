@@ -4,11 +4,15 @@ import { motion } from "framer-motion";
 import Tech from "./Tech";
 import Member from "./Member";
 
+const Wrapper = styled.div`
+  width: 100%;
+`
+
 const Window = styled.div`
-  margin-top: 5em;
   width: 80%;
-  height: 100%;
-  border-radius: 1em;
+  margin: auto;
+  margin-top: 3rem;
+  border-radius: 1rem;
   background: var(--dark-gray);
   overflow: hidden;
   display: flex;
@@ -17,7 +21,7 @@ const Window = styled.div`
 
 const Navbar = styled.nav`
   background: var(--light-gray);
-  border-radius: 1em;
+  border-radius: 1rem;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   height: 15%;
@@ -127,10 +131,20 @@ const MembersArray : MemberMapType = {
   ]
 }
 
+const TitleWrapper = styled.div`
+	width:100%;
+	font-weight: 700;
+	font-size: 4em;
+`;
+
 const About = () => {
   const [tab, setTab] = useState<string>("common");
 
     return (
+      <Wrapper>
+        <TitleWrapper>
+          ABOUT
+        </TitleWrapper>
       <Window>
         <Navbar>
           <Tab active={tab == "common"} onClick={()=>{setTab("common")}}>Common</Tab>
@@ -150,6 +164,7 @@ const About = () => {
           </Members>
         </Content>
       </Window>
+      </Wrapper>
     );
 }
 

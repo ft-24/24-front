@@ -1,14 +1,12 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-import img1 from "/src/images/hero.png";
-
 const Wrapper = styled.div`
   position: relative;
-  margin-top: 130px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0.5em;
@@ -29,12 +27,6 @@ const SectionWrapper = styled.div`
   }
 `;
 
-const ImageWrapper = styled.div`
-  width: 40%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 const titleShadow = css`
   text-shadow: 0.05em 0.1em var(--purple);
   `
@@ -76,6 +68,20 @@ const Article = styled.article`
   width: 100%;
   `;
 
+const Button = styled.a`
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5em;
+  font-size: 2em;
+  border-radius: 0.5em;
+  background: var(--yellow);
+  color:var(--dark-gray);
+  margin: 1em;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+`;
+
 const Hero = () => {
   return (
     <Wrapper>
@@ -97,9 +103,7 @@ const Hero = () => {
         </Article>
         </ArticleWrapper>
       </SectionWrapper>
-      <ImageWrapper>
-        <img width="420px" height="420px" src={img1}></img>
-      </ImageWrapper>
+      <Button href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-8da575687fd06cd856e002bd2352a348072433d4faec75f47bab2925ef6be4c2&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth&response_type=code">START</Button>
     </Wrapper>
   );
 };
