@@ -34,7 +34,7 @@ const featureArray = [
 		"must be compatible with the latest stable up-to-date version of Google Chrome, Firefox, and Safari.",
 		"Everything has to be launch by a single call to: docker-compose up --build",
 	],},
-	{title : "Security concerns", 
+	{title : "Security concerns",
 	article : [
 		"Any password stored in your database must be encrypted.",
 		"Your website must be protected against SQL injections.",
@@ -85,7 +85,7 @@ const Features = () => {
 	return (
 		<Wrapper>
 			<TitleWrapper>
-			Feature
+			Features
 			</TitleWrapper>
 			<FeaturesContainer>
 				{featureArray.map((ele, idx) => <Feature title={ele.title} article={ele.article} isOn={isOn[idx]} handler={spreadArticle} idx={idx}/>)}

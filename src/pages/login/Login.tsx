@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-import Header from './Header';
 import Hero from './Hero';
 import About from './About';
 import Features from './Features'

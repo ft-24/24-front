@@ -13,7 +13,7 @@ const scroll = keyframes`
 const Slider = styled.div`
   height: 250px;
   margin: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   width: auto;
 `
