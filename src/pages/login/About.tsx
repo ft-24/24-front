@@ -1,11 +1,6 @@
 import styled, {keyframes} from "styled-components";
 import Images from "./AboutImages";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 const scroll = keyframes`
   0% {
     transform: translateX(0);
@@ -45,12 +40,11 @@ const Slide = styled.div`
     transform: scale(1.1, 1.1);
   }
 `
+
 const TitleWrapper = styled.div`
 	width:100%;
 	font-weight: 700;
 	font-size: 4em;
-  z-index: 10;
-  margin-bottom: 2rem;
 `;
 
 const About = () => {
