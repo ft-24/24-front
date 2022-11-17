@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { forwardRef, useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 import Member from "./Member";
 
@@ -49,7 +49,7 @@ const MemberArray = [
   },
 ];
 
-const Members = () => {
+const Members = forwardRef<HTMLDivElement>((props, ref) => {
   const [flip, setFlip] = useState(new Array(MemberArray.length).fill(false));
 
   const onClickHandler = (idx: number) => {
@@ -66,24 +66,24 @@ const Members = () => {
   const shuffledMemberArray = useMemo(() => shuffle(MemberArray), []);
 
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       <TitleWrapper>Members</TitleWrapper>
       <MemberContainer>
         {shuffledMemberArray.map((ele, idx) => {
-          return (
-            <Member
-              position={ele.position}
-              name={ele.name}
-              idx={idx}
-              onClickHandler={onClickHandler}
-              isFront={flip[idx]}
-              img={ele.img}
-            ></Member>
-          );
-        })}
+            return (
+                <Member
+                position={ele.position}
+                name={ele.name}
+                idx={idx}
+                onClickHandler={onClickHandler}
+                isFront={flip[idx]}
+                img={ele.img}
+                ></Member>
+                );
+            })}
       </MemberContainer>
     </Wrapper>
   );
-};
+})
 
 export default Members;

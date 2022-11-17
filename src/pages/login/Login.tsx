@@ -5,8 +5,10 @@ import Hero from "./Hero";
 import Stacks from "./Stacks";
 import Features from "./Features";
 import Footer from "./Footer";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
+  overflow: hidden;
   font-family: SBAggroM;
   display: flex;
   flex-direction: column;
@@ -16,10 +18,17 @@ const Wrapper = styled.div`
 `;
 
 const Login = () => {
+  const ref = useRef<any>(null);
+  const onClickHandler = () => {
+      ref?.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+  }
+
   return (
     <Wrapper>
-      <Hero />
-      <Members />
+      <Hero onClickHandler={onClickHandler}/>
+      <Members ref={ref}/>
       <Stacks />
       <Features />
       <Footer />
