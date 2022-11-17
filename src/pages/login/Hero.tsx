@@ -88,6 +88,7 @@ const Scroll = styled(motion.div)`
   font-size: 3rem;
   font-family: sans-serif;
   text-shadow: 0 -1.5rem 0 var(--white);
+  cursor: pointer;
 `;
 
 const Hero = ({onClickHandler} : any) => {
