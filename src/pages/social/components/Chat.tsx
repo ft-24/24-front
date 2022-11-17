@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import SectionHeader from "./SectionHeader";
-import Avatar from "../../../components/Avatar";
-import Button from "../../../components/Button";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	position: relative;
@@ -59,8 +57,8 @@ const Input = styled.input`
 const Chat = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<SectionHeader title="other, me">
-				<p onClick={()=>setIsInfoOn(true)}>:</p>
+			<SectionHeader color='var(--purple)' title="other, me">
+				<div onClick={()=>setIsInfoOn(true)}>{":"}</div>
 			</SectionHeader>
 			<ChatContainer>
 				<OtherChat>Other: hi!</OtherChat>

@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import Avatar from "../../../components/Avatar"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,9 +26,9 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({setLocate, setTitle, title} : any) => {
+const GameCard = ({toggleInfo, setTitle, title} : any) => {
   const onClick = () => {
-    setLocate("dm");
+    toggleInfo();
     setTitle(title ? title : "No Title");
   }
   return (
@@ -38,12 +37,9 @@ const ChannelCard = ({setLocate, setTitle, title} : any) => {
       <Title>
         {title ? title : "No Title"}
       </Title>
-      <MemberList>
-        <Avatar.txt background="yellow">🤫</Avatar.txt>
-      </MemberList>
       </Container>
     </Wrapper>
   )
 }
 
-export default ChannelCard
+export default GameCard;
