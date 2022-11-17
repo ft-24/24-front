@@ -97,7 +97,7 @@ const ProfileName = ({name} : {name : string} ) => {
 
 const ProfileImage = ({data} : {data : UserProps}) => {
 
-  const [image, setImage] = React.useState(data.profile_url);
+  const [image, setImage] = React.useState(data.profimgdir);
 
   const onImgChange = async (event: any) => {
     const file = event.currentTarget.files[0];
@@ -119,6 +119,18 @@ const ProfileImage = ({data} : {data : UserProps}) => {
 }
 
 const ProfileStats = ({data} : {data : UserProps}) => {
+  const [rank, setRank] = React.useState(data.rank);
+  const [stat, setStat] = React.useState(data.Stats);
+
+  return (
+    <>
+    <ProfileStat> {"Rank : " + rank}</ProfileStat>
+    <ProfileStat> {"Win : " + stat.get("totalWin") + "  Lose : " + stat.get("totalLose")}</ProfileStat>
+    </>
+  );
+}
+/*
+const ProfileStats = ({data} : {data : UserProps}) => {
   return (
     <div>
       {
@@ -131,7 +143,7 @@ const ProfileStats = ({data} : {data : UserProps}) => {
       }
     </div>
   )
-}
+}*/
 
 const UserProfile = ({data} : {data : UserProps}) => {
   return (
