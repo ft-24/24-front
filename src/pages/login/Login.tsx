@@ -1,10 +1,10 @@
-import styled, { css } from 'styled-components';
-import { motion } from 'framer-motion';
+import styled from "styled-components";
 
-import Hero from './Hero';
-import About from './About';
-import Features from './Features'
-import Footer from './Footer';
+import Members from "./Members";
+import Hero from "./Hero";
+import Stacks from "./Stacks";
+import Features from "./Features";
+import Footer from "./Footer";
 
 const Wrapper = styled.div`
   font-family: SBAggroM;
@@ -16,14 +16,15 @@ const Wrapper = styled.div`
 `;
 
 const Login = () => {
-    return (
-        <Wrapper>
-            <Hero/>
-            <About/>
-            <Features/>
-            <Footer/>
-        </Wrapper>
-    )
+  return (
+    <Wrapper>
+      <Hero />
+      <Members />
+      <Stacks />
+      <Features />
+      <Footer />
+    </Wrapper>
+  );
 };
 
 export default Login;

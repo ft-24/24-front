@@ -32,7 +32,7 @@ type ButtonProps = {
 
 const StyledButton = styled.button<ButtonProps>`
   border: none;
-  transform: ${(props) => (props.isOn ?  `rotate(180deg)` : "")};
+  transform: ${(props) => (props.isOn ? `rotate(180deg)` : "")};
 `;
 
 const Title = styled.h1`
@@ -52,7 +52,11 @@ const Para = styled.li`
 const Feature = ({ title, article, isOn, idx, handler }: Props) => {
   return (
     <FeatureWrapper>
-      <TitleWrapper>
+      <TitleWrapper
+        onClick={() => {
+          handler(idx);
+        }}
+      >
         <Title>{title}</Title>
         <StyledButton
           onClick={() => {
@@ -64,7 +68,7 @@ const Feature = ({ title, article, isOn, idx, handler }: Props) => {
         </StyledButton>
       </TitleWrapper>
       <ArticleContainer>
-        {isOn ? article.map((ele) => <Para>{ele}</Para>) : null}
+        {isOn ? article.map((ele, idx) => <Para key={idx}>{ele}</Para>) : null}
       </ArticleContainer>
     </FeatureWrapper>
   );
