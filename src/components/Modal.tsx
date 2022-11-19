@@ -1,13 +1,11 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Button";
 
-const Wrapper = styled.div`
+const BackDrop = styled.div`
     position: fixed;
     height: 100%;
     width: 100%;
     background: #00000084;
-    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +25,7 @@ const Box = styled.div`
 
 const Modal = ({setIsModalOn} : any) => {
   return (
-    <Wrapper onClick={()=>{setIsModalOn(false)}}>
+    <BackDrop onClick={()=>{setIsModalOn(false)}}>
         <Box onClick={(e)=>{ e.stopPropagation();}}>
             Modal
             <div>
@@ -37,7 +35,7 @@ const Modal = ({setIsModalOn} : any) => {
             setIsModalOn(false)}}>X</Button.button>
             </div>
         </Box>
-    </Wrapper>
+    </BackDrop>
   )
 }
 
