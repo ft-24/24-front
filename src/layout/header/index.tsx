@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { UserProps } from '../pages/profile/ProfileProps';
+import { UserProps } from '../../pages/profile/ProfileProps';
 import styled from 'styled-components';
 import axios from 'axios'
-import Sidebar from '../components/Sidebar';
+import ProfileButton from './ProfileButton';
+import LogoButton from './LogoButton';
+import FriendsButton from './FriendsButton';
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -29,28 +31,12 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
-const Profile = styled.div`
-  position: relative;
-  width: 20%;
-  text-align: left;
-`;
-
-const Logo = styled.div`
-  position: relative;
-  width: 60%;
-  text-align: center;
-`;
-
 const Friends = styled.button`
   position: relative;
   width: 20%;
   text-align: right;
   border: none;
 `;
-
-const StyledLink = styled(Link)`
-  text-decoration: none !important;
-`
 
 const variants = {
   open: { opacity: 1, x:10, y:-10 },
@@ -92,19 +78,9 @@ const Header = () => {
   return (
     <HeadBar>
       <Wrapper>
-        <Profile>
-          <StyledLink to="/profile">{intra ? intra : 'noname'}</StyledLink>
-        </Profile>
-        <Logo>
-          <StyledLink to="/home">로 고</StyledLink>
-        </Logo>
-        <Friends onClick={() => setToggle(!toggle)}>친 구</Friends>
-        <motion.nav
-          animate={toggle ? "open" : "closed"}
-          variants={variants}
-        >
-        {toggle ? <Sidebar /> : null}
-        </motion.nav>
+        <ProfileButton intra={intra}/>
+        <LogoButton />
+        <FriendsButton toggle={toggle} setToggle={setToggle}/>
       </Wrapper>
     </HeadBar>
   );
