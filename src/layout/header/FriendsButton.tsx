@@ -1,17 +1,15 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "./Sidebar";
 
 const Friends = styled.button`
   position: relative;
-  width: 20%;
-  text-align: right;
   border: none;
 `;
 
 const variants = {
-  open: { opacity: 1, x: 10, y: -11 },
-  closed: { opacity: 0, x: 20, y: -11 },
+  open: { opacity: 1, x: 10},
+  closed: { opacity: 0, x: 20},
 };
 
 type Props = {

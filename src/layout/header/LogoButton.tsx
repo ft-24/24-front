@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Logo = styled.div`
-  position: relative;
-  width: 60%;
-  text-align: center;
 `;
 
 const StyledLink = styled(Link)`

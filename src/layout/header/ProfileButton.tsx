@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Profile = styled.div`
-  position: relative;
-  width: 20%;
-  text-align: left;
 `;
 
 const StyledLink = styled(Link)`

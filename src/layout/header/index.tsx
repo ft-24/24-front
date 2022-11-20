@@ -1,61 +1,41 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { UserProps } from '../../pages/profile/ProfileProps';
-import styled from 'styled-components';
-import axios from 'axios'
-import ProfileButton from './ProfileButton';
-import LogoButton from './LogoButton';
-import FriendsButton from './FriendsButton';
+import { useEffect, useState } from "react";
+import { UserProps } from "../../pages/profile/ProfileProps";
+import styled from "styled-components";
+import axios from "axios";
+import ProfileButton from "./ProfileButton";
+import LogoButton from "./LogoButton";
+import FriendsButton from "./FriendsButton";
 
 const HeadBar = styled.div`
   z-index: 8;
   position: fixed;
-  left: 0;
   width: 100%;
-  top: 0;
   height: 60px;
-  line-height: 44px;
+  top: 0;
+  left: 0;
   background: var(--dark-gray);
   font-family: SBAggroM;
   font-size: 24px;
-`;
-
-const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  vertical-align: middle;
-  padding: 10px;
   width: 100%;
-  height: 100%;
-  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
 `;
-
-const Friends = styled.button`
-  position: relative;
-  width: 20%;
-  text-align: right;
-  border: none;
-`;
-
-const variants = {
-  open: { opacity: 1, x:10, y:-10 },
-  closed: { opacity: 0, x:20, y:-10 },
-}
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
   const [intra, setIntra] = useState("");
 
-  const getData = async() => {
-    let token = localStorage.getItem('token');
+  const getData = async () => {
+    let token = localStorage.getItem("token");
     if (token) {
       console.log("getData() in Header Called");
       try {
         const response = await axios({
-          url: 'http://user/friends',
-          method: 'get',
-          headers: { 'token': 'bearer ' + token }
+          url: "http://user/friends",
+          method: "get",
+          headers: { token: "bearer " + token },
         });
         const data: UserProps = await response.data;
       } catch (error) {
@@ -66,9 +46,8 @@ const Header = () => {
 
   useEffect(() => {
     if (intra == "") {
-      let tmp = localStorage.getItem('intra');
-      if (tmp)
-        setIntra(tmp);
+      let tmp = localStorage.getItem("intra");
+      if (tmp) setIntra(tmp);
     }
     if (intra == "") {
       getData();
@@ -77,13 +56,17 @@ const Header = () => {
 
   return (
     <HeadBar>
-      <Wrapper>
-        <ProfileButton intra={intra}/>
+      <div>
+        <ProfileButton intra={intra} />
+      </div>
+      <div>
         <LogoButton />
-        <FriendsButton toggle={toggle} setToggle={setToggle}/>
-      </Wrapper>
+      </div>
+      <div>
+        <FriendsButton toggle={toggle} setToggle={setToggle} />
+      </div>
     </HeadBar>
   );
-}
+};
 
 export default Header;
