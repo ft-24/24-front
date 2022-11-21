@@ -1,9 +1,12 @@
 import {useRef, useState, useEffect } from "react";
+
 import styled from 'styled-components';
+import { io, Socket } from 'socket.io-client';
 
 import ErrorPage from "../../ErrorPage";
 
 import GameEngine from "./lib/GameEngine";
+import PongIO from "./lib/IO";
 import Constants from "./Constants";
 
 const BackGround = styled.div`
@@ -29,6 +32,9 @@ const PongGame = () => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // connect socket
+  const socket = io('http://10.15.8.4:3000/game', { transports: ['websocket'] });
+
   useEffect(() => {
     if (!canvasRef.current) return ;
     const canvas = canvasRef.current;
@@ -36,20 +42,25 @@ const PongGame = () => {
     setCtx(canvas.getContext("2d"));
   }, []);
 
+  const [recvData, setRecvData] = useState<PongIO.GameRecvData>();
+      useEffect(() => {
+        socket.on("draw", (data: PongIO.GameRecvData) =>{
+          setRecvData(data);
+        })
+      });
+
   if (ctx !== null && canvas !== null) {
-    let game = new GameEngine(ctx);
-    console.log(window.innerHeight);
-    console.log(window.innerWidth);
+    // init game
+    let game = new GameEngine(ctx, socket);
 
-    let startTime: number = Date.now();
-    const callback = (timestamp: number) => {
-      let deltaTime = (timestamp - startTime) * 0.06;
+    // draw game
+    if (recvData !== undefined && recvData.ball !== undefined) {
+      game.draw(recvData);
+    }
 
+    // make input
+    const callback = () => {
       game.getInput();
-      game.update(deltaTime);
-      game.draw();
-
-      startTime = timestamp;
       requestAnimationFrame(callback);
     };
     requestAnimationFrame(callback);
@@ -58,7 +69,9 @@ const PongGame = () => {
   }
 
   return (
+    <>
       <GameBoard ref={canvasRef} width={Constants.Game.CANVAS_WIDTH} height={Constants.Game.CANVAS_HEIGHT}></GameBoard>
+    </>
   );
 }
 

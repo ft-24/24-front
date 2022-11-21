@@ -1,6 +1,8 @@
 import Utils from './Utils';
 import Scene from './Scene';
 import MainScene from '../scene/Mainscene';
+import {Socket} from 'socket.io-client';
+import PongIO from './IO';
 
 namespace Pong {
 
@@ -8,15 +10,15 @@ namespace Pong {
 
     private scene!: Scene;
 
-    constructor(private ctx: CanvasRenderingContext2D) {
-      let menu = new MainScene(ctx);
+    constructor(private ctx: CanvasRenderingContext2D, private socket: Socket) {
+      let menu = new MainScene(ctx, socket);
       this.loadScene(menu);
     }
 
-    draw() {
+    draw(recvData: PongIO.GameRecvData) {
       // Clear ready for next render
       Utils.clearScreen(this.ctx);
-      this.scene.draw();
+      this.scene.draw(recvData);
     }
 
     update(deltaTime: number) {
