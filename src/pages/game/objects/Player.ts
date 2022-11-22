@@ -3,6 +3,7 @@ import Ball from "./Ball";
 import Utils from "../lib/Utils";
 import { Direction } from "../lib/Directions";
 import GraphicalElement from "../lib/GraphicalElement";
+import PongIO from "../lib/IO";
 
 export namespace Pong {
 
@@ -16,11 +17,13 @@ export namespace Pong {
     protected startX: number;
     protected startY: number;
 
+    public num = 0;
     public paddleWidth = Constants.Game.PADDLE_WIDTH;
     public paddleHeight = Constants.Game.PADDLE_HEIGHT;
     public name = 'Unknown Player';
 
-    constructor(public x: number, public y: number, public ball: Ball) {
+    constructor(public n: number, public x: number, public y: number, public ball: Ball) {
+      this.num = n;
       this.startX = x;
       this.startY = y;
     }
@@ -65,9 +68,16 @@ export namespace Pong {
       }
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw(ctx: CanvasRenderingContext2D, recvData: PongIO.GameRecvData) {
       ctx.fillStyle = this.colour;
-      ctx.fillRect(this.x, this.y, this.paddleWidth, this.paddleHeight);
+      if (this.num == 1) {
+        const pdata = recvData.p1;
+        ctx.fillRect(pdata.x, pdata.y, this.paddleWidth, this.paddleHeight);
+      } else {
+        const pdata = recvData.p2;
+        ctx.fillRect(pdata.x, pdata.y, this.paddleWidth, this.paddleHeight);
+      }
+      
     }
   }
 }
