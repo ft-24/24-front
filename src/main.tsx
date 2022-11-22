@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { RouterProvider } from "react-router-dom";
+import { io } from "socket.io-client";
 import router from "./routes/Router";
 
 import GlobalStyle from "./GlobalStyle";

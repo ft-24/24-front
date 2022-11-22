@@ -29,6 +29,10 @@ namespace Pong {
       this.scene.getInput();
     }
 
+    unload() {
+      this.scene.unload();
+    }
+
     loadScene(newScene: Scene, params?: object) {
       // If a scene has been loaded already, unload it
       if (this.scene) {

@@ -52,8 +52,11 @@ namespace PongIO {
     };
 
     private handleKeyup = (_: KeyboardEvent) => {
-      this.direction = Direction.NONE;
-      this.socket.emit("move", this.direction);
+      if (this.direction !== Direction.NONE) {
+        this.direction = Direction.NONE;
+        this.socket.emit("move", this.direction);
+        this.prevDir = this.direction;
+      }
     };
 
     bind() {
