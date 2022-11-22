@@ -5,6 +5,7 @@ type dynamicColor = {
 }
 
 const Wrapper = styled.div<dynamicColor>`
+  position: sticky;
   width: 100%;
   display: flex;
   justify-content: space-between;
