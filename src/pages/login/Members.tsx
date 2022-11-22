@@ -78,6 +78,7 @@ const Members = forwardRef<HTMLDivElement>((props, ref) => {
                 onClickHandler={onClickHandler}
                 isFront={flip[idx]}
                 img={ele.img}
+                key={ele.name}
                 ></Member>
                 );
             })}

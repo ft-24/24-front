@@ -99,7 +99,6 @@ const Chat = ({ setIsInfoOn } : any) => {
       block: "end",
       inline: "nearest",
     });
-    console.log(userMessage);
 	if (userMessage)
 		DummyMessages.push(userMessage);
     return setUserMessage(null);
