@@ -20,6 +20,7 @@ export class Item {
 }
 
 export class UserProps {
+  /*
   intra_id: string;
   nickname: string;
   profile_url: string;
@@ -36,23 +37,23 @@ export class UserProps {
     this.profile_url = p;
     this.stats = stats;
     this.matching_history = new Map<string, RecordProps>();
-  }
-  // Stats: Map<string, number>;
-  // Record: Map<string, RecordProps>;
-  // nickname: string;
-  // profimgdir: string;
-  // rank: number;
+  }*/
+  Stats: Map<string, number>;
+  Record: Map<string, RecordProps>;
+  nickname: string;
+  profimgdir: string;
+  rank: number;
 
-  // constructor (
-  //   stats:  Map<string, number>,
-  //   record: Map<string, RecordProps>,
-  //   nickname: string,
-  //   profimgdir: string,
-  //   rank: number,) {
-  //   this.Stats = new Map(Object.entries(stats));
-  //   this.Record = new Map(Object.entries(record));
-  //   this.nickname = nickname;
-  //   this.profimgdir = profimgdir;
-  //   this.rank = rank;
-  // }
+  constructor (
+    stats:  Map<string, number>,
+    record: Map<string, RecordProps>,
+    nickname: string,
+    profimgdir: string,
+    rank: number,) {
+    this.Stats = new Map(Object.entries(stats));
+    this.Record = new Map(Object.entries(record));
+    this.nickname = nickname;
+    this.profimgdir = profimgdir;
+    this.rank = rank;
+  }
 }
