@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const BackDrop = styled.div`
     position: fixed;
     width: 100%;
     height: 100vh;
