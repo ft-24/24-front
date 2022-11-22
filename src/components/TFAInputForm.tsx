@@ -95,7 +95,6 @@ const TFAInputForm = ({setAuthState} : any) => {
   const [isValid, setIsValid] = useState(false);
 
   const checkValid = () => {
-    console.log("checking");
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
       setIsValid(true);
       setWrongForm(false);
@@ -107,7 +106,10 @@ const TFAInputForm = ({setAuthState} : any) => {
     }
   };
   useEffect(() => {
-    checkValid();
+    let time = setTimeout(checkValid, 1000);
+    return (()=>{
+      clearTimeout(time);
+    })
   }, [inputValue]);
 
   const handleChange = (e: any) => {
