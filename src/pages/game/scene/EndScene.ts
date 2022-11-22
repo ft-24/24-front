@@ -1,3 +1,4 @@
+import { Socket } from "socket.io-client";
 import Scene from "../lib/Scene";
 import Player from "../objects/Player";
 import MenuScene from "./MenuScene";
@@ -8,14 +9,14 @@ export namespace Pong {
 
     private winner: Player;
 
-    constructor(ctx: CanvasRenderingContext2D, winner: Player) {
-      super(ctx);
+    constructor(ctx: CanvasRenderingContext2D, socket:Socket, winner: Player) {
+      super(ctx, socket);
       this.winner = winner;
     }
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MenuScene(this.ctx));
+      this.gameContext.loadScene(new MenuScene(this.ctx, this.socket));
     }
 
     draw() {

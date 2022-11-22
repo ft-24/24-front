@@ -1,6 +1,7 @@
 import Utils from "../lib/Utils";
 import Player from "./Player"
 import { Direction } from "../lib/Directions";
+import GameSendData from "../lib/IO";
 
 export namespace Pong {
   export class HumanPlayer extends Player {
@@ -15,6 +16,8 @@ export namespace Pong {
           break;
         default:
           this.direction = Direction.NONE;
+        
+        
       }
     };
 
