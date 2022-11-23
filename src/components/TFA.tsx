@@ -34,10 +34,12 @@ type TypeContent = {
   [index: string]: JSX.Element;
   Init: JSX.Element;
   Loading: JSX.Element;
+	Done: JSX.Element;
 };
 
 const TFA = () => {
   const [authState, setAuthState] = useState("Init");
+	const [token, setToken] = useState("");
   const [isAuthFail, setIsAuthFail] = useState(false);
   const [userInput, setUserInput] = useState("");
   const id = useRef("");
@@ -45,7 +47,6 @@ const TFA = () => {
 
   useEffect(()=>{
     id.current = location.search.slice(4);
-    localStorage.setItem("id", id.current);
   }, [])
 
   const content: TypeContent = {
@@ -53,6 +54,7 @@ const TFA = () => {
       <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput} />
     ),
     Loading: <div>Loading</div>,
+		Done: <Navigate to={`/auth?token=${token}`} replace={true}/>
   };
 
   useEffect(() => {
@@ -69,10 +71,12 @@ const TFA = () => {
       });
       const { token, success } = await response.data;
       if (success) {
-        return <Navigate to={`/auth?token=${token}`} replace={true} />
-      }
-      setAuthState("Init");
-      setIsAuthFail(true);
+        setAuthState("Done");
+				setToken(token.access_token);
+      } else {
+				setAuthState("Init");
+				setIsAuthFail(true);
+			}
     } catch (error) {
       console.log(error);
     }
