@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useLocation, Navigate ,useNavigation } from "react-router-dom";
 
 const InputForm = styled.form`
   display: flex;
@@ -94,6 +95,11 @@ const TFAInputForm = ({setAuthState} : any) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongForm, setWrongForm] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const code = useRef("");
+  let location = useLocation();
+  const idx = location.search.indexOf("?id=");
+  if (idx == -1) return <Navigate to="/login" replace={true} />;
+  code.current = location.search.slice(6);
 
   const checkValid = () => {
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
@@ -124,7 +130,7 @@ const TFAInputForm = ({setAuthState} : any) => {
     try {
       setAuthState("Loading");
       const response = await axios.post("oururl", {
-        id: "id",
+        id: code.current,
         code: "inputValue"
       });
       const answer = await response.data;
