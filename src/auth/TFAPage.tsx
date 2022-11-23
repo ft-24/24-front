@@ -8,11 +8,24 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `
-
+const Button = styled.a`
+  text-decoration: none;
+  text-align: center;
+  padding: 0.5em;
+  font-size: 2em;
+  border-radius: 0.5em;
+  background: var(--yellow);
+  color: var(--dark-gray);
+  margin: 1em;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
+`;
 
 const TFAPage = () => {
   return (
     <Wrapper>
+      <Button href="http://localhost:3000/login/tfa"/>
       <TFA></TFA>
     </Wrapper>
   )

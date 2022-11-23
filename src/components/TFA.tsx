@@ -52,17 +52,20 @@ const TFA = () => {
 	};
 
 	useEffect(()=>{
-		handleSubmmit();
+		if (userInput !== "")
+			handleSubmmit();
 	},[userInput]);
 
 	const handleSubmmit = async () => {
 		localStorage.setItem("2facode", userInput);
 		try {
 		  setAuthState("Loading");
-		  const response = await axios.post("oururl", {
+		  const response = await axios.post("http://localhost:3000/login/tfa", {
 			id: id.current,
-			code: userInput
+			code: userInput,
 		  });
+			const {token, success} = await response.data;	
+			console.log(token, success);
 		} catch (error) {
 		  console.log(error);
 		}
