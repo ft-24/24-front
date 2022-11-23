@@ -95,11 +95,11 @@ const TFAInputForm = ({setAuthState} : any) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongForm, setWrongForm] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const code = useRef("");
+  const id = useRef("");
   let location = useLocation();
   const idx = location.search.indexOf("?id=");
   if (idx == -1) return <Navigate to="/login" replace={true} />;
-  code.current = location.search.slice(6);
+  id.current = location.search.slice(6);
 
   const checkValid = () => {
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
