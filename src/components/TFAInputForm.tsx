@@ -130,7 +130,7 @@ const TFAInputForm = ({setAuthState} : any) => {
     try {
       setAuthState("Loading");
       const response = await axios.post("oururl", {
-        id: code.current,
+        id: id.current,
         code: "inputValue"
       });
       const answer = await response.data;
