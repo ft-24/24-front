@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import TFAInputForm from "./TFAInputForm";
@@ -11,6 +12,7 @@ const Container = styled.div`
   color: var(--dark-gray);
   border-radius: 2rem;
   padding: 1.5rem;
+  font-family: NanumSquareL;
 
   display: flex;
   flex-direction: column;
@@ -21,6 +23,11 @@ const Container = styled.div`
     font-weight: 800;
     font-size: 1.5rem;
   }
+`;
+
+const AuthFailMessage = styled(motion.div)`
+  color: red;
+  font-size: 1rem;
 `;
 
 const ImgWrapper = styled.div`
@@ -34,27 +41,27 @@ type TypeContent = {
   [index: string]: JSX.Element;
   Init: JSX.Element;
   Loading: JSX.Element;
-	Done: JSX.Element;
+  Done: JSX.Element;
 };
 
 const TFA = () => {
   const [authState, setAuthState] = useState("Init");
-	const [token, setToken] = useState("");
+  const [token, setToken] = useState("");
   const [isAuthFail, setIsAuthFail] = useState(false);
   const [userInput, setUserInput] = useState("");
   const id = useRef("");
   const location = useLocation();
 
-  useEffect(()=>{
+  useEffect(() => {
     id.current = location.search.slice(4);
-  }, [])
+  }, []);
 
   const content: TypeContent = {
     Init: (
       <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput} />
     ),
     Loading: <div>Loading</div>,
-		Done: <Navigate to={`/auth?token=${token}`} replace={true}/>
+    Done: <Navigate to={`/auth?token=${token}`} replace={true} />,
   };
 
   useEffect(() => {
@@ -65,6 +72,7 @@ const TFA = () => {
     localStorage.setItem("2facode", userInput);
     try {
       setAuthState("Loading");
+      setIsAuthFail(false);
       const response = await axios.post("http://localhost:3000/login/tfa", {
         id: id.current,
         code: userInput,
@@ -72,11 +80,11 @@ const TFA = () => {
       const { token, success } = await response.data;
       if (success) {
         setAuthState("Done");
-				setToken(token.access_token);
+        setToken(token.access_token);
       } else {
-				setAuthState("Init");
-				setIsAuthFail(true);
-			}
+        setAuthState("Init");
+        setIsAuthFail(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +93,14 @@ const TFA = () => {
   return (
     <Container>
       <h1>2단계 보안인증</h1>
-      {isAuthFail ? <h1>인증코드가 틀렸습니다.</h1> : null}
+      {isAuthFail ? (
+        <AuthFailMessage
+          animate={{ y: [-10, 10, -5, 5, 0] }}
+          transition={{ duration: 0.2, type: "Inertia" }}
+        >
+          인증코드가 틀렸습니다.
+        </AuthFailMessage>
+      ) : null}
       <ImgWrapper></ImgWrapper>
       {content[authState]}
     </Container>
