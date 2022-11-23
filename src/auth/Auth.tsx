@@ -8,7 +8,7 @@ const Auth = () => {
     const token = location.search.slice(7);
     localStorage.setItem("token", token);
   }
-  return <Navigate to="/home" replace={true} />;
+  return <Navigate to="/" replace={true} />;
 };
 
 export default Auth;
