@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 const InputForm = styled.form`
   display: flex;
@@ -95,7 +96,6 @@ const TFAInputForm = ({setAuthState} : any) => {
   const [isValid, setIsValid] = useState(false);
 
   const checkValid = () => {
-    console.log("checking");
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
       setIsValid(true);
       setWrongForm(false);
@@ -106,18 +106,36 @@ const TFAInputForm = ({setAuthState} : any) => {
       setIsValid(false);
     }
   };
+  
   useEffect(() => {
-    checkValid();
+    let time = setTimeout(checkValid, 500);
+    return (()=>{
+      clearTimeout(time);
+    })
   }, [inputValue]);
 
   const handleChange = (e: any) => {
     setInputValue(e.target.value);
   };
 
-  const handleSubmmit = (e: any) => {
+  const handleSubmmit = async (e: any) => {
     e.preventDefault();
     localStorage.setItem("2facode", inputValue);
-	setAuthState("Loading");
+    try {
+      setAuthState("Loading");
+      const response = await axios.post("oururl", {
+        id: "id",
+        code: "inputValue"
+      });
+      const answer = await response.data;
+      if (answer === "wrong") {
+        setAuthState("Init");
+      } else {
+        setAuthState("Done");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

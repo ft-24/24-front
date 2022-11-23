@@ -1,5 +1,7 @@
-import styled from "styled-components"
 import { useState, useEffect } from "react";
+import styled from "styled-components"
+import { useLocation, useNavigate } from "react-router-dom";
+
 import TFAInputForm from "./TFAInputForm";
 
 const Container = styled.div`
@@ -35,21 +37,15 @@ type TypeContent = {
 	Done : JSX.Element,
   }
 
-const TFA = ({modalHandler} : any) => {
+const TFA = () => {
 	const [authState, setAuthState] = useState("Init");
+	const navigate = useNavigate();
 
 	const content : TypeContent = {
 		Init : <TFAInputForm setAuthState={setAuthState}/>,
 		Loading : <div>Loading</div>,
-		Done : <button onClick={()=>{modalHandler(false)}}>done</button>,
+		Done : <button onClick={()=>navigate('/home', {replace: true})}>done</button>,
 	};
-
-	useEffect(()=>{
-		if (authState == "Loading") {
-			// fake auth
-			setTimeout(()=>{setAuthState("Done")},5000);
-		}
-	}, [authState])
 
   return (
 	<Container>

@@ -10,6 +10,7 @@ import Profile from "../pages/profile/ProfilePage";
 import GamePage from "../pages/game/PongGame";
 import Social from "../pages/social";
 import Lobby from "../pages/lobby";
+import TFAPage from "../auth/TFAPage";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />,
+  },
+  {
+    path: "/tfa",
+    element: <TFAPage />,
   },
   {
     path: "/",
