@@ -16,11 +16,11 @@ const Box = styled.div`
 
 const Modal = ({children, modalHandler} : any) => {
   return (
-    <Wrapper onClick={modalHandler}>
+    <BackDrop onClick={modalHandler}>
         <Box onClick={(e)=>{ e.stopPropagation();}}>
           {children}
         </Box>
-    </Wrapper>
+    </BackDrop>
   )
 }
 

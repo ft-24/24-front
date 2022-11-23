@@ -34,17 +34,19 @@ type TypeContent = {
 	[index: string]: JSX.Element,
 	Init : JSX.Element,
 	Loading : JSX.Element,
-	Done : JSX.Element,
   }
 
 const TFA = () => {
 	const [authState, setAuthState] = useState("Init");
-	const navigate = useNavigate();
-
+	const location = useLocation();
+	const idx = location.search.indexOf("?id=");
+	if (idx !== -1) {
+		const tfaID = location.search.slice(4);
+		localStorage.setItem("tfaID", tfaID);
+	}
 	const content : TypeContent = {
 		Init : <TFAInputForm setAuthState={setAuthState}/>,
 		Loading : <div>Loading</div>,
-		Done : <button onClick={()=>navigate('/home', {replace: true})}>done</button>,
 	};
 
   return (

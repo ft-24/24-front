@@ -136,8 +136,6 @@ const TFAInputForm = ({setAuthState} : any) => {
       const answer = await response.data;
       if (answer === "wrong") {
         setAuthState("Init");
-      } else {
-        setAuthState("Done");
       }
     } catch (error) {
       console.log(error);
