@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import TFAInputForm from "./TFAInputForm";
+import Loader from "./Loader";
 
 const Container = styled.div`
   width: 25rem;
@@ -60,7 +61,7 @@ const TFA = () => {
     Init: (
       <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput} />
     ),
-    Loading: <div>Loading</div>,
+    Loading: <Loader title="Loading..."/>,
     Done: <Navigate to={`/auth?token=${token}`} replace={true} />,
   };
 
