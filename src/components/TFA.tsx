@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components"
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import TFAInputForm from "./TFAInputForm";
 
 const Container = styled.div`
@@ -38,16 +38,35 @@ type TypeContent = {
 
 const TFA = () => {
 	const [authState, setAuthState] = useState("Init");
-	const location = useLocation();
+	const [userInput, setUserInput] = useState("");
+	const id = useRef("");
+	let location = useLocation();
 	const idx = location.search.indexOf("?id=");
-	if (idx !== -1) {
-		const tfaID = location.search.slice(4);
-		localStorage.setItem("tfaID", tfaID);
-	}
+	// if (idx == -1) return <Navigate to="/login" replace={true} />;
+	id.current = location.search.slice(4);
+	localStorage.setItem('id', id.current);
+
 	const content : TypeContent = {
-		Init : <TFAInputForm setAuthState={setAuthState}/>,
+		Init : <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput}/>,
 		Loading : <div>Loading</div>,
 	};
+
+	useEffect(()=>{
+		handleSubmmit();
+	},[userInput]);
+
+	const handleSubmmit = async () => {
+		localStorage.setItem("2facode", userInput);
+		try {
+		  setAuthState("Loading");
+		  const response = await axios.post("oururl", {
+			id: id.current,
+			code: userInput
+		  });
+		} catch (error) {
+		  console.log(error);
+		}
+	  };
 
   return (
 	<Container>
@@ -55,7 +74,7 @@ const TFA = () => {
 		<h1>{authState}</h1>
 		<ImgWrapper>
 		</ImgWrapper>
-		{content[authState]}
+		{content["Init"]}
 	</Container>
   )
 }

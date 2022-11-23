@@ -91,15 +91,11 @@ const Bar = styled.span`
   }
 `;
 
-const TFAInputForm = ({setAuthState} : any) => {
+const TFAInputForm = ({setAuthState, setUserInput} : any) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongForm, setWrongForm] = useState(false);
   const [isValid, setIsValid] = useState(false);
-  const id = useRef("");
-  let location = useLocation();
-  const idx = location.search.indexOf("?id=");
-  if (idx == -1) return <Navigate to="/login" replace={true} />;
-  id.current = location.search.slice(6);
+
 
   const checkValid = () => {
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
@@ -126,20 +122,7 @@ const TFAInputForm = ({setAuthState} : any) => {
 
   const handleSubmmit = async (e: any) => {
     e.preventDefault();
-    localStorage.setItem("2facode", inputValue);
-    try {
-      setAuthState("Loading");
-      const response = await axios.post("oururl", {
-        id: id.current,
-        code: "inputValue"
-      });
-      const answer = await response.data;
-      if (answer === "wrong") {
-        setAuthState("Init");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    setUserInput(inputValue);
   };
 
   return (
