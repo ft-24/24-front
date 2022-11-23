@@ -91,7 +91,7 @@ const Bar = styled.span`
   }
 `;
 
-const TFAInputForm = ({setAuthState, setUserInput} : any) => {
+const TFAInputForm = ({setAuthState, setUserInput, setIsAuthFail} : any) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongForm, setWrongForm] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -101,6 +101,7 @@ const TFAInputForm = ({setAuthState, setUserInput} : any) => {
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
       setIsValid(true);
       setWrongForm(false);
+      setIsAuthFail("none");
     } else if (inputValue == "") {
       setWrongForm(false);
     } else {

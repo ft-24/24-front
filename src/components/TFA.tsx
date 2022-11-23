@@ -45,10 +45,17 @@ type TypeContent = {
   Done: JSX.Element;
 };
 
+type AuthError = {
+  [index: string]: string;
+  none: string,
+  code: string,
+  etc: string,
+}
+
 const TFA = () => {
   const [authState, setAuthState] = useState("Init");
   const [token, setToken] = useState("");
-  const [isAuthFail, setIsAuthFail] = useState(false);
+  const [isAuthFail, setIsAuthFail] = useState("none");
   const [userInput, setUserInput] = useState("");
   const id = useRef("");
   const location = useLocation();
@@ -59,21 +66,27 @@ const TFA = () => {
 
   const content: TypeContent = {
     Init: (
-      <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput} />
+      <TFAInputForm setAuthState={setAuthState} setUserInput={setUserInput} setIsAuthFail={setIsAuthFail} />
     ),
     Loading: <Loader title="Loading..."/>,
     Done: <Navigate to={`/auth?token=${token}`} replace={true} />,
   };
+
+  const error: AuthError = {
+    code: "인증코드가 틀렸습니다.",
+    etc: "올바르지 않은 접근입니다.",
+    none: "",
+  }
 
   useEffect(() => {
     if (userInput !== "") handleSubmmit();
   }, [userInput]);
 
   const handleSubmmit = async () => {
+    console.log("onsubmit");
     localStorage.setItem("2facode", userInput);
     try {
       setAuthState("Loading");
-      setIsAuthFail(false);
       const response = await axios.post("http://localhost:3000/login/tfa", {
         id: id.current,
         code: userInput,
@@ -84,22 +97,24 @@ const TFA = () => {
         setToken(token.access_token);
       } else {
         setAuthState("Init");
-        setIsAuthFail(true);
+        setIsAuthFail("code");
       }
     } catch (error) {
-      console.log(error);
-    }
+      console.log("Something went wrong!")
+      setAuthState("Init");
+      setIsAuthFail("etc");
+  }
   };
 
   return (
     <Container>
       <h1>2단계 보안인증</h1>
-      {isAuthFail ? (
+      {isAuthFail !== "none" ? (
         <AuthFailMessage
           animate={{ y: [-10, 10, -5, 5, 0] }}
           transition={{ duration: 0.2, type: "Inertia" }}
         >
-          인증코드가 틀렸습니다.
+          {error[isAuthFail]}
         </AuthFailMessage>
       ) : null}
       <ImgWrapper></ImgWrapper>
