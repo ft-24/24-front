@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import GameInfo from "./GameInfo";
 import GameList from "./GameList";
-import GameLobby from "./GameLobby";
+import GameRoom from "./GameRoom";
 
 const Wrapper = styled.div`
 	width: 100vw;
@@ -43,7 +43,7 @@ const Lobby = () => {
 			<Container>
 				<MainSection>
           {locate === "home" ? <GameList toggleInfo={toggleInfo} setTitle={setTitle}></GameList> : null}
-          {locate === "lobby" ? <GameLobby setLocate={setLocate} title={title}></GameLobby> : null}
+          {locate === "lobby" ? <GameRoom setLocate={setLocate} title={title}></GameRoom> : null}
 				</MainSection>
 				{info ? (
 					<InfoSection>

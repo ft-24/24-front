@@ -45,7 +45,7 @@ const ContentHeader = styled.div`
 	text-shadow: 0 2px 0 black;
 `
 
-const GameLobby = ({setLocate, title} : any) => {
+const GameRoom = ({setLocate, title} : any) => {
 	return (
 		<Container>
 			<SectionHeader color='var(--dark-gray)' title={title}>
@@ -69,4 +69,4 @@ const GameLobby = ({setLocate, title} : any) => {
 	);
 }
 
-export default GameLobby;
+export default GameRoom;
