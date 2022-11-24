@@ -92,7 +92,7 @@ class Player {
   }
 }
 
-const GameInfo = ({setInfo, title} : any) => {
+const GameInfo = ({setInfo, setLocate, title} : any) => {
   const [hover, setHover] = useState(false);
 	
   let playerList = new Array<Player>(0);
@@ -104,6 +104,11 @@ const GameInfo = ({setInfo, title} : any) => {
 	spectatorList.push(new Player("seonhjeo", "seonhjeo", "some link"))
 	spectatorList.push(new Player("chanhuil", "chanhuil", "some link"))
 	spectatorList.push(new Player("young-ch", "young-ch", "some link"))
+
+	const enterLobby = () => {
+		setLocate("lobby");
+		setInfo(false);
+	}
 
 	return (
 		<Container>
@@ -131,6 +136,7 @@ const GameInfo = ({setInfo, title} : any) => {
 				<StyledButton
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
+					onClick={() => enterLobby()}
 					>
 					{hover ?
 						<>
@@ -149,7 +155,7 @@ const GameInfo = ({setInfo, title} : any) => {
 								<Image src="/src/images/splash2.png" size="5rem" z-index="1"/>
 							</motion.div>
 						</>
-					: null}	
+					: null}
 					<Text>입장하기</Text>
 				</StyledButton>
 			</IconSection>
