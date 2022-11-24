@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import Feature from "./Feature";
 
@@ -5,6 +6,8 @@ const Wrapper = styled.div`
 	width: 100%;
 	margin-top: 10em;
 	font-size: 1em;
+	display: flex;
+	flex-direction: column;
 `
 
 const TitleWrapper = styled.div`
@@ -14,9 +17,10 @@ const TitleWrapper = styled.div`
 `;
 
 const FeaturesContainer = styled.div`
+	width: 100%;
 	display:flex;
+	flex-direction: column;
 	align-items: flex-start;
-	flex-wrap: wrap;
 `
 
 const featureArray = [
@@ -30,7 +34,7 @@ const featureArray = [
 		"must be compatible with the latest stable up-to-date version of Google Chrome, Firefox, and Safari.",
 		"Everything has to be launch by a single call to: docker-compose up --build",
 	],},
-	{title : "Security concerns", 
+	{title : "Security concerns",
 	article : [
 		"Any password stored in your database must be encrypted.",
 		"Your website must be protected against SQL injections.",
@@ -71,13 +75,20 @@ const featureArray = [
 ];
 
 const Features = () => {
+	const [isOn, setIsOn] = useState(new Array(featureArray.length).fill(false));
+	const spreadArticle = (idx : number) => {
+		const PrevState = isOn;
+		let newState = [...PrevState];
+		newState[idx] = !PrevState[idx];
+		setIsOn(newState);
+	};
 	return (
 		<Wrapper>
 			<TitleWrapper>
-			Feature
+			Features
 			</TitleWrapper>
 			<FeaturesContainer>
-				{featureArray.map((ele) => <Feature title={ele.title} article={ele.article}/>)}
+				{featureArray.map((ele, idx) => <Feature key={idx} title={ele.title} article={ele.article} isOn={isOn[idx]} handler={spreadArticle} idx={idx}/>)}
 			</FeaturesContainer>
 		</Wrapper>
 	);

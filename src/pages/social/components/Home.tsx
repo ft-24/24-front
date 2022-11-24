@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../../../components/SectionHeader";
 import ChannelCard from "./ChannelCard";
 
 const Container = styled.div`
@@ -54,17 +54,17 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const Home = ({setLocate} : any) => {
+const Home = ({setLocate, setTitle} : any) => {
 	return (
 		<Container>
-			<SectionHeader title="welcome home!"/>
+			<SectionHeader color='var(--purple)' title="welcome home!"/>
 			<ContentHeader>공지사항</ContentHeader>
 			<NoticeSection>
 			</NoticeSection>
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate}></ChannelCard>
+					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>
