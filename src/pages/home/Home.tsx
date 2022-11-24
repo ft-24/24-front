@@ -48,9 +48,6 @@ const Home = () => {
         <ImageCard text={"Ladder"} imagePath={"/images/trophy.png"} imagePadding="15px" routePath={"/matching"}/>
         <ImageCard text={"Social"} imagePath={"/images/chat.png"} imagePadding="20px" routePath={"/social"}/>
 			</Wrapper>
-      {modal ?
-        <Modal modalHandler={()=>{}}><TFA modalHandler={modalHandler}/></Modal> : null
-      }
 		</Layout>
 	)
 }
