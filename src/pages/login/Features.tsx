@@ -88,7 +88,7 @@ const Features = () => {
 			Features
 			</TitleWrapper>
 			<FeaturesContainer>
-				{featureArray.map((ele, idx) => <Feature title={ele.title} article={ele.article} isOn={isOn[idx]} handler={spreadArticle} idx={idx}/>)}
+				{featureArray.map((ele, idx) => <Feature key={idx} title={ele.title} article={ele.article} isOn={isOn[idx]} handler={spreadArticle} idx={idx}/>)}
 			</FeaturesContainer>
 		</Wrapper>
 	);
