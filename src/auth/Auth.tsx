@@ -1,14 +1,17 @@
 import { useLocation, Navigate } from "react-router-dom";
+import { useAuthDispatch } from "../context/AuthHooks";
 
 const Auth = () => {
-  let location = useLocation();
-  const idx = location.search.indexOf("?code=");
+  const location = useLocation();
+  const dispatch = useAuthDispatch();
+  const idx = location.search.indexOf("?token=");
   if (idx == -1) return <Navigate to="/login" replace={true} />;
   else {
-    const code = location.search.slice(6);
-    localStorage.setItem("code", code);
+    const token = location.search.slice(7);
+    localStorage.setItem("token", token);
+    dispatch({type: "LOGIN", payload: token});
   }
-  return <Navigate to="/home" replace={true} />;
+  return <Navigate to="/" replace={true} />;
 };
 
 export default Auth;

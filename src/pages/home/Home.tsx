@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from 'react';
-import Modal from "../../components/Modal";
 import ImageCard from "./ImageCard";
-import TFA from "../../components/TFA";
 
 const Layout = styled.div`
   min-height: 100vh;
@@ -29,16 +26,6 @@ const Wrapper = styled.div`
 `;
 
 const Home = () => {
-  const [modal, setModal] = useState(true);
-  useEffect(()=>{
-    if (localStorage.getItem('2facode')) {
-      setModal(false);
-    }
-  },[]);
-  const modalHandler = () => {
-    setModal(false);
-  }
-
 	return (
 		<Layout>
 			<Wrapper>
