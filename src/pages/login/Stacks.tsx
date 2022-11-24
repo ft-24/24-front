@@ -74,8 +74,8 @@ const Stacks = () => {
           {ImageArray.map((ele) => {
             const name = ele.slice(23, -4);
             return (
-              <Slide>
-                <img src={ele} key={ele} />
+              <Slide key={ele}>
+                <img src={ele} />
                 <Description>{name}</Description>
               </Slide>
             );
@@ -83,8 +83,8 @@ const Stacks = () => {
           {ImageArray.map((ele) => {
             const name = ele.slice(23, -4);
             return (
-              <Slide>
-                <img src={ele} key={ele + "2"} />
+              <Slide key={ele + "2"}>
+                <img src={ele} />
                 <Description>{name}</Description>
               </Slide>
             );
