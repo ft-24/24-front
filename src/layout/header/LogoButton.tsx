@@ -11,7 +11,7 @@ const StyledLink = styled(Link)`
 const LogoButton = () => {
   return (
 	<Logo>
-	<StyledLink to="/home">로 고</StyledLink>
+	<StyledLink to="/">로 고</StyledLink>
   </Logo>
 )
 }
