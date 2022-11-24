@@ -31,10 +31,9 @@ const Profile = () => {
 
   useEffect(() => {
     const getData = async() => {
-      const res = await axios.get('http://10.13.9.5:3000/user/me');
+      const res = await axios.get(`https://my-24-ver1-default-rtdb.asia-southeast1.firebasedatabase.app/Users/seonhjeo.json`);
       const data: UserProps = await res.data;
-      console.log(res.data);
-      setUserData(prev => prev = new UserProps(data.intra_id, data.nickname, data.profile_url, data.stats, data.matching_history));
+      setUserData(prev => prev = new UserProps(data.Stats, data.Record, data.nickname, data.profimgdir, data.rank));
     }
     getData();
   }, [])
@@ -49,8 +48,7 @@ const Profile = () => {
     <BackGround>
       <Layout>
       <UserProfile data={userData} />
-      <Layout>
-      {/* { userData.Record && (Array.from(userData.Record.values()).map((value) => <RecordForm
+      { userData.Record && (Array.from(userData.Record.values()).map((value) => <RecordForm
         key = {value.time}
         time = {value.time}
         result = {value.result}
@@ -59,8 +57,7 @@ const Profile = () => {
         myscore = {value.myscore}
         opscore = {value.opscore}
       />))
-      } */}
-      </Layout>
+      }
       </Layout>
     </BackGround>
   );

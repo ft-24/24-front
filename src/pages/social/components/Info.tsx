@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	width: 100%;
@@ -36,7 +36,7 @@ const IconSection = styled.div`
 const Info = ({setIsInfoOn} : any) => {
 	return (
 		<Container>
-			<SectionHeader>
+			<SectionHeader color='var(--purple)'>
 				<div onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
 				<div>Q</div>
 			</SectionHeader>

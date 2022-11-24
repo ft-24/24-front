@@ -27,12 +27,16 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({setLocate} : any) => {
+const ChannelCard = ({setLocate, setTitle, title} : any) => {
+  const onClick = () => {
+    setLocate("dm");
+    setTitle(title ? title : "No Title");
+  }
   return (
-    <Wrapper onClick={()=>{setLocate("dm")}}>
+    <Wrapper onClick={()=>{onClick()}}>
       <Container>
       <Title>
-        트센뽀개기방
+        {title ? title : "No Title"}
       </Title>
       <MemberList>
         <Avatar.txt background="yellow">🤫</Avatar.txt>

@@ -42,6 +42,7 @@ const ListSection = styled.div`
 
 const Social = () => {
   const [locate, setLocate] = useState("home");
+  const [title, setTitle] = useState("");
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
 
@@ -57,8 +58,8 @@ const Social = () => {
           </ListSection>
         ) : null}
         <MainSection>
-          {locate === "home" ? <Home setLocate={setLocate}></Home> : null}
-          {locate === "dm" ? <Chat setIsInfoOn={setIsInfoOn}></Chat> : null}
+          {locate === "home" ? <Home setLocate={setLocate} setTitle={setTitle}></Home> : null}
+          {locate === "dm" ? <Chat setIsInfoOn={setIsInfoOn} setTitle={setTitle}></Chat> : null}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>

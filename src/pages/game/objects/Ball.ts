@@ -1,5 +1,6 @@
 import Constants from "../Constants";
 import GraphicalElement from "../lib/GraphicalElement";
+import PongIO from "../lib/IO";
 
 export namespace Pong {
 
@@ -29,9 +30,10 @@ export namespace Pong {
       return this.destroyed;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw(ctx: CanvasRenderingContext2D, recvData: PongIO.GameRecvData) {
       if (!this.destroyed && ctx !== null) {
-        ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI, false);
+        const bdata = recvData.ball;
+        ctx.arc(bdata.x, bdata.y, this.size, 0, 2 * Math.PI, false);
         ctx.fillStyle = this.colour;
         ctx.fill();
       }
