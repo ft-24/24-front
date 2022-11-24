@@ -27,8 +27,9 @@ const Versus = styled.div`
 `;
 
 const SpectatorContainer = styled.div`
+	position: relative;
 	width: 100%;
-	height: 25%;
+	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	background: var(--light-gray);
@@ -50,20 +51,20 @@ const GameLobby = ({setLocate, title} : any) => {
 			<SectionHeader color='var(--dark-gray)' title={title}>
 				<div onClick={()=>setLocate("home")}>{"나가기"}</div>
 			</SectionHeader>
-			<div>
+			<>
 				<PlayerContainer>
 					<PlayerCard type="me" intra="sunhkim"></PlayerCard>
 					<Versus> vs </Versus>
 					<PlayerCard type="opponent" intra="yoahn"></PlayerCard>
 				</PlayerContainer>
+				{/* <GameWindow /> */}
 				<ContentHeader>구경하는 사람들</ContentHeader>
 				<SpectatorContainer>
 					<PlayerCard type="spectator" intra="seonhjeo"></PlayerCard>
 					<PlayerCard type="spectator" intra="chanhuil"></PlayerCard>
 					<PlayerCard type="spectator" intra="young-ch"></PlayerCard>
 				</SpectatorContainer>
-			</div>
-			<GameInfo />
+			</>
 		</Container>
 	);
 }
