@@ -129,21 +129,6 @@ const ProfileStats = ({data} : {data : UserProps}) => {
     </>
   );
 }
-/*
-const ProfileStats = ({data} : {data : UserProps}) => {
-  return (
-    <div>
-      {
-        data.stats.map((item : Item, index) => (
-          <>
-            {console.log(item.label + ":" + item.value)}
-            <Stat>{item.label} : {item.value}</Stat>
-          </>
-        ))
-      }
-    </div>
-  )
-}*/
 
 const UserProfile = ({data} : {data : UserProps}) => {
   return (

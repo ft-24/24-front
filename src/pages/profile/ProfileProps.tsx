@@ -20,24 +20,6 @@ export class Item {
 }
 
 export class UserProps {
-  /*
-  intra_id: string;
-  nickname: string;
-  profile_url: string;
-  stats: Array<Item>;
-  matching_history: Map<string, RecordProps>;
-
-  constructor (
-    i: string, n: string, p: string,
-    stats: Array<Item>,
-    matching: Map<string, RecordProps>
-  ) {
-    this.intra_id = i;
-    this.nickname = n;
-    this.profile_url = p;
-    this.stats = stats;
-    this.matching_history = new Map<string, RecordProps>();
-  }*/
   Stats: Map<string, number>;
   Record: Map<string, RecordProps>;
   nickname: string;
