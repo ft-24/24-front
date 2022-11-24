@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/Router";
 
+import { AuthContextProvider } from "./context/AuthContext";
 import GlobalStyle from "./GlobalStyle";
 
 const rootElement = document.getElementById("root");
@@ -13,6 +14,8 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <GlobalStyle />
+    <AuthContextProvider>
     <RouterProvider router={router} />
+    </AuthContextProvider>
   </React.StrictMode>
 );
