@@ -1,30 +1,48 @@
 import styled from "styled-components";
+import PlayerInfo from "./PlayerInfo";
 
-const MyCard = styled.div`
+type DynamicColor = {
+	color: string;
+}
+
+const CardWrapper = styled.div<DynamicColor>`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-content: center;
 	position: relative;
-	width: 200px;
 	max-width: 30vw;
-	max-height: 20vh;
-	border-radius: 0.2rem;
+	border-radius: 0.5rem;
 	padding: 1rem;
 	margin: 1rem;
-	background-color: var(--purple);
-	color: white;
+	background-color: var(${props=>props.color});
+	color: ${props=>props.color == "--yellow" ? "black" : "white"};
 `
-const OpponentCard = styled.div`
-	position: relative;
-	width: 200px;
-	max-width: 30vw;
-	max-height: 20vh;
-	border-radius: 0.2rem;
-	padding: 1rem;
-	margin: 1rem;
-	background-color: var(--yellow);
-	color: black;
-`
+
+type DynamicSize = {
+	size: string;
+}
+
+const ProfileImg = styled.img<DynamicSize>`
+  display: block;
+	margin: 20px;
+	width: ${props=>props.size};
+`;
+
+const NicknameText = styled.div`
+	text-align: center;
+	font-size: 1.5rem;
+	font-family: NanumSquareB;
+`;
+
+const IntraText = styled.div<DynamicColor>`
+	text-align: center;
+	font-size: 1rem;
+	color: var(${props=>props.color});
+	font-family: NanumSquareR;
+`;
 
 const SpectatorCard = styled.div`
-	position: relative;
 	max-width: 40%;
 	border-radius: 2rem;
 	padding: 1rem 2rem;
@@ -34,21 +52,29 @@ const SpectatorCard = styled.div`
 	align-self: flex-start;
 `
 
-const PlayerCard = (props: {type: string, intra: string}) => {
+const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 	const RenderCard = () => {
 		switch(props.type)
 		{
 			case "me":	
 				return (
-				<MyCard>{props.intra}</MyCard>
+					<CardWrapper color="--purple">
+						<ProfileImg src={props.player.image} size="100px"/>
+						<NicknameText>{props.player.nickname}</NicknameText>
+						<IntraText color="--light-light-gray">{props.player.intra}</IntraText>
+					</CardWrapper>
 				);
 			case "opponent":
 				return (
-				<OpponentCard>{props.intra}</OpponentCard>
+					<CardWrapper color="--yellow">
+						<ProfileImg src={props.player.image} size="100px"/>
+						<NicknameText>{props.player.nickname}</NicknameText>
+						<IntraText color="--light-gray">{props.player.intra}</IntraText>
+					</CardWrapper>
 				);
 			case "spectator":
 				return (
-				<SpectatorCard>{props.intra}</SpectatorCard>
+					<SpectatorCard>{props.player.intra}</SpectatorCard>
 				);
 		} 
 	}
