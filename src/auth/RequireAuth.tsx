@@ -1,15 +1,10 @@
-import { useState ,useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useAuthState } from "../context/AuthHooks";
 
-const RequireAuth = ({children} : {children : JSX.Element}) => {
-  const [isAuthorized, setIsAuthorized] = useState(true);
-  const location = useLocation();
-  useEffect(()=>{
-    console.log("changed location");
-    if (!localStorage.getItem('token'))
-      setIsAuthorized(false);
-  },[location]);
-  return isAuthorized ? children : <Navigate to="/login" replace={true} />
+const RequireAuth = ({ children }: { children: JSX.Element }) => {
+  const { token } = useAuthState();
+  if (!token) return <Navigate to="/login" replace={true} />;
+  return children;
 };
 
 export default RequireAuth;
