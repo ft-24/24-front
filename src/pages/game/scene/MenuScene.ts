@@ -2,6 +2,7 @@ import Constants from "../Constants"
 
 import Scene from "../lib/Scene";
 import MainScene from "./Mainscene";
+import { Socket } from "socket.io-client";
 
 export namespace Pong {
 
@@ -9,7 +10,7 @@ export namespace Pong {
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MainScene(this.ctx));
+      this.gameContext.loadScene(new MainScene(this.ctx, this.socket));
     }
 
     draw() {

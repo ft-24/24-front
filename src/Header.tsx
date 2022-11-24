@@ -96,7 +96,7 @@ const Header = () => {
           <StyledLink to="/profile">{intra ? intra : 'noname'}</StyledLink>
         </Profile>
         <Logo>
-          <StyledLink to="/main">로 고</StyledLink>
+          <StyledLink to="/home">로 고</StyledLink>
         </Logo>
         <Friends onClick={() => setToggle(!toggle)}>친 구</Friends>
         <motion.nav

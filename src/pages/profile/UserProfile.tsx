@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { UserProps } from "./ProfileProps";
+import { Item, UserProps } from "./ProfileProps";
 import axios from "axios";
 
 const ProfileImg = styled.img`
@@ -14,6 +14,18 @@ const ProfileImg = styled.img`
 `;
 
 const ProfileTitle = styled.h1`
+  margin-top: 0.25em;
+  font-size: 8em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba( 0, 0, 0, 0 );
+`;
+
+const ProfileStat = styled.h2`
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   font-size: 4em;
   display: flex;
   flex-direction: column;
@@ -26,14 +38,40 @@ const Input = styled.input`
   display: none;
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  line-height: 2.2em;
+  padding: 0 0.62em;
+  border: 1px solid #666;
+  border-radius: 0.25em;
+  background-color: --black;
+  box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+`;
+
 const Label = styled.label`
-  height: 3rem;
-  background: var(--white);
-  color: var(--dark-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  line-height: 2.2em;
+  padding: 0 0.62em;
+  border: 1px solid #666;
+  border-radius: 0.25em;
+  background-color: --black;
+  box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+`;
+
+const Stat = styled.div`
+  margin: 0.5em 0.25em 0 0.25em;
+  height: auto;
+  color: var(--light-gray);
 `
 
-const ProfileName = (name : {name : string} ) => {
-  const [nickname, setNickname] = React.useState(name.name ?? "default");
+const ProfileName = ({name} : {name : string} ) => {
+  const [nickname, setNickname] = React.useState(name ?? "default");
   const [isChange, setIsChange] = React.useState(false);
 
   const [temp, setTemp] = React.useState("");
@@ -44,7 +82,7 @@ const ProfileName = (name : {name : string} ) => {
     <>
       <ProfileTitle>{ nickname }</ProfileTitle>
         { isChange ? <input id="input_name" type="text" onChange={handleChange}/> : null }
-      <button onClick={() => {
+      <Button onClick={() => {
         if (isChange === false) {
           setIsChange(prev => !prev);
         } else {
@@ -52,7 +90,7 @@ const ProfileName = (name : {name : string} ) => {
           // TODO : axios.set();
           setIsChange(prev => !prev)
         }
-      }}>{isChange ? "submit" : "change nickname"}</button>
+      }}>{isChange ? "submit" : "change nickname"}</Button>
     </>
   );
 }
@@ -72,20 +110,48 @@ const ProfileImage = ({data} : {data : UserProps}) => {
   }
 
   return (
-    <div>
+    <>
       <ProfileImg src={ image } alt="not fount"></ProfileImg>
       <Input type='file' id='ProfileImg' accept='image/*' name='file' onChange={onImgChange}></Input>
-      <Label htmlFor="ProfileImg">Click me to upload image</Label>
-    </div>
+      <Label htmlFor="ProfileImg">Upload image</Label>
+    </>
   );
 }
 
-const UserProfile = ({data} : {data : UserProps}) => {
+const ProfileStats = ({data} : {data : UserProps}) => {
+  const [rank, setRank] = React.useState(data.rank);
+  const [stat, setStat] = React.useState(data.Stats);
+
+  return (
+    <>
+    <ProfileStat> {"Rank : " + rank}</ProfileStat>
+    <ProfileStat> {"Win : " + stat.get("totalWin") + "  Lose : " + stat.get("totalLose")}</ProfileStat>
+    </>
+  );
+}
+/*
+const ProfileStats = ({data} : {data : UserProps}) => {
   return (
     <div>
+      {
+        data.stats.map((item : Item, index) => (
+          <>
+            {console.log(item.label + ":" + item.value)}
+            <Stat>{item.label} : {item.value}</Stat>
+          </>
+        ))
+      }
+    </div>
+  )
+}*/
+
+const UserProfile = ({data} : {data : UserProps}) => {
+  return (
+    <>
       <ProfileName name={data.nickname} />
       <ProfileImage data={data} />
-    </div>
+      <ProfileStats data={data} />
+    </>
   );
 }
 

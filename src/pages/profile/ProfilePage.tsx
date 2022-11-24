@@ -48,7 +48,6 @@ const Profile = () => {
     <BackGround>
       <Layout>
       <UserProfile data={userData} />
-      <Layout>
       { userData.Record && (Array.from(userData.Record.values()).map((value) => <RecordForm
         key = {value.time}
         time = {value.time}
@@ -59,7 +58,6 @@ const Profile = () => {
         opscore = {value.opscore}
       />))
       }
-      </Layout>
       </Layout>
     </BackGround>
   );
