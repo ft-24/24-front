@@ -11,19 +11,32 @@ import GamePage from "../pages/game/PongGame";
 import Social from "../pages/social";
 import Lobby from "../pages/lobby";
 import TFAPage from "../auth/TFAPage";
+import Restrict from "../auth/Restrict";
 
 const router = createBrowserRouter([
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Restrict>
+        <Login />
+      </Restrict>
+    ),
   },
   {
     path: "/auth",
-    element: <Auth />,
+    element: (
+      <Restrict>
+        <Auth />,
+      </Restrict>
+    ),
   },
   {
     path: "/tfa",
-    element: <TFAPage />,
+    element: (
+      <Restrict>
+        <TFAPage />,
+      </Restrict>
+    ),
   },
   {
     path: "/",
@@ -31,7 +44,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
