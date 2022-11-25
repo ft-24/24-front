@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Item, UserProps } from "./ProfileProps";
 import axios from "axios";
+import { UserProps } from "./ProfileProps";
 import { useAuthState } from "../../context/AuthHooks";
 
 const ProfileImg = styled.img`
@@ -17,17 +17,6 @@ const ProfileImg = styled.img`
 const ProfileTitle = styled.h1`
   margin-top: 0.25em;
   font-size: 8em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba( 0, 0, 0, 0 );
-`;
-
-const ProfileStat = styled.h2`
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  font-size: 4em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,7 +81,7 @@ const ProfileName = ({name} : {name : string} ) => {
       console.log("set profile name: " + response.status);
       setNickname(name);
     }).catch (error => {
-      alert('image upload failed')
+      alert('image upload failed');
     });
   }
 
@@ -112,8 +101,8 @@ const ProfileName = ({name} : {name : string} ) => {
   );
 }
 
-const ProfileImage = ({data} : {data : UserProps}) => {
-  const [image, setImage] = React.useState(data.profimgdir);
+const ProfileImage = ({profile_url} : {profile_url : string}) => {
+  const [image, setImage] = React.useState(profile_url);
   const { token } = useAuthState();
 
   const setProfileImage = async (file: any) => {
@@ -131,7 +120,7 @@ const ProfileImage = ({data} : {data : UserProps}) => {
       const url = URL.createObjectURL(file);
       setImage(url);
     }).catch(error => {
-      alert('image upload failed')
+      alert('image upload failed');
     });
   }
 
@@ -151,24 +140,11 @@ const ProfileImage = ({data} : {data : UserProps}) => {
   );
 }
 
-const ProfileStats = ({data} : {data : UserProps}) => {
-  const [rank, setRank] = React.useState(data.rank);
-  const [stat, setStat] = React.useState(data.Stats);
-
-  return (
-    <>
-    <ProfileStat> {"Rank : " + rank}</ProfileStat>
-    <ProfileStat> {"Win : " + stat.get("totalWin") + "  Lose : " + stat.get("totalLose")}</ProfileStat>
-    </>
-  );
-}
-
 const UserProfile = ({data} : {data : UserProps}) => {
   return (
     <>
       <ProfileName name={data.nickname} />
-      <ProfileImage data={data} />
-      <ProfileStats data={data} />
+      <ProfileImage profile_url={data.profile_url} />
     </>
   );
 }

@@ -9,33 +9,27 @@ export interface RecordProps {
   time: number;
 }
 
-export class Item {
-  label: string;
-  value: number;
-
-  constructor(l: string, v: number) {
-    this.label = l;
-    this.value = v;
-  }
-}
-
 export class UserProps {
-  Stats: Map<string, number>;
-  Record: Map<string, RecordProps>;
+  intra_id: string;
   nickname: string;
-  profimgdir: string;
-  rank: number;
+  profile_url: string;
+  two_factor: boolean;
+  stats: Map<string, number>;
+  matching_history: Array<RecordProps>;
 
   constructor (
-    stats:  Map<string, number>,
-    record: Map<string, RecordProps>,
+    intra_id: string,
     nickname: string,
-    profimgdir: string,
-    rank: number,) {
-    this.Stats = new Map(Object.entries(stats));
-    this.Record = new Map(Object.entries(record));
+    profile_url: string,
+    two_factor: boolean,
+    stats:  Map<string, number>,
+    matching_history: Array<RecordProps>,
+    ) {
+    this.intra_id = intra_id;
     this.nickname = nickname;
-    this.profimgdir = profimgdir;
-    this.rank = rank;
+    this.profile_url = profile_url;
+    this.two_factor = two_factor;
+    this.stats = new Map(Object.entries(stats));
+    this.matching_history = [...matching_history];
   }
 }

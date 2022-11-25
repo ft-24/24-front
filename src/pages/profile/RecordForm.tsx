@@ -55,12 +55,12 @@ const My = styled.div`
 
 const Score = styled.div`
   grid-area: score;
-  font-size: 3rem;
+  font-size: 1rem;
 `
 
 const Opp = styled.div`
   grid-area: opp;
-  font-size: 3rem;
+  font-size: 1rem;
 `
 
 const Result = styled.div`
