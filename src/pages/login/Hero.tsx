@@ -113,7 +113,7 @@ const Hero = ({onClickHandler} : any) => {
           </Article>
         </ArticleWrapper>
       </SectionWrapper>
-      <Button href="http://localhost:3000/login">
+      <Button href="http://10.12.8.7:3000/login">
         START
       </Button>
       <Scroll animate={{ y: [0, 42, 0] }} transition={{ repeat: Infinity }}
