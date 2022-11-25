@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   vertical-align: middle;
-  padding: 10px;
+  padding: 10px 1em;
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -53,7 +53,7 @@ const StyledLink = styled(Link)`
 `
 
 const variants = {
-  open: { opacity: 1, x:10, y:-10 },
+  open: { opacity: 1, x:20, y:-10 },
   closed: { opacity: 0, x:20, y:-10 },
 }
 
