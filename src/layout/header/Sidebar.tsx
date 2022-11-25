@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuthState } from '../../context/AuthHooks';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -37,7 +38,7 @@ const OnlineText = styled.div`
   padding: 0.2em 0 0 0;
   line-height: 1em;
   font-size: 0.8em;
-  font-color: var(--white);
+  color: var(--white);
 `;
 
 const OfflineText = styled.div`
@@ -55,73 +56,59 @@ const Circle = styled.div<dynamicColor>`
   background-color: ${props=>props.color};
 `;
 
-class Item {
-  nickname: string;
-  online: boolean;
-
-  constructor(n: string, o: boolean) {
-    this.nickname = n;
-    this.online = o;
-  }
+type Friend = {
+  nickname: string,
+  online: boolean,
 }
 
 const Sidebar = () => {
-  let friendsList = new Array<Item>(0);
+  const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
+  const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
+  const { token } = useAuthState();
 
-  friendsList.push(new Item("sunhkim", true));
-  friendsList.push(new Item("yoahn", false));
-  friendsList.push(new Item("seonhjeo", true));
-  friendsList.push(new Item("chanhuil", false));
-  friendsList.push(new Item("young-ch", true));
-
-  const getData = async() => {
-    let token = localStorage.getItem('token');
-    if (token) {
-      console.log("getData() in Sidebar Called");
+  const getFriends = async () => {
       try {
-        const response = await axios({
-          url: 'http://user/friends',
-          method: 'get',
-          headers: { 'token': 'bearer ' + token }
+        const response = await axios.get('http://10.12.8.7:3000/user/friends',{
+          headers: {
+            Authorization:"Bearer " + token
+          }
         });
-        friendsList = response.data;
+        const Friends = await response.data;
+        const onlineArray : Friend[] = [];
+        const offlineArray : Friend[] = [];
+        for (let friend of Friends) {
+          friend.online ? onlineArray.push(friend) : offlineArray.push(friend);
+        }
+        setOnlineFriends([...onlineArray]);
+        setOfflineFriends([...offlineArray]);
       } catch (error) {
-        console.error("[Error] frends List Get Failed!");
+        console.log(error);
       }
-    }
-  };
+  }
 
-  useEffect(() => {
-    getData();
+  useEffect(()=>{
+    getFriends();
   }, []);
 
   return (
     <Wrapper className='sidebar'>
       <OnlineList>
         {
-          friendsList.map((item : Item, index) => (
-            <>
-            {item.online ?
+          onlineFriends.map((item : Friend, index) => (
               <FriendWrapper key={index}>
                 <Circle color='var(--yellow)' />
                 <OnlineText>{item.nickname}</OnlineText>
               </FriendWrapper>
-              : null}
-            </>
           ))
         }
       </OnlineList>
       <OfflineList>
-        {
-          friendsList.map((item : Item, index) => (
-            <>
-            {!item.online ?
-              <FriendWrapper>
+      {
+          offlineFriends.map((item : Friend, index) => (
+              <FriendWrapper key={index}>
                 <Circle color='var(--purple)' />
                 <OfflineText>{item.nickname}</OfflineText>
               </FriendWrapper>
-              : null}
-            </>
           ))
         }
       </OfflineList>
