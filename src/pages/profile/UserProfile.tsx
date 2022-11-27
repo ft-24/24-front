@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Item, UserProps } from "./ProfileProps";
 import axios from "axios";
+import { UserProps } from "./ProfileProps";
+import { useAuthState } from "../../context/AuthHooks";
 
 const ProfileImg = styled.img`
   display: flex;
@@ -16,17 +17,6 @@ const ProfileImg = styled.img`
 const ProfileTitle = styled.h1`
   margin-top: 0.25em;
   font-size: 8em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: rgba( 0, 0, 0, 0 );
-`;
-
-const ProfileStat = styled.h2`
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  font-size: 4em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,13 +61,30 @@ const Stat = styled.div`
 `
 
 const ProfileName = ({name} : {name : string} ) => {
-  const [nickname, setNickname] = React.useState(name ?? "default");
+  const [nickname, setNickname] = React.useState(name ?? "noname");
   const [isChange, setIsChange] = React.useState(false);
+  const { token } = useAuthState();
 
   const [temp, setTemp] = React.useState("");
   const handleChange = (event: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
     setTemp(event.currentTarget.value);
   }
+
+  const setProfileName = async (name: string) => {
+    await axios.put('http://10.12.8.7:3000/user/profile/nickname', {
+      nickname: name
+    }, {
+          headers: {
+            Authorization:"Bearer " + token
+          }
+    }).then (response => {
+      console.log("set profile name: " + response.status);
+      setNickname(name);
+    }).catch (error => {
+      alert('image upload failed');
+    });
+  }
+
   return (
     <>
       <ProfileTitle>{ nickname }</ProfileTitle>
@@ -86,8 +93,7 @@ const ProfileName = ({name} : {name : string} ) => {
         if (isChange === false) {
           setIsChange(prev => !prev);
         } else {
-          setNickname(temp);
-          // TODO : axios.set();
+          setProfileName(temp);
           setIsChange(prev => !prev)
         }
       }}>{isChange ? "submit" : "change nickname"}</Button>
@@ -95,17 +101,33 @@ const ProfileName = ({name} : {name : string} ) => {
   );
 }
 
-const ProfileImage = ({data} : {data : UserProps}) => {
+const ProfileImage = ({profile_url} : {profile_url : string}) => {
+  const [image, setImage] = React.useState(profile_url);
+  const { token } = useAuthState();
 
-  const [image, setImage] = React.useState(data.profimgdir);
+  const setProfileImage = async (file: any) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    await axios.put('http://10.12.8.7:3000/user/profile/image'
+      , formData
+      , {
+          headers: {
+            Authorization:"Bearer " + token
+          }
+    }).then(response => {
+      console.log("set profile image: " + response.status);
+      const url = URL.createObjectURL(file);
+      setImage(url);
+    }).catch(error => {
+      alert('image upload failed');
+    });
+  }
 
   const onImgChange = async (event: any) => {
     const file = event.currentTarget.files[0];
     if (file !== undefined) {
-      setImage(URL.createObjectURL(file));
-      const formData = new FormData();
-      formData.append('file', event.currentTarget.files[0]);
-      const response = await axios.putForm(" ", formData);
+      setProfileImage(file);
     }
   }
 
@@ -118,39 +140,11 @@ const ProfileImage = ({data} : {data : UserProps}) => {
   );
 }
 
-const ProfileStats = ({data} : {data : UserProps}) => {
-  const [rank, setRank] = React.useState(data.rank);
-  const [stat, setStat] = React.useState(data.Stats);
-
-  return (
-    <>
-    <ProfileStat> {"Rank : " + rank}</ProfileStat>
-    <ProfileStat> {"Win : " + stat.get("totalWin") + "  Lose : " + stat.get("totalLose")}</ProfileStat>
-    </>
-  );
-}
-/*
-const ProfileStats = ({data} : {data : UserProps}) => {
-  return (
-    <div>
-      {
-        data.stats.map((item : Item, index) => (
-          <>
-            {console.log(item.label + ":" + item.value)}
-            <Stat>{item.label} : {item.value}</Stat>
-          </>
-        ))
-      }
-    </div>
-  )
-}*/
-
 const UserProfile = ({data} : {data : UserProps}) => {
   return (
     <>
       <ProfileName name={data.nickname} />
-      <ProfileImage data={data} />
-      <ProfileStats data={data} />
+      <ProfileImage profile_url={data.profile_url} />
     </>
   );
 }
