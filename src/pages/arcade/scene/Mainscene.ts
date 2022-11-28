@@ -2,39 +2,35 @@ import Scene from "../lib/Scene"
 import Constants from "../Constants"
 import Ball from "../objects/Ball";
 import Player from "../objects/Player";
+import HumanPlayer from "../objects/HumanPlayer"
 import EndScene from "./EndScene";
-import GraphicalElement from "../lib/GraphicalElement"
-import { Socket } from 'socket.io-client';
-import PongIO from "../lib/IO";
-import { Direction } from "../lib/Directions";
+import GraphicalElement from "../lib/GraphicalElement";
 
 namespace Pong {
   export class MainScene extends Scene {
 
     private playerPadding = Constants.Game.PLAYER_PADDING;
-    private input: PongIO.Input;
     private ball: Ball;
-    private player1: Player;
+    private player1: HumanPlayer;
     private player2: Player;
     private winningScore = Constants.Game.WINNING_SCORE;
 
     private objectsInScene: Array<GraphicalElement> = [];
 
-    constructor(ctx: CanvasRenderingContext2D, socket: Socket) {
-      super(ctx, socket);
+    constructor(ctx: CanvasRenderingContext2D) {
+      super(ctx);
       let {width, height} = ctx.canvas;
       let centerH = width / 2;
       let centerV = height / 2;
 
-      // IO object
-      this.input = new PongIO.Input(Direction.NONE, socket);
       // Position objects
       this.ball = new Ball(centerH, centerV);
-      this.player1 = new Player(1, this.playerPadding, centerV, this.ball);
+      this.player1 = new HumanPlayer(this.playerPadding,
+                            centerV, this.ball);
 
       let player2Offset = ctx.canvas.width
                             - (this.playerPadding + this.player1.paddleWidth)
-      this.player2 = new Player(2, player2Offset, centerV, this.ball);
+      this.player2 = new HumanPlayer(player2Offset, centerV, this.ball);
 
       this.objectsInScene.push(this.player1);
       this.objectsInScene.push(this.player2);
@@ -61,39 +57,36 @@ namespace Pong {
       ctx.closePath();
     }
 
-    private drawScores(ctx: CanvasRenderingContext2D, recvData: PongIO.GameRecvData) {
+    private drawScores(ctx: CanvasRenderingContext2D) {
       // Useful variables
       let {width, height} = ctx.canvas;
 
       ctx.font = `${Constants.Text.SCORE_SIZE} ${Constants.Text.SCORE_FONT}`;
       ctx.fillStyle = Constants.Colours.SCORE_COLOUR;
-      ctx.fillText(recvData.score.p1.toString(), width / 4, height / 2);
-      ctx.fillText(recvData.score.p2.toString(), 3 * (width / 4), height / 2);
+      ctx.fillText(this.player1.getScore().toString(), width / 4, height / 2);
+      ctx.fillText(this.player2.getScore().toString(), 3 * (width / 4), height / 2);
     }
 
     getInput() {
+
     }
 
-    draw(recvData: PongIO.GameRecvData) {
+    draw() {
       let ctx = this.ctx;
-
       this.drawBackground(ctx);
-      if (recvData !== undefined) {
-        this.drawScores(ctx, recvData);
-        this.objectsInScene.forEach(object => object.draw(this.ctx, recvData));
-      }
-      
+      this.drawScores(ctx);
+      this.objectsInScene.forEach(object => object.draw(this.ctx));
     }
 
     load() {
-      this.input.bind();
+      this.player1.bind();
     }
 
     unload() {
-      this.input.unbind();
+      this.player1.unbind();
     }
 
-    update(deltaTime: number) {
+    update() {
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
           this.player2.givePoint();
@@ -104,12 +97,12 @@ namespace Pong {
       }
 
       if (this.player1.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player1), { winner: this.player1 });
+        this.gameContext.loadScene(new EndScene(this.ctx, this.player1), { winner: this.player1 });
       } else if (this.player2.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player2), { winner: this.player2 });
+        this.gameContext.loadScene(new EndScene(this.ctx, this.player2), { winner: this.player2 });
       } else {
         // Draw remaining objects
-        this.objectsInScene.forEach(object => object.update(deltaTime));
+        this.objectsInScene.forEach(object => object.update(this.ctx));
       }
     }
 

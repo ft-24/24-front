@@ -6,6 +6,7 @@ export namespace Pong {
   export class HumanPlayer extends Player {
 
     private handleKeydown = (evt: KeyboardEvent) => {
+      console.log(evt.key);
       switch (evt.key) {
         case Utils.KeyCode.UP_ARROW:
           this.direction = Direction.UP;
@@ -15,8 +16,6 @@ export namespace Pong {
           break;
         default:
           this.direction = Direction.NONE;
-        
-        
       }
     };
 

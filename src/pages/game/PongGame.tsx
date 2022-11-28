@@ -1,7 +1,6 @@
-import {useRef, useState, useEffect, useContext, useCallback, useMemo } from "react";
+import {useRef, useState, useEffect} from "react";
 
 import styled from 'styled-components';
-import { io, Socket } from 'socket.io-client';
 import {gsocket} from "../../layout/SocketContext";
 
 import ErrorPage from "../../ErrorPage";
@@ -28,10 +27,6 @@ const GameBoard = styled.canvas`
   right: 0;
   margin:auto;
 `;
-
-const InitGame = (ctx: CanvasRenderingContext2D, socket: Socket) => {
-  return new GameEngine(ctx, socket);
-}
 
 const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
@@ -74,15 +69,6 @@ const PongGame = () => {
       if (recvData !== undefined && recvData.ball !== undefined && game !== undefined) {
         game.draw(recvData);
       }
-  
-      // make input
-      const callback = () => {
-      if (game !== undefined) {
-        game.getInput();
-      }
-        requestAnimationFrame(callback);
-      };
-      requestAnimationFrame(callback);
     } else {
       <ErrorPage/>
     }
