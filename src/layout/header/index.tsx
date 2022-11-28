@@ -5,6 +5,7 @@ import axios from "axios";
 import ProfileButton from "./ProfileButton";
 import LogoButton from "./LogoButton";
 import FriendsButton from "./FriendsButton";
+import { Url } from "../../constants/global";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -33,7 +34,7 @@ const Header = () => {
       console.log("getData() in Header Called");
       try {
         const response = await axios({
-          url: "http://user/friends",
+          url: Url + 'user/friends',
           method: "get",
           headers: { token: "bearer " + token },
         });
@@ -57,7 +58,7 @@ const Header = () => {
   return (
     <HeadBar>
       <div>
-        <ProfileButton intra={intra} />
+        <ProfileButton />
       </div>
       <div>
         <LogoButton />

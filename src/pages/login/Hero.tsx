@@ -113,7 +113,7 @@ const Hero = ({onClickHandler} : any) => {
           </Article>
         </ArticleWrapper>
       </SectionWrapper>
-      <Button href="https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-8da575687fd06cd856e002bd2352a348072433d4faec75f47bab2925ef6be4c2&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth&response_type=code">
+      <Button href="http://10.12.8.7:3000/login">
         START
       </Button>
       <Scroll animate={{ y: [0, 42, 0] }} transition={{ repeat: Infinity }}

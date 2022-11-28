@@ -29,25 +29,27 @@ const SpectatorCard = styled.div`
 	border-radius: 2rem;
 	padding: 1rem 2rem;
 	margin: 1rem 0.5rem;
-	background-color: var(--white);
+	background-color: white;
 	color: black;
 	align-self: flex-start;
 `
 
 const PlayerCard = (props: {type: string, intra: string}) => {
 	const RenderCard = () => {
-		if (props.type == "me") {
-			return (
-			<MyCard>{props.intra}</MyCard>
-			);
-		} else if (props.type == "opponent") {
-			return (
-			<OpponentCard>{props.intra}</OpponentCard>
-			);
-		} else if (props.type == "spectator") {
-			return (
-			<SpectatorCard>{props.intra}</SpectatorCard>
-			);
+		switch(props.type)
+		{
+			case "me":	
+				return (
+				<MyCard>{props.intra}</MyCard>
+				);
+			case "opponent":
+				return (
+				<OpponentCard>{props.intra}</OpponentCard>
+				);
+			case "spectator":
+				return (
+				<SpectatorCard>{props.intra}</SpectatorCard>
+				);
 		} 
 	}
 

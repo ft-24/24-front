@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useLocation, Navigate ,useNavigation } from "react-router-dom";
 
 const InputForm = styled.form`
   display: flex;
@@ -89,15 +91,17 @@ const Bar = styled.span`
   }
 `;
 
-const TFAInputForm = ({setAuthState} : any) => {
+const TFAInputForm = ({setAuthState, setUserInput, setIsAuthFail} : any) => {
   const [inputValue, setInputValue] = useState("");
   const [wrongForm, setWrongForm] = useState(false);
   const [isValid, setIsValid] = useState(false);
+
 
   const checkValid = () => {
     if (inputValue.length === 6 && inputValue.match(/^[0-9]+$/)) {
       setIsValid(true);
       setWrongForm(false);
+      setIsAuthFail("none");
     } else if (inputValue == "") {
       setWrongForm(false);
     } else {
@@ -105,8 +109,9 @@ const TFAInputForm = ({setAuthState} : any) => {
       setIsValid(false);
     }
   };
+  
   useEffect(() => {
-    let time = setTimeout(checkValid, 1000);
+    let time = setTimeout(checkValid, 500);
     return (()=>{
       clearTimeout(time);
     })
@@ -116,10 +121,9 @@ const TFAInputForm = ({setAuthState} : any) => {
     setInputValue(e.target.value);
   };
 
-  const handleSubmmit = (e: any) => {
+  const handleSubmmit = async (e: any) => {
     e.preventDefault();
-    localStorage.setItem("2facode", inputValue);
-	setAuthState("Loading");
+    setUserInput(inputValue);
   };
 
   return (

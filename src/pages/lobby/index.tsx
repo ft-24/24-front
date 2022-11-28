@@ -47,7 +47,7 @@ const Lobby = () => {
 				</MainSection>
 				{info ? (
 					<InfoSection>
-						<GameInfo setInfo={setInfo} title={title} />
+						<GameInfo setInfo={setInfo} setLocate={setLocate} title={title} />
 					</InfoSection>
 				) : null}
 			</Container>

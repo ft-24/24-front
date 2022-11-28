@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
+import { useAuthState } from "../context/AuthHooks";
 
-const RequireAuth = ({children} : {children : JSX.Element}) => {
-  if (!localStorage.getItem('code'))
-      return  <Navigate to="/login" replace={true} />
+const RequireAuth = ({ children }: { children: JSX.Element }) => {
+  const { token } = useAuthState();
+  if (!token) return <Navigate to="/login" replace={true} />;
   return children;
 };
 
