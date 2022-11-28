@@ -8,6 +8,7 @@ import UserProfile from "./UserProfile";
 import RecordForm from "./RecordForm";
 import LoadingPage from "../../LoadingPage";
 import UserStats from './UserStats';
+import { Url } from '../../constants/Global';
 
 const BackGround = styled.div`
   min-height: 100vh;
@@ -33,7 +34,7 @@ const Profile = () => {
   const [tfa, setTfa] = useState(true);
 
   const getData = async() => {
-    await axios.get('http://10.12.8.7:3000/user/profile', {
+    await axios.get(Url + 'user/profile', {
       headers: {
         Authorization:"Bearer " + token
       }
@@ -46,7 +47,7 @@ const Profile = () => {
   }
 
   const onClickTfa = async () => {
-    await axios.put('http://10.12.8.7:3000/user/profile/tfa', {
+    await axios.put(Url + 'user/profile/tfa', {
         two_auth: tfa
     }, {
           headers: {
