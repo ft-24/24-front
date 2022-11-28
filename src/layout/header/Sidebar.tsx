@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { Url } from '../../constants/global';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -80,7 +81,7 @@ const Sidebar = () => {
       console.log("getData() in Sidebar Called");
       try {
         const response = await axios({
-          url: 'http://user/friends',
+          url: Url + 'user/friends',
           method: 'get',
           headers: { 'token': 'bearer ' + token }
         });

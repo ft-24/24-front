@@ -5,6 +5,7 @@ import { UserProps } from './pages/profile/ProfileProps';
 import styled from 'styled-components';
 import axios from 'axios'
 import Sidebar from './components/Sidebar';
+import { Url } from './constants/global';
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -67,7 +68,7 @@ const Header = () => {
       console.log("getData() in Header Called");
       try {
         const response = await axios({
-          url: 'http://user/friends',
+          url: Url + 'user/friends',
           method: 'get',
           headers: { 'token': 'bearer ' + token }
         });

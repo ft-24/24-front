@@ -1,7 +1,8 @@
 import React, {createContext, useEffect} from "react";
 import { io, Socket } from 'socket.io-client';
+import { Url } from "../constants/global";
 
-const gsocket = io('http://10.15.3.5:3000/game', { transports: ['websocket'] });//createContext<Socket | undefined>(undefined);
+const gsocket = io(Url + 'game', { transports: ['websocket'] });//createContext<Socket | undefined>(undefined);
 
 const SocketContext = () => {
   useEffect(() => {
@@ -11,7 +12,7 @@ const SocketContext = () => {
   }, []);
   return (
     <>
-      {/* <gsocket.Provider value={io('http://10.15.8.4:3000/game', { transports: ['websocket'] })}>
+      {/* <gsocket.Provider value={io(Url + 'game', { transports: ['websocket'] })}>
         <GamePage />
       </gsocket.Provider> */}
     </>
