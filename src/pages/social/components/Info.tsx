@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import SectionHeader from "../../../components/SectionHeader";
+import IconButton from "./IconButton";
 
 const Container = styled.div`
 	width: 100%;
@@ -25,7 +26,7 @@ const ProfileSection = styled.div`
 
 const IconSection = styled.div`
 	background: var(--light-gray);
-	border-radius: 1rem;
+	border-radius: 1rem 1rem 0 0;
 	width: 100%;
 	flex: 1;
 	display: flex;
@@ -34,6 +35,18 @@ const IconSection = styled.div`
 `
 
 const Info = ({setIsInfoOn} : any) => {
+
+	const onClickAdd = () => {
+		console.log("onClickAdd");
+	}
+
+	const onClickPlay = () => {
+		console.log("onClickPlay");
+	}
+
+	const onClickBlock = () => {
+		console.log("onClickBlock");
+	}
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
@@ -47,9 +60,9 @@ const Info = ({setIsInfoOn} : any) => {
 				<p>🎖️ 100</p>
 			</ProfileSection>
 			<IconSection>
-				<Avatar.txt size="3">❤️</Avatar.txt>
-				<Avatar.txt size="3">🎮</Avatar.txt>
-				<Avatar.txt size="3">❌</Avatar.txt>
+				<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
 		</Container>
 	)
