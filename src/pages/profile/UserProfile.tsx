@@ -1,4 +1,4 @@
-import React from "react";
+import { SetStateAction, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { UserProps } from "./ProfileProps";
@@ -61,12 +61,13 @@ const Stat = styled.div`
 `
 
 const ProfileName = ({name} : {name : string} ) => {
-  const [nickname, setNickname] = React.useState(name ?? "noname");
-  const [isChange, setIsChange] = React.useState(false);
+  const [nickname, setNickname] = useState(name ?? "noname");
+  const [isChange, setIsChange] = useState(false);
+
   const { token } = useAuthState();
 
-  const [temp, setTemp] = React.useState("");
-  const handleChange = (event: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
+  const [temp, setTemp] = useState("");
+  const handleChange = (event: { currentTarget: { value: SetStateAction<string>; }; }) => {
     setTemp(event.currentTarget.value);
   }
 
@@ -102,7 +103,7 @@ const ProfileName = ({name} : {name : string} ) => {
 }
 
 const ProfileImage = ({profile_url} : {profile_url : string}) => {
-  const [image, setImage] = React.useState(profile_url);
+  const [image, setImage] = useState(profile_url);
   const { token } = useAuthState();
 
   const setProfileImage = async (file: any) => {
@@ -140,11 +141,35 @@ const ProfileImage = ({profile_url} : {profile_url : string}) => {
   );
 }
 
+const ProfileTfa = ({isTfaOn} : {isTfaOn : boolean}) => {
+  const [tfa, setTfa] = useState(true);
+  const { token } = useAuthState();
+
+  const onClickTfa = async () => {
+    await axios.put('http://10.12.8.7:3000/user/profile/tfa', {
+        two_auth: tfa
+    }, {
+          headers: {
+            Authorization:"Bearer " + token
+          }
+    }).then(response => {
+      console.log("set tfa: " + response.status);
+    }).catch(error => {
+      alert('image upload failed');
+    });
+  }
+
+  return (
+    <button onClick={() => { onClickTfa() }}>tfa</button>
+  )
+}
+
 const UserProfile = ({data} : {data : UserProps}) => {
   return (
     <>
       <ProfileName name={data.nickname} />
       <ProfileImage profile_url={data.profile_url} />
+      <ProfileTfa isTfaOn={data.two_factor} />
     </>
   );
 }

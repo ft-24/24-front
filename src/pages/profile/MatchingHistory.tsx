@@ -68,7 +68,7 @@ const Result = styled.div`
   font-size: 2rem;
 `
 
-function RecordForm(record: RecordProps) {
+function MatchingHistory(record: RecordProps) {
   const score: string = record.myscore.toString() + ":" + record.opscore.toString();
   const winlose: string = record.result? "win!" : "lose...";
 
@@ -85,4 +85,4 @@ function RecordForm(record: RecordProps) {
   );
 }
 
-export default RecordForm;
+export default MatchingHistory;

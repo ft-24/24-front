@@ -1,4 +1,4 @@
-import RecordForm from "./RecordForm";
+import MatchingHistory from "./MatchingHistory";
 
 export interface RecordProps {
   myname: string;
