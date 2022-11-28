@@ -1,6 +1,6 @@
 import React, {createContext, useEffect} from "react";
 import { io, Socket } from 'socket.io-client';
-import { Url } from "../constants/global";
+import { Url } from "../constants/Global";
 
 const gsocket = io(Url + 'game', { transports: ['websocket'] });//createContext<Socket | undefined>(undefined);
 

@@ -5,7 +5,7 @@ import axios from "axios";
 import ProfileButton from "./ProfileButton";
 import LogoButton from "./LogoButton";
 import FriendsButton from "./FriendsButton";
-import { Url } from "../../constants/global";
+import { Url } from "../../constants/Global";
 
 const HeadBar = styled.div`
   z-index: 8;

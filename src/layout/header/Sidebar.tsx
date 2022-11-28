@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAuthState } from '../../context/AuthHooks';
-import { Url } from '../../constants/global';
+import { Url } from '../../constants/Global';
 
 const Wrapper = styled.div`
   z-index: 4;
