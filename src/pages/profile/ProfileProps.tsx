@@ -10,12 +10,19 @@ export interface historyProps {
   played_at: string;
 }
 
+export interface statsProps {
+  wins: number,
+  loses: number,
+  ladder_score: number,
+  arcade_score: number,
+}
+
 export class UserProps {
   intra_id: string;
   nickname: string;
   profile_url: string;
   two_factor: boolean;
-  stats: Map<string, number>;
+  stats: statsProps;
   matching_history: Array<historyProps>;
 
   constructor (
@@ -23,14 +30,14 @@ export class UserProps {
     nickname: string,
     profile_url: string,
     two_factor: boolean,
-    stats:  Map<string, number>,
+    stats: statsProps,
     matching_history: Array<historyProps>,
     ) {
     this.intra_id = intra_id;
     this.nickname = nickname;
     this.profile_url = profile_url;
     this.two_factor = two_factor;
-    this.stats = new Map(Object.entries(stats));
+    this.stats = stats;
     this.matching_history = [...matching_history];
   }
 }

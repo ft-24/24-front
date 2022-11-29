@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { statsProps } from "./ProfileProps";
 
 const Stat = styled.div`
   margin-top: 0.5em;
@@ -12,12 +13,12 @@ const Stat = styled.div`
   background: rgba( 0, 0, 0, 0 );
 `;
 
-const UserStats = ({stats} : {stats : Map<string, number>}) => {
+const UserStats = ({stats} : {stats : statsProps}) => {
   return (
     <>
-    <Stat>{"Rank: " + stats.get("ladder_score")}</Stat>
-    <Stat>{"Arcade: " + stats.get("arcade_score")}</Stat>
-    <Stat>{"Win: " + stats.get("wins") + " Lose: " + stats.get("loses")}</Stat>
+    <Stat>{"Rank: " + stats.ladder_score}</Stat>
+    <Stat>{"Arcade: " + stats.arcade_score}</Stat>
+    <Stat>{"Win: " + stats.wins.toString() + " Lose: " + stats.loses.toString()}</Stat>
     </>
   );
 }
