@@ -4,14 +4,15 @@ import Header from "./header";
 import Footer from "./Footer";
 import SocketContext from "./SocketContext";
 
-const BasicLayout = () => {
+const OuterLayout = () => {
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <RequireAuth>
+      <>
+        <SocketContext />
+				<Outlet />
+      </>
+    </RequireAuth>
   );
 };
 
-export default BasicLayout;
+export default OuterLayout;
