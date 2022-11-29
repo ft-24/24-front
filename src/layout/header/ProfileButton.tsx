@@ -6,6 +6,7 @@ import { useAuthState } from "../../context/AuthHooks";
 import { Url } from "../../constants/Global";
 
 const Profile = styled.div`
+	width: 15vw;
 `;
 
 const StyledLink = styled(Link)`
@@ -34,7 +35,7 @@ const ProfileButton = () => {
 
   return (
 	<Profile>
-		<StyledLink to="/profile">{nickname}</StyledLink>
+		<StyledLink to="/profile">{nickname ? nickname : 'undefined'}</StyledLink>
 	</Profile>
 	)
 }
