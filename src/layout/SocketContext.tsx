@@ -2,12 +2,12 @@ import React, {createContext, useEffect} from "react";
 import { io, Socket } from 'socket.io-client';
 import { Url } from "../constants/Global";
 
-const gsocket = io(Url + 'game', { transports: ['websocket'] });//createContext<Socket | undefined>(undefined);
+const gsocket = null //io(Url + 'game', { transports: ['websocket'] });//createContext<Socket | undefined>(undefined);
 
 const SocketContext = () => {
   useEffect(() => {
     return ()=>{
-      gsocket.on("message", ()=>{});
+      // gsocket.on("message", ()=>{});
     }
   }, []);
   return (
