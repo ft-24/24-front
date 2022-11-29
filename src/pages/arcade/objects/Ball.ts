@@ -20,7 +20,7 @@ export namespace Pong {
     public dx = 0;
     public dy = 0;
 
-    constructor(public x = 0, public y = 0) {
+    constructor(public x = Constants.Game.CANVAS_WIDTH / 2, public y = Constants.Game.CANVAS_HEIGHT / 2) {
       this.startX = x;
       this.startY = y;
       this.startTime = 0;
@@ -42,7 +42,6 @@ export namespace Pong {
 
     update(ctx: CanvasRenderingContext2D) {
       if (ctx !== undefined) {
-        let maxX = ctx.canvas.width;
         let maxY = ctx.canvas.height;
 
         // ball moving
@@ -50,14 +49,20 @@ export namespace Pong {
         this.y += this.dy * this.speed;
 
         // ball hit wall
-        if (this.x >= maxX || this.x <= 0) {
+        if (this.x <= 0) {
           this.destroyed = true;
           this.dx = 0;
           this.dy = 0;
         }
 
         if (this.y >= maxY || this.y <= 0) {
-          this.dy = -this.dy
+          this.dy = -this.dy;
+          this.speed = this.speed * 1.05;
+          if (this.y >= maxY) {
+            this.y = maxY;
+          } else {
+            this.y = 0;
+          }
         }
       }
     }
@@ -89,8 +94,9 @@ export namespace Pong {
       this.dx = -this.dx;
     }
 
-    getScore(): number {
-      return (Date.now() - this.startTime);
+    getScore(): string {
+      const res = (Date.now() - this.startTime) / 1000;
+      return (res.toFixed(2));
     }
   }
 }

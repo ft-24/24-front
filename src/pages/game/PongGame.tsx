@@ -28,6 +28,7 @@ const GameBoard = styled.canvas`
   margin:auto;
 `;
 
+
 const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);

@@ -1,6 +1,7 @@
 import Utils from './Utils';
 import Scene from './Scene';
 import MainScene from '../scene/Mainscene';
+import MenuScene from '../scene/MenuScene';
 
 namespace Pong {
 
@@ -9,7 +10,7 @@ namespace Pong {
     private scene!: Scene;
 
     constructor(private ctx: CanvasRenderingContext2D) {
-      let menu = new MainScene(ctx);
+      let menu = new MenuScene(ctx);
       this.loadScene(menu);
     }
 

@@ -1,18 +1,19 @@
 import Scene from "../lib/Scene"
 import Constants from "../Constants"
 import Ball from "../objects/Ball";
-import Player from "../objects/Player";
 import HumanPlayer from "../objects/HumanPlayer"
 import EndScene from "./EndScene";
 import GraphicalElement from "../lib/GraphicalElement";
+import Enemy from "../objects/Enemy";
 
 namespace Pong {
   export class MainScene extends Scene {
 
     private playerPadding = Constants.Game.PLAYER_PADDING;
+    private score: string;
     private ball: Ball;
     private player1: HumanPlayer;
-    private player2: Player;
+    private player2: Enemy;
     private winningScore = Constants.Game.WINNING_SCORE;
 
     private objectsInScene: Array<GraphicalElement> = [];
@@ -24,13 +25,15 @@ namespace Pong {
       let centerV = height / 2;
 
       // Position objects
+      this.score = "";
       this.ball = new Ball(centerH, centerV);
+      
       this.player1 = new HumanPlayer(this.playerPadding,
                             centerV, this.ball);
 
       let player2Offset = ctx.canvas.width
-                            - (this.playerPadding + this.player1.paddleWidth)
-      this.player2 = new HumanPlayer(player2Offset, centerV, this.ball);
+                            - (Constants.Game.ENEMY_PADDING + Constants.Game.ENEMY_WIDTH)
+      this.player2 = new Enemy(player2Offset, 0, this.ball);
 
       this.objectsInScene.push(this.player1);
       this.objectsInScene.push(this.player2);
@@ -63,8 +66,8 @@ namespace Pong {
 
       ctx.font = `${Constants.Text.SCORE_SIZE} ${Constants.Text.SCORE_FONT}`;
       ctx.fillStyle = Constants.Colours.SCORE_COLOUR;
-      ctx.fillText(this.player1.getScore().toString(), width / 4, height / 2);
-      ctx.fillText(this.player2.getScore().toString(), 3 * (width / 4), height / 2);
+      ctx.textAlign = "center";
+      ctx.fillText(this.ball.getScore(), width / 2, height / 2);
     }
 
     getInput() {
@@ -87,19 +90,16 @@ namespace Pong {
     }
 
     update() {
+      this.score = this.ball.getScore();
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
           this.player2.givePoint();
-        } else {
-          this.player1.givePoint();
         }
         this.ball.restart();
       }
 
-      if (this.player1.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.player1), { winner: this.player1 });
-      } else if (this.player2.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.player2), { winner: this.player2 });
+      if (this.player2.getScore() >= this.winningScore) {
+        this.gameContext.loadScene(new EndScene(this.ctx, this.score));
       } else {
         // Draw remaining objects
         this.objectsInScene.forEach(object => object.update(this.ctx));
@@ -111,7 +111,6 @@ namespace Pong {
       this.player2.resetScore();
       this.ball.restart();
     }
-
   }
 }
 

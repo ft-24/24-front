@@ -41,11 +41,13 @@ const ArcadeGame = () => {
   if (ctx !== null) {
     let game = new GameEngine(ctx);
 
-    setInterval(() => {
+    const callback = (timestamp: number) => {
       game.getInput();
       game.update();
       game.draw();
-    }, 1000 / Constants.Game.FPS / 2);
+      requestAnimationFrame(callback);
+    };
+    requestAnimationFrame(callback);
   } else {
     <ErrorPage/>
   }
@@ -58,7 +60,7 @@ const ArcadeGame = () => {
   );
 }
 
-const GamePage = () => {
+const ArcadeGamePage = () => {
 
   return (
     <BackGround>
@@ -67,4 +69,4 @@ const GamePage = () => {
   );
 }
 
-export default GamePage;
+export default ArcadeGamePage;
