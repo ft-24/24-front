@@ -8,6 +8,7 @@ import UserProfile from "./UserProfile";
 import MatchingHistory from "./MatchingHistory";
 import LoadingPage from "../../LoadingPage";
 import UserStats from './UserStats';
+import { Url } from '../../constants/Global';
 
 const BackGround = styled.div`
   min-height: 100vh;
@@ -31,7 +32,7 @@ const Profile = () => {
   const [userData, setUserData] = useState<UserProps>();
   const { token } = useAuthState();
   const getData = async() => {
-    await axios.get('http://10.12.8.7:3000/user/profile', {
+    await axios.get(Url + 'user/profile', {
       headers: {
         Authorization:"Bearer " + token
       }

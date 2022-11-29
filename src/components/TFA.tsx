@@ -5,6 +5,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import TFAInputForm from "./TFAInputForm";
 import Loader from "./Loader";
+import { Url } from "../constants/Global";
 
 const Container = styled.div`
   width: 25rem;
@@ -87,7 +88,7 @@ const TFA = () => {
     localStorage.setItem("2facode", userInput);
     try {
       setAuthState("Loading");
-      const response = await axios.post("http://localhost:3000/login/tfa", {
+      const response = await axios.post(Url + "login/tfa", {
         id: id.current,
         code: userInput,
       });

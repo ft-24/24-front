@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { UserProps } from "./ProfileProps";
 import { useAuthState } from "../../context/AuthHooks";
+import { Url } from "../../constants/Global";
 
 const ProfileImg = styled.img`
   display: flex;
@@ -72,7 +73,7 @@ const ProfileName = ({name} : {name : string} ) => {
   }
 
   const setProfileName = async (name: string) => {
-    await axios.put('http://10.12.8.7:3000/user/profile/nickname', {
+    await axios.put(Url + 'user/profile/nickname', {
       nickname: name
     }, {
           headers: {
@@ -110,7 +111,7 @@ const ProfileImage = ({profile_url} : {profile_url : string}) => {
     const formData = new FormData();
     formData.append('image', file);
     
-    await axios.put('http://10.12.8.7:3000/user/profile/image'
+    await axios.put(Url + 'user/profile/image'
       , formData
       , {
           headers: {

@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { UserProps } from "../../pages/profile/ProfileProps";
+import { UserProps } from "../pages/profile/ProfileProps";
 import styled from "styled-components";
 import axios from "axios";
-import ProfileButton from "./ProfileButton";
-import LogoButton from "./LogoButton";
-import FriendsButton from "./FriendsButton";
-import { Url } from "../../constants/Global";
+import { Url } from "../constants/Global";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -19,13 +16,17 @@ const HeadBar = styled.div`
   font-size: 24px;
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
 `;
 
-const Header = () => {
-  const [toggle, setToggle] = useState(false);
+const Logo = styled.div`
+	position: relative;
+	width: 100%;
+	text-align: center;
+`
+
+const GameHeader = () => {
   const [intra, setIntra] = useState("");
 
   const getData = async () => {
@@ -57,17 +58,9 @@ const Header = () => {
 
   return (
     <HeadBar>
-      <div>
-        <ProfileButton />
-      </div>
-      <div>
-        <LogoButton />
-      </div>
-      <div>
-        <FriendsButton toggle={toggle} setToggle={setToggle} />
-      </div>
+        <Logo>로고</Logo>
     </HeadBar>
   );
 };
 
-export default Header;
+export default GameHeader;

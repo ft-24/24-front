@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAuthState } from '../../context/AuthHooks';
+import { Url } from '../../constants/Global';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -68,10 +69,10 @@ const Sidebar = () => {
 
   const getFriends = async () => {
       try {
-        const response = await axios.get('http://10.12.8.7:3000/user/friends',{
-          headers: {
-            Authorization:"Bearer " + token
-          }
+        const response = await axios({
+          url: Url + 'user/friends',
+          method: 'get',
+          headers: { 'token': 'bearer ' + token }
         });
         const Friends = await response.data;
         const onlineArray : Friend[] = [];
