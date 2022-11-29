@@ -15,8 +15,9 @@ const Stat = styled.div`
 const UserStats = ({stats} : {stats : Map<string, number>}) => {
   return (
     <>
-    <Stat> {"Rank : " + stats.get("rank")}</Stat>
-    <Stat> {"Win : " + stats.get("totalWin") + "  Lose : " + stats.get("totalLose")}</Stat>
+    <Stat>{"Rank: " + stats.get("ladder_score")}</Stat>
+    <Stat>{"Arcade: " + stats.get("arcade_score")}</Stat>
+    <Stat>{"Win: " + stats.get("wins") + " Lose: " + stats.get("loses")}</Stat>
     </>
   );
 }

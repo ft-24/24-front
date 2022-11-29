@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { RecordProps } from './ProfileProps';
+import { historyProps } from './ProfileProps';
 
 const RecordWrapper = styled.div`
   display: flex;
@@ -68,18 +68,18 @@ const Result = styled.div`
   font-size: 2rem;
 `
 
-function MatchingHistory(record: RecordProps) {
-  const score: string = record.myscore.toString() + ":" + record.opscore.toString();
-  const winlose: string = record.result? "win!" : "lose...";
+const MatchingHistory = ({name, image, history} : {name: string, image: string, history: historyProps}) => {
+  const score: string = history.score.toString() + ":" + history.opponent_score.toString();
+  const winlose: string = history.win? "win!" : "lose...";
 
   return (
     <RecordWrapper>
       <RecordContainer>
-        <Time>{record.time}</Time>
+        <Time>{history.played_at}</Time>
         <Result>{winlose}</Result>
-        <My>{record.myname}</My>
+        <My>{name}</My>
         <Score>{score}</Score>
-        <Opp>{record.opname}</Opp>
+        <Opp>{history.opponent_name}</Opp>
       </RecordContainer>
     </RecordWrapper>
   );

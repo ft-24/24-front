@@ -1,12 +1,13 @@
 import MatchingHistory from "./MatchingHistory";
 
-export interface RecordProps {
-  myname: string;
-  myscore: number;
-  opname: string;
-  opscore: number;
-  result: boolean;
-  time: number;
+export interface historyProps {
+  opponent_url: string;
+  opponent_name: string;
+  win: boolean;
+  score: number;
+  opponent_score: number;
+  mode: string;
+  played_at: string;
 }
 
 export class UserProps {
@@ -15,7 +16,7 @@ export class UserProps {
   profile_url: string;
   two_factor: boolean;
   stats: Map<string, number>;
-  matching_history: Array<RecordProps>;
+  matching_history: Array<historyProps>;
 
   constructor (
     intra_id: string,
@@ -23,7 +24,7 @@ export class UserProps {
     profile_url: string,
     two_factor: boolean,
     stats:  Map<string, number>,
-    matching_history: Array<RecordProps>,
+    matching_history: Array<historyProps>,
     ) {
     this.intra_id = intra_id;
     this.nickname = nickname;

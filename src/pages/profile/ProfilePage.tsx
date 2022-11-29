@@ -3,7 +3,7 @@ import axios from "axios";
 import styled from 'styled-components';
 
 import { useAuthState } from "../../context/AuthHooks";
-import { UserProps } from "./ProfileProps";
+import { historyProps, UserProps } from "./ProfileProps";
 import UserProfile from "./UserProfile";
 import MatchingHistory from "./MatchingHistory";
 import LoadingPage from "../../LoadingPage";
@@ -59,15 +59,13 @@ const Profile = () => {
       <Layout>
       <UserProfile data={userData} />
       { userData.matching_history ?
-        (userData.matching_history.map((value) => <MatchingHistory
-        key = {value.time}
-        time = {value.time}
-        result = {value.result}
-        myname = {value.myname}
-        opname = {value.opname}
-        myscore = {value.myscore}
-        opscore = {value.opscore}
-      />)) : <div>아직 한번도 플레이 하지 않았어요ㅠㅠ</div>
+          (userData.matching_history.map((item: historyProps, index) => (
+          <MatchingHistory
+            key={index}
+            name={userData.nickname}
+            image={userData.profile_url}
+            history={item} />
+          ))) : <div>아직 한번도 플레이 하지 않았어요ㅠㅠ</div>
       }
       <UserStats stats={userData.stats} />
       </Layout>
