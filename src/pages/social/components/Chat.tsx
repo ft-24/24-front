@@ -121,6 +121,7 @@ const Chat = ({ setIsInfoOn } : any) => {
                 sender={sender}
                 time={time}
                 chat={chat}
+                setIsInfoOn={() => setIsInfoOn(true)}
               ></ChatCard>
             );
           })}

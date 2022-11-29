@@ -1,5 +1,10 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
+import UserIconButton from "./UserIconButton";
 
 const Container = styled.div`
 	width: 100%;
@@ -34,6 +39,25 @@ const Button = styled.div`
 `
 
 const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
+  const [image, setimage] = useState("");
+  const { token } = useAuthState();
+	
+  const getData = async() => {
+    await axios.get(Url + 'user/profile', {
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+      setimage(response.data.profile_url);
+    }).catch(error => {
+      setimage('/src/images/hero.png');
+    });
+  }
+
+	useEffect(() => {
+		getData();
+	}, []);
+	
 	return (
 			<Container>
 				LOGO
@@ -43,7 +67,7 @@ const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
 					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<Avatar.txt size="3" onClick={()=>{setIsInfoOn(true);}}>😊</Avatar.txt>
+				<UserIconButton onClickButton={() => setIsInfoOn(true)} imgSrc={image} text="" iconSize="3" />
 			</Container>
 	)
 }
