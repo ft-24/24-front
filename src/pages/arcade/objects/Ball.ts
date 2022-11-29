@@ -76,9 +76,9 @@ export namespace Pong {
         this.dy = 2;
 
         // 5050 chance of direction
-        if (Math.random() > 0.5) {
-          this.dx = -this.dx;
-        }
+        // if (Math.random() > 0.5) {
+        //   this.dx = -this.dx;
+        // }
       }, 2000)
       this.startTime = Date.now();
     }

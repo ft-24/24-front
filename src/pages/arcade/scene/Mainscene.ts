@@ -91,15 +91,12 @@ namespace Pong {
 
     update() {
       this.score = this.ball.getScore();
+      console.log(this.ball.x);
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
-          this.player2.givePoint();
+          this.gameContext.loadScene(new EndScene(this.ctx, this.score));
         }
         this.ball.restart();
-      }
-
-      if (this.player2.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.score));
       } else {
         // Draw remaining objects
         this.objectsInScene.forEach(object => object.update(this.ctx));

@@ -30,18 +30,23 @@ const ArcadeGame = () => {
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [game, setGame] = useState<GameEngine>();
 
   useEffect(() => {
     if (!canvasRef.current) return ;
     const canvas = canvasRef.current;
     setCanvas(canvas);
     setCtx(canvas.getContext("2d"));
+    if (ctx !== null && canvas !== null) {
+      setGame(new GameEngine(ctx));
+    }
   }, [])
 
-  if (ctx !== null) {
-    let game = new GameEngine(ctx);
-
-    const callback = (timestamp: number) => {
+  if (ctx !== null && game === undefined) {
+    setGame(new GameEngine(ctx));
+  }
+  if (ctx !== null && game !== undefined) {
+    const callback = () => {
       game.getInput();
       game.update();
       game.draw();
