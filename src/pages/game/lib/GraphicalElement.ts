@@ -1,4 +1,3 @@
-import { Socket } from "socket.io-client";
 import PongIO from "./IO";
 
 interface GraphicalElement {
