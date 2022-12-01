@@ -37,7 +37,6 @@ export namespace Pong {
     update(ctx: CanvasRenderingContext2D) {
       if (Utils.between(this.ball.y, this.y, this.y + this.paddleHeight)
           && Utils.between(this.ball.x, this.x, this.x + this.paddleWidth)) {
-        console.log(this.ball.x);
         this.ball.hit();
       }
     }

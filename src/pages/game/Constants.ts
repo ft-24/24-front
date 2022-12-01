@@ -1,7 +1,7 @@
 export namespace Pong {
 
    export enum Colours {
-      MENU_BACKGROUND = '#7E8F7C',
+      MENU_BACKGROUND = '#1c1c1c',
       GAME_BACKGROUND = '#000000',
       PITCH_COLOUR = '#FFFFFF',
 
@@ -15,14 +15,15 @@ export namespace Pong {
    export enum Text {
       GAME_TITLE = 'Pong!',
       TITLE_SIZE = '60px',
-      TITLE_FONT = 'Arial',
+      TITLE_FONT = 'SBAggroM',
 
       GAME_SUBTITLE = 'Click to play...',
       SUBTITLE_SIZE = '32px',
-      SUBTITLE_FONT = 'Arial',
+      RES_SUBTITLE_SIZE = '24px',
+      SUBTITLE_FONT = 'NanumSquareL',
 
       SCORE_SIZE = '60px',
-      SCORE_FONT = 'Arial',
+      SCORE_FONT = 'NanumSquareL',
    }
 
    export enum Game {

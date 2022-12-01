@@ -1,7 +1,7 @@
 import {useRef, useState, useEffect} from "react";
 
 import styled from 'styled-components';
-import {gsocket} from "../../layout/SocketContext";
+import useSocket from "../../context/useSocket";
 
 import ErrorPage from "../../ErrorPage";
 
@@ -29,14 +29,14 @@ const GameBoard = styled.canvas`
 `;
 
 
-const PongGame = () => {
+export const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [game, setGame] = useState<GameEngine>();
 
   // connect socket
-  const socket = gsocket;
+  const {socket} = useSocket();
 
   if (socket !== undefined)
   {
@@ -63,7 +63,6 @@ const PongGame = () => {
     if (ctx !== null && canvas !== null) {
       if (game === undefined) {
         setGame(new GameEngine(ctx, socket));
-        console.log("setgame");
       }
 
       // draw game

@@ -91,7 +91,6 @@ namespace Pong {
 
     update() {
       this.score = this.ball.getScore();
-      console.log(this.ball.x);
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
           this.gameContext.loadScene(new EndScene(this.ctx, this.score));
