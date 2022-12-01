@@ -21,7 +21,7 @@ export default createGlobalStyle`
   
   @font-face {
     font-family: 'SBAggroL';
-    src: url('../public/fonts/SBAggroL.otf');
+    src: url('/fonts/SBAggroL.otf');
   }
 
   margin: 0;
