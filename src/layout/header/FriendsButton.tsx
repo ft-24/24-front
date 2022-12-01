@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import Sidebar from "./Sidebar";
 
 const Friends = styled.button`
+  width: 15vw;
   position: relative;
   border: none;
+  text-align: end;
 `;
 
 const variants = {

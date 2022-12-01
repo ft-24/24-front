@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
+import { Url } from "../../constants/Global";
 
 const Wrapper = styled.div`
   position: relative;
@@ -113,7 +114,7 @@ const Hero = ({onClickHandler} : any) => {
           </Article>
         </ArticleWrapper>
       </SectionWrapper>
-      <Button href="http://10.12.8.7:3000/login">
+      <Button href= {Url + "login"}>
         START
       </Button>
       <Scroll animate={{ y: [0, 42, 0] }} transition={{ repeat: Infinity }}

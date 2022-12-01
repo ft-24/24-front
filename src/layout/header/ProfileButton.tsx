@@ -6,6 +6,7 @@ import { useAuthState } from "../../context/AuthHooks";
 import { Url } from "../../constants/Global";
 
 const Profile = styled.div`
+	width: 15vw;
 `;
 
 const StyledLink = styled(Link)`
@@ -17,7 +18,7 @@ const ProfileButton = () => {
 	const {token} = useAuthState();
 	const getName = async () => {
 		try {
-			const response = await axios.get(Url + 'user/me', {
+			const response = await axios.get(Url + 'user/profile', {
 				headers: {
 					Authorization:"Bearer " + token
 				}
@@ -34,7 +35,7 @@ const ProfileButton = () => {
 
   return (
 	<Profile>
-		<StyledLink to="/profile">{nickname}</StyledLink>
+		<StyledLink to="/profile">{nickname ? nickname : 'undefined'}</StyledLink>
 	</Profile>
 	)
 }
