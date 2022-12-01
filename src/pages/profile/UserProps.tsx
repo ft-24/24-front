@@ -2,7 +2,7 @@ import MatchingHistory from "./MatchingHistory";
 
 export interface historyProps {
   opponent_url: string;
-  opponent_name: string;
+  opponent_nickname: string;
   win: boolean;
   score: number;
   opponent_score: number;
@@ -38,6 +38,6 @@ export class UserProps {
     this.profile_url = profile_url;
     this.two_factor = two_factor;
     this.stats = stats;
-    this.matching_history = [...matching_history];
+    this.matching_history = matching_history;
   }
 }

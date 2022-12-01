@@ -65,7 +65,7 @@ const DummyUserData: UserProps = {
   matching_history: [
     {
       opponent_url: '/src/images/hero.png',
-      opponent_name: 'other',
+      opponent_nickname: 'other',
       win: true,
       score: 100,
       opponent_score: 80,
@@ -74,7 +74,7 @@ const DummyUserData: UserProps = {
     },
     {
       opponent_url: '/src/images/hero.png',
-      opponent_name: 'other',
+      opponent_nickname: 'other',
       win: false,
       score: 80,
       opponent_score: 100,
@@ -94,6 +94,7 @@ const Profile = () => {
       }
     }).then(response => {
       const data: UserProps = response.data;
+      console.log(data);
       setUserData(
         prev => prev = new UserProps(
           data.intra_id,
@@ -129,7 +130,7 @@ const Profile = () => {
           <UserStats stats={userData.stats} />
         </UserProfile>
         <UserHistory>
-          {userData.matching_history ?
+          {userData.matching_history.length !== 0 ?
             (userData.matching_history.map((item: historyProps, index) => (
               <MatchingHistory
                 key={index}

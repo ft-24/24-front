@@ -46,7 +46,7 @@ const UserImage = ({profile_url} : {profile_url : string}) => {
     const formData = new FormData();
     formData.append('image', file);
     
-    await axios.put(Url + 'user/profile/image'
+    await axios.put(Url + 'user/profile'
       , formData
       , {
           headers: {

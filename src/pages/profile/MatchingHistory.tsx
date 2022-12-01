@@ -38,6 +38,8 @@ const Img = styled.img`
 const Time = styled.div`
   font-size: 1rem;
   grid-area: time;
+  text-overflow: clip;
+  overflow: hidden;
 `
 
 const My = styled.div`
@@ -71,8 +73,8 @@ const MatchingHistory = ({name, image, history} : {name: string, image: string, 
       </My>
       <Score>{score}</Score>
       <Opp>
-        <Img src={image} alt="not fount" />
-        {history.opponent_name}
+        <Img src={history.opponent_url} alt="not fount" />
+        {history.opponent_nickname}
       </Opp>
     </RecordContainer>
   );
