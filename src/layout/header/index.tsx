@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { UserProps } from "../../pages/profile/ProfileProps";
+import { UserProps } from "../../pages/profile/UserProps";
 import styled from "styled-components";
 import axios from "axios";
 import ProfileButton from "./ProfileButton";

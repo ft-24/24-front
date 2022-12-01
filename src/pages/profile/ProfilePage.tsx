@@ -3,29 +3,56 @@ import axios from "axios";
 import styled from 'styled-components';
 
 import { useAuthState } from "../../context/AuthHooks";
-import { historyProps, UserProps } from "./ProfileProps";
-import UserProfile from "./UserProfile";
+import { historyProps, UserProps } from "./UserProps";
 import MatchingHistory from "./MatchingHistory";
 import LoadingPage from "../../LoadingPage";
 import UserStats from './UserStats';
 import { Url } from '../../constants/Global';
-
-const BackGround = styled.div`
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image : url("/src/images/background.jpg");
-`;
+import UserName from './UserName';
+import UserImage from './UserImage';
+import UserTfa from './UserTfa';
 
 const Layout = styled.div`
+  min-height: 100vh;
+  justify-content: center;
+  background-image: url("/src/images/background.jpg");
+`;
+
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 3em;
-  padding: 1em;
+  margin-top: 60px;
+  padding: 2em;
   justify-content: center;
   align-items: center;
-  background: rgba( 0, 0, 0, 0 );
+	font-family:SBAggroL;
+  background: rgba(0, 0, 0, 0);
+`;
+
+const UserProfile = styled.div`
+  max-width: 80vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "image name"
+  "image stats";
+  & > * {
+    display: flex;
+    white-space: pre-line;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0);
+    font-fami
+`
+
+const UserHistory = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0);
 `;
 
 const DummyUserData: UserProps = {
@@ -91,21 +118,27 @@ const Profile = () => {
   }
 
   return (
-    <BackGround>
-      <Layout>
-      <UserProfile data={userData} />
-      {userData.matching_history ?
-        (userData.matching_history.map((item: historyProps, index) => (
-          <MatchingHistory
-            key={index}
-            name={userData.nickname}
-            image={userData.profile_url}
-            history={item} />
-        ))) : <div>아직 한번도 플레이 하지 않았어요ㅠㅠ</div>
-      }
-      <UserStats stats={userData.stats} />
-      </Layout>
-    </BackGround>
+    <Layout>
+      <Wrapper>
+        <UserProfile>
+          <UserImage profile_url={userData.profile_url} />
+          <UserName name={userData.nickname} />
+          <UserStats stats={userData.stats} />
+        </UserProfile>
+        <UserTfa isTfaOn={userData.two_factor} />
+        <UserHistory>
+          {userData.matching_history ?
+            (userData.matching_history.map((item: historyProps, index) => (
+              <MatchingHistory
+                key={index}
+                name={userData.nickname}
+                image={userData.profile_url}
+                history={item} />
+            ))) : <div>아직 한번도 플레이 하지 않았어요ㅠㅠ</div>
+          }
+        </UserHistory>
+      </Wrapper>
+    </Layout>
   );
 }
 
