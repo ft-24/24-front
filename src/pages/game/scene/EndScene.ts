@@ -38,7 +38,7 @@ export namespace Pong {
 
       // Draw title
       let subtitle = 'Click to go to main menu.'
-      ctx.font = "24px Arial";
+      ctx.font = Constants.Text.RES_SUBTITLE_SIZE + " " + Constants.Text.SUBTITLE_FONT;
       ctx.textAlign = 'center';
       ctx.fillText(subtitle, width / 2, (height / 2) + 60);
     }

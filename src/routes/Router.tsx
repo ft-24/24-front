@@ -64,6 +64,10 @@ const router = createBrowserRouter([
         element: <GamePage />,
       },
       {
+        path: "arcade",
+        element: <ArcadeGamePage />,
+      },
+      {
         path: "matching",
         element: <Matching />,
       },

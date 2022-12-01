@@ -1,5 +1,3 @@
-import { createGlobalStyle } from "styled-components";
-
 export namespace Pong {
 
    export enum Colours {
@@ -21,6 +19,7 @@ export namespace Pong {
 
       GAME_SUBTITLE = 'Click to play...',
       SUBTITLE_SIZE = '32px',
+      RES_SUBTITLE_SIZE = '24px',
       SUBTITLE_FONT = 'NanumSquareL',
 
       SCORE_SIZE = '60px',
