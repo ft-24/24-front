@@ -6,7 +6,7 @@ export namespace Pong {
       PITCH_COLOUR = '#FFFFFF',
 
       TITLE_COLOUR = '#FDF3E7',
-      SCORE_COLOUR = '#FFFFFF',
+      SCORE_COLOUR = '#FFFFFF22',
 
       BALL_COLOUR = '#EEEEEE',
       PADDLE1_COLOUR = '#ecf700',
