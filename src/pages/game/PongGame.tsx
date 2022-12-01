@@ -29,7 +29,7 @@ const GameBoard = styled.canvas`
 `;
 
 
-const PongGame = () => {
+export const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

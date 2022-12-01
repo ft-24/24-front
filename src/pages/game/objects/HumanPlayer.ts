@@ -8,9 +8,11 @@ export namespace Pong {
     private handleKeydown = (evt: KeyboardEvent) => {
       switch (evt.key) {
         case Utils.KeyCode.UP_ARROW:
+        case Utils.KeyCode.UP_ARROW_ALT:
           this.direction = Direction.UP;
           break;
         case Utils.KeyCode.DOWN_ARROW:
+        case Utils.KeyCode.DOWN_ARROW_ALT:
           this.direction = Direction.DOWN;
           break;
         default:

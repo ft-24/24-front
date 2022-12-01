@@ -1,5 +1,7 @@
 import Scene from "../lib/Scene";
 import MenuScene from "./MenuScene";
+import Constants from "../Constants";
+
 import axios from "axios";
 
 import { Url } from "../../../constants/Global";
@@ -44,13 +46,13 @@ export namespace Pong {
       let {width, height} = ctx.canvas;
 
       // Draw background
-      ctx.fillStyle = '#7E8F7C';
+      ctx.fillStyle = Constants.Colours.MENU_BACKGROUND;
       ctx.fillRect(0, 0, width, height);
 
       // == Draw text
       // Draw title
       let title = 'Score : ' + this.score;
-      ctx.font = "60px Arial";
+      ctx.font = Constants.Text.TITLE_SIZE + " " + Constants.Text.TITLE_FONT;
       ctx.fillStyle = '#FDF3E7';
       ctx.textAlign = 'center';
       ctx.fillText(title, width / 2, height / 2);

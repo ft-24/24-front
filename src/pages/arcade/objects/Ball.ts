@@ -76,9 +76,13 @@ export namespace Pong {
         this.dy = 2;
 
         // 5050 chance of direction
-        // if (Math.random() > 0.5) {
-        //   this.dx = -this.dx;
-        // }
+        const rand = Date.now() % 10;
+        if (rand >= 5) {
+          this.dx = -this.dx;
+        }
+        if (rand >= 8 || rand <= 2) {
+          this.dy = -this.dy;
+        }
       }, 2000)
       this.startTime = Date.now();
     }

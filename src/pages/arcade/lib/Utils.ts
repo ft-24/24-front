@@ -16,7 +16,9 @@ namespace Utils {
     LEFT_ARROW: 'a',
     UP_ARROW: 'w',
     RIGHT_ARROW: 'd',
-    DOWN_ARROW: 's'
+    DOWN_ARROW: 's',
+    UP_ARROW_ALT: 'ㅈ',
+    DOWN_ARROW_ALT: 'ㄴ'
   };
 }
 
