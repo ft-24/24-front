@@ -5,7 +5,6 @@ import { historyProps } from './UserProps';
 const RecordContainer = styled.div`
   width: 70vw;
   border-width: 1px;
-  border-style: solid hidden;
   display: grid;
   justify-content: center;
   font-size: 1.5rem;
@@ -17,14 +16,13 @@ const RecordContainer = styled.div`
   & > * {
     display: flex;
     border-width: 0.5px;
-    border-style: solid hidden;
     border-style: solid solid solid hidden;
     white-space: pre-line;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0);
     font-family: SBAggroL;
-  }
+  } 
 `;
 
 const Img = styled.img`

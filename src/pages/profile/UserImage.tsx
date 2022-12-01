@@ -28,10 +28,14 @@ const Label = styled.label`
   display: inline-block;
   line-height: 2.2em;
   padding: 0 0.62em;
-  border: 1px solid #666;
+  color: var(--light-gray);
+  border: none;
   border-radius: 0.25em;
   background-color: --black;
   box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+  &:hover {
+		color: var(--white);
+  }
 `;
 
 const UserImage = ({profile_url} : {profile_url : string}) => {

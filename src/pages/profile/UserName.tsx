@@ -26,13 +26,17 @@ const Button = styled.button`
   display: inline-block;
   line-height: 2.2em;
   padding: 0 0.62em;
-  border: 1px solid #666;
+  color: var(--light-gray);
+  border: none;
   border-radius: 0.25em;
   background-color: --black;
   box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+  &:hover {
+		color: var(--white);
+  }
 `;
 
-const UserName = ({name} : {name : string} ) => {
+const UserName = ({name, children}: {name: string, children: any} ) => {
   const [nickname, setNickname] = useState(name ?? "noname");
   const [isChange, setIsChange] = useState(false);
 
@@ -60,7 +64,7 @@ const UserName = ({name} : {name : string} ) => {
 
   return (
     <Wrapper>
-      <ProfileTitle>{ nickname }</ProfileTitle>
+      <ProfileTitle>{nickname} {children}</ProfileTitle>
         { isChange ? <input id="input_name" type="text" onChange={handleChange}/> : null }
       <Button onClick={() => {
         if (isChange === false) {

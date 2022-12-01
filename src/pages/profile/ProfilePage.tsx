@@ -30,6 +30,7 @@ const Wrapper = styled.div`
 `;
 
 const UserProfile = styled.div`
+  margin: 2em;
   max-width: 80vw;
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -51,7 +52,7 @@ const UserHistory = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 2em;
   background: rgba(0, 0, 0, 0);
 `;
 
@@ -122,10 +123,11 @@ const Profile = () => {
       <Wrapper>
         <UserProfile>
           <UserImage profile_url={userData.profile_url} />
-          <UserName name={userData.nickname} />
+          <UserName name={userData.nickname}>
+            <UserTfa isTfaOn={userData.two_factor} />
+          </UserName>
           <UserStats stats={userData.stats} />
         </UserProfile>
-        <UserTfa isTfaOn={userData.two_factor} />
         <UserHistory>
           {userData.matching_history ?
             (userData.matching_history.map((item: historyProps, index) => (
