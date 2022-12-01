@@ -45,51 +45,67 @@ const InputSection = styled.div`
   gap: 0.5rem;
 `;
 
-type Message = {
-	sender: string,
+export type Message = {
+	nickname: string,
+	intra_id: string,
+  profile_url: string,
 	time: string,
 	chat: string,
 };
 
 const DummyMessages: Message[] = [
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:11",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:13",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:14",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:14",
     chat: "테스트",
   },
 ];
 
-const Chat = ({ setIsInfoOn } : any) => {
+const Chat = ({title, setIsInfoOn, setData}: {title: string, setIsInfoOn: any, setData: any}) => {
   const [userMessage, setUserMessage] = useState(null);
   const lastChat = useRef<HTMLDivElement>(null);
 
@@ -106,22 +122,21 @@ const Chat = ({ setIsInfoOn } : any) => {
 
   return (
     <Container>
-      <SectionHeader color="var(--purple)" title="other, me">
+      <SectionHeader color="var(--purple)" title={title}>
         <div onClick={() => setIsInfoOn(true)}>{":"}</div>
       </SectionHeader>
       <ChatSection>
         <ChatContainer ref={lastChat}>
-          {DummyMessages.map((ele, idx) => {
-            const { sender, time, chat } = ele;
+          {DummyMessages.map((item, idx) => {
+            const { nickname: sender, time, chat } = item;
             const isMe = (sender == "young-ch") ? true : false;
             return (
               <ChatCard
                 key={idx}
                 isMe={isMe}
-                sender={sender}
-                time={time}
-                chat={chat}
+                message={item}
                 setIsInfoOn={() => setIsInfoOn(true)}
+                setData={setData}
               ></ChatCard>
             );
           })}

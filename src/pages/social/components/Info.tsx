@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import SectionHeader from "../../../components/SectionHeader";
+import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
 
 const Container = styled.div`
@@ -34,7 +35,7 @@ const IconSection = styled.div`
 	align-items: center;
 `
 
-const Info = ({setIsInfoOn} : any) => {
+const Info = ({setIsInfoOn, data}: {setIsInfoOn: any, data: UserProps | null}) => {
 
 	const onClickAdd = () => {
 		console.log("onClickAdd");
@@ -56,8 +57,8 @@ const Info = ({setIsInfoOn} : any) => {
 			<ProfileSection>
 				<Avatar.txt size="5">😊</Avatar.txt>
 				<br></br>
-				<p>Young il, Cho</p>
-				<p>🎖️ 100</p>
+				<p>{data ? data.nickname : "undefined"}</p>
+				<p>🎖️ {data ? data.stats.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
 				<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />

@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
+import { UserProps } from "../../profile/UserProps";
+import { Message } from "./ChatRoom";
 import UserIconButton from "./UserIconButton";
 
 type Props = {
@@ -31,7 +33,7 @@ const MessageContainer = styled.div<Props>`
   margin-left: ${(props) => (props.isMe ? `` : `1rem`)};
 `;
 
-const Message = styled.div<Props>`
+const MessageBubble = styled.div<Props>`
   padding: 1rem;
   margin-top: 1rem;
   background: ${(props) => (props.isMe ? `var(--purple)` : `var(--white)`)};
@@ -44,40 +46,39 @@ const TimeBar = styled.div`
   align-self: flex-end;
 `;
 
-const ChatCard = ({isMe, sender, time, chat, setIsInfoOn}: Props) => {
-  const [image, setImage] = useState("");
-  const [name, setName] = useState("");
+const ChatCard = ({isMe, message, setIsInfoOn, setData}: {isMe: boolean, message: Message, setIsInfoOn: any, setData: any}) => {
   const { token } = useAuthState();
   
-  // 소켓 연결 되면 바꿔야 할 듯..
-  const getData = async() => {
-    await axios.get(Url + 'user/profile', {
+  const showInfo = async () => {
+    await axios.get(Url + 'user/profile/' + message.intra_id, {
       headers: {
         Authorization:"Bearer " + token
       }
     }).then(response => {
-      setImage(response.data.profile_url ?? "");
-      setName(response.data.nickname ?? "");
+      const data: UserProps = response.data;
+      setData(data);
+      setIsInfoOn(true);
     }).catch(error => {
-      setImage('/src/images/hero.png');
-      setName("undefined");
+      alert(message.intra_id + ' profile loading failed');
+      setIsInfoOn(true);
     });
+    setIsInfoOn(true);
   }
-
-	useEffect(() => {
-		getData();
-	}, []);
   
   return (
     <Container isMe={isMe}>
       {!isMe ? (
         <Sender>
-          <UserIconButton onClickButton={() => setIsInfoOn(true)} imgSrc={image} text={sender ?? "undefined"} iconSize="2.5" />
+          <UserIconButton
+            onClickButton={showInfo}
+            imgSrc={message.profile_url}
+            text={message.nickname ?? "undefined"}
+            iconSize="2.5" />
         </Sender>
       ) : null}
       <MessageContainer isMe={isMe}>
-        <Message isMe={isMe}>{chat}</Message>
-        <TimeBar>{time}</TimeBar>
+        <MessageBubble isMe={isMe}>{message.chat}</MessageBubble>
+        <TimeBar>{message.time}</TimeBar>
       </MessageContainer>
     </Container>
   );
