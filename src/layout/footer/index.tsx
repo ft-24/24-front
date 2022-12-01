@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { useAuthDispatch } from '../context/AuthHooks';
+import { useAuthDispatch } from "../../context/AuthHooks"
 
 const FootBar = styled.div`
   z-index: 8;

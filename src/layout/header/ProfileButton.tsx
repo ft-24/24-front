@@ -18,7 +18,7 @@ const ProfileButton = () => {
 	const {token} = useAuthState();
 	const getName = async () => {
 		try {
-			const response = await axios.get(Url + 'user/me', {
+			const response = await axios.get(Url + 'user/profile', {
 				headers: {
 					Authorization:"Bearer " + token
 				}

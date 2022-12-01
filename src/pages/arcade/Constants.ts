@@ -6,14 +6,14 @@ export namespace Pong {
       PITCH_COLOUR = '#FFFFFF',
 
       TITLE_COLOUR = '#FDF3E7',
-      SCORE_COLOUR = '#FFFFFF',
+      SCORE_COLOUR = '#FFFFFF22',
 
       BALL_COLOUR = '#FF0000',
       PADDLE_COLOUR = '#0000FF',
    }
 
    export enum Text {
-      GAME_TITLE = 'Pong!',
+      GAME_TITLE = 'Arcade!',
       TITLE_SIZE = '60px',
       TITLE_FONT = 'SBAggroM',
 
@@ -27,8 +27,10 @@ export namespace Pong {
    }
 
    export enum Game {
+      FPS = 60,
+
       // Score needed to win
-      WINNING_SCORE = 5,
+      WINNING_SCORE = 1,
 
       // Size of canvas
       CANVAS_WIDTH = 1200,
@@ -38,9 +40,13 @@ export namespace Pong {
       PLAYER_PADDING = 40,
 
       // Paddle size
-      PADDLE_WIDTH = 10,
+      PADDLE_WIDTH = 20,
       PADDLE_HEIGHT = 80,
       PADDLE_SPEED = 5,
+
+      ENEMY_PADDING = 60,
+      ENEMY_WIDTH = 30,
+      ENEMY_HEIGHT = CANVAS_HEIGHT,
 
       BALL_SPEED = 2,
       BALL_SIZE = 8

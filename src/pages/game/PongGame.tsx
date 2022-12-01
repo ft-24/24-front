@@ -1,8 +1,7 @@
-import {useRef, useState, useEffect, useContext, useCallback, useMemo } from "react";
+import {useRef, useState, useEffect} from "react";
 
 import styled from 'styled-components';
-import { io, Socket } from 'socket.io-client';
-import {gsocket} from "../../layout/SocketContext";
+import useSocket from "../../context/useSocket";
 
 import ErrorPage from "../../ErrorPage";
 
@@ -29,18 +28,15 @@ const GameBoard = styled.canvas`
   margin:auto;
 `;
 
-const InitGame = (ctx: CanvasRenderingContext2D, socket: Socket) => {
-  return new GameEngine(ctx, socket);
-}
 
-const PongGame = () => {
+export const PongGame = () => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [game, setGame] = useState<GameEngine>();
 
   // connect socket
-  const socket = gsocket;
+  const {socket} = useSocket();
 
   if (socket !== undefined)
   {
@@ -67,22 +63,12 @@ const PongGame = () => {
     if (ctx !== null && canvas !== null) {
       if (game === undefined) {
         setGame(new GameEngine(ctx, socket));
-        console.log("setgame");
       }
 
       // draw game
       if (recvData !== undefined && recvData.ball !== undefined && game !== undefined) {
         game.draw(recvData);
       }
-  
-      // make input
-      const callback = () => {
-      if (game !== undefined) {
-        game.getInput();
-      }
-        requestAnimationFrame(callback);
-      };
-      requestAnimationFrame(callback);
     } else {
       <ErrorPage/>
     }
