@@ -15,8 +15,6 @@ export namespace Pong {
           break;
         default:
           this.direction = Direction.NONE;
-        
-        
       }
     };
 

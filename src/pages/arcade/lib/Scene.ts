@@ -1,18 +1,16 @@
 import GameEngine from "./GameEngine";
-import { Socket } from 'socket.io-client';
-import PongIO from "./IO";
 
 namespace Pong {
 
   export abstract class Scene {
 
-    constructor(protected ctx: CanvasRenderingContext2D, protected socket: Socket) {}
+    constructor(protected ctx: CanvasRenderingContext2D) {}
 
     protected gameContext!: GameEngine;
 
     // Must be implemented
-    abstract draw(recvData: PongIO.GameRecvData): void;
-    abstract update(deltaTime: number): void;
+    abstract draw(): void;
+    abstract update(): void;
     abstract getInput(): void;
 
     // Optionally implement

@@ -10,6 +10,7 @@ import Social from "../pages/social";
 import Lobby from "../pages/lobby";
 import TFAPage from "../auth/TFAPage";
 import Restrict from "../auth/Restrict";
+import ArcadeGamePage from "../pages/arcade/ArcadeGame";
 import Matching from "../pages/matching/Matching";
 
 const router = createBrowserRouter([
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
         path: "matching",
         element: <Matching />,
       },
+
     ],
   },
 ]);
