@@ -51,7 +51,7 @@ const Social = () => {
     <Wrapper>
       <Container>
         <NavSection>
-          <Nav setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn}/>
+          <Nav isInfoOn={isInfoOn} setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn}/>
         </NavSection>
         {isListOn ? (
           <ListSection>
@@ -60,7 +60,7 @@ const Social = () => {
         ) : null}
         <MainSection>
           {locate === "home" ? <Home setLocate={setLocate} setTitle={setTitle}></Home> : null}
-          {locate === "chat" ? <Chat title={title} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
+          {locate === "chat" ? <Chat title={title} isInfoOn={isInfoOn} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>

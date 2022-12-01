@@ -105,7 +105,7 @@ const DummyMessages: Message[] = [
   },
 ];
 
-const Chat = ({title, setIsInfoOn, setData}: {title: string, setIsInfoOn: any, setData: any}) => {
+const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn: boolean, setIsInfoOn: any, setData: any}) => {
   const [userMessage, setUserMessage] = useState(null);
   const lastChat = useRef<HTMLDivElement>(null);
 

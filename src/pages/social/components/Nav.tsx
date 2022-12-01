@@ -38,7 +38,7 @@ const Button = styled.div`
 	}
 `
 
-const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
+const Nav = ({isInfoOn, setLocate, setIsListOn, setIsInfoOn}: {isInfoOn: boolean, setLocate: any, setIsListOn: any, setIsInfoOn: any}) => {
   const [image, setimage] = useState("");
   const { token } = useAuthState();
 	
@@ -67,7 +67,7 @@ const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
 					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<UserIconButton onClickButton={() => setIsInfoOn(true)} imgSrc={image} text="" iconSize="3" />
+				<UserIconButton onClickButton={() => setIsInfoOn(!isInfoOn)} imgSrc={image} text="" iconSize="3" />
 			</Container>
 	)
 }
