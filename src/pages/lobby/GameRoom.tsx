@@ -12,7 +12,30 @@ const Container = styled.div`
 	background: var(--dark-gray);
 `
 
+const UserInfoContainer = styled.div`
+	position: relative;
+	max-width: 100%;
+	display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 60px 4fr;
+  grid-template-areas:
+  "player title"
+  "player spectator";
+  & > * {
+    display: flex;
+    white-space: pre-line;
+    align-items: center;
+    justify-content: center;
+    background: rgba( 0, 0, 0, 0 );
+    font-family: SBAggroM;
+  }
+`
+
 const PlayerContainer = styled.div`
+	grid-area: player;
+	border-width: 1px;
+	border-style: hidden solid hidden hidden;
 	margin: auto 0;
 	display: flex;
 	height: 20vh;
@@ -27,20 +50,27 @@ const Versus = styled.div`
 `;
 
 const SpectatorContainer = styled.div`
+	padding: 0 0.5rem;	
+	grid-area: spectator;
 	position: relative;
 	width: 100%;
 	height: 100%;
 	display: flex;
+  justify-content: flex-start;
 	flex-wrap: wrap;
 	background: var(--light-gray);
 `;
 
 const ContentHeader = styled.div`
+	border-width: 1px;
+	border-style: hidden hidden solid;
+	grid-area: title;
 	width: 100%;
 	display: block;
 	font-family: SBAggroM;
+  height: 60px;
 	font-size: 1.5rem;
-	padding: 0.5rem;	
+	padding: 1rem;	
 	background: var(--dark-gray);
 	text-shadow: 0 2px 0 black;
 `;
@@ -73,7 +103,7 @@ const GameRoom = ({setLocate, title} : any) => {
 			<SectionHeader color='var(--dark-gray)' title={title}>
 				<div onClick={()=>setLocate("home")}>{"나가기"}</div>
 			</SectionHeader>
-			<>
+			<UserInfoContainer>
 				<PlayerContainer>
 					{playerList[0] ? <PlayerCard type="me" player={playerList[0]} /> : null}
 					<Versus> vs </Versus>
@@ -88,7 +118,7 @@ const GameRoom = ({setLocate, title} : any) => {
 						))
 					}
 				</SpectatorContainer>
-			</>
+			</UserInfoContainer>
 		</Container>
 	);
 }

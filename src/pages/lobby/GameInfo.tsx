@@ -31,6 +31,8 @@ const ContentHeader = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
+	line-height: 60px;
+  height: 60px;
 	padding: 0.5rem;	
 	background: var(--light-gray);
 	text-shadow: 0 2px 0 black;
