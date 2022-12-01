@@ -56,7 +56,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 	const RenderCard = () => {
 		switch(props.type)
 		{
-			case "me":	
+			case "purple":	
 				return (
 					<CardWrapper color="--purple">
 						<ProfileImg src={props.player.image} size="100px"/>
@@ -64,7 +64,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 						<IntraText color="--light-light-gray">{props.player.intra}</IntraText>
 					</CardWrapper>
 				);
-			case "opponent":
+			case "yellow":
 				return (
 					<CardWrapper color="--yellow">
 						<ProfileImg src={props.player.image} size="100px"/>

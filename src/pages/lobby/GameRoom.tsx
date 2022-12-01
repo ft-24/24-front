@@ -105,9 +105,9 @@ const GameRoom = ({setLocate, title} : any) => {
 			</SectionHeader>
 			<UserInfoContainer>
 				<PlayerContainer>
-					{playerList[0] ? <PlayerCard type="me" player={playerList[0]} /> : null}
+					{playerList[0] ? <PlayerCard type="purple" player={playerList[0]} /> : null}
 					<Versus> vs </Versus>
-					{playerList[1] ? <PlayerCard type="opponent" player={playerList[1]} />: null}
+					{playerList[1] ? <PlayerCard type="yellow" player={playerList[1]} />: null}
 				</PlayerContainer>
 				{/* <GameWindow /> */}
 				<ContentHeader>관전중인 사람들</ContentHeader>
