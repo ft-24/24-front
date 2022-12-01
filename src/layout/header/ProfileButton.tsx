@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuthState } from "../../context/AuthHooks";
+import { useAuthDispatch, useAuthState } from "../../context/AuthHooks";
 import { Url } from "../../constants/Global";
 
 const Profile = styled.div`
@@ -16,6 +16,7 @@ const StyledLink = styled(Link)`
 const ProfileButton = () => {
 	const [nickname, setNickname] = useState("");
 	const {token} = useAuthState();
+  const dispatch = useAuthDispatch();
 	const getName = async () => {
 		try {
 			const response = await axios.get(Url + 'user/profile', {
@@ -23,8 +24,8 @@ const ProfileButton = () => {
 					Authorization:"Bearer " + token
 				}
 			})
-			const data = response.data.intra_id;
-			setNickname(data);
+			dispatch({type:"INTRA", payload: response.data.intra_id});
+			setNickname(response.data.nickname);
 		} catch (err) {
 			console.log(err);
 		}

@@ -8,6 +8,8 @@ const authReducer = (state : AuthStateType, action : AuthActionType) : AuthState
         case "LOGOUT" :
             localStorage.removeItem('token');
             return {token: undefined, user:undefined};
+        case "INTRA" :
+            return {...state, user:action.payload};
         default :
             return state;
     }
