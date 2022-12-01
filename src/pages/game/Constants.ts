@@ -8,8 +8,9 @@ export namespace Pong {
       TITLE_COLOUR = '#FDF3E7',
       SCORE_COLOUR = '#FFFFFF',
 
-      BALL_COLOUR = '#FF0000',
-      PADDLE_COLOUR = '#0000FF',
+      BALL_COLOUR = '#EEEEEE',
+      PADDLE1_COLOUR = '#ecf700',
+      PADDLE2_COLOUR = '#8156ff',
    }
 
    export enum Text {

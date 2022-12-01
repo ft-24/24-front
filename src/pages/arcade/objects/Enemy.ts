@@ -7,7 +7,7 @@ import GraphicalElement from "../lib/GraphicalElement";
 export namespace Pong {
 
   export class Enemy implements GraphicalElement {
-    protected colour = Constants.Colours.PADDLE_COLOUR;
+    protected colour = Constants.Colours.PADDLE2_COLOUR;
     protected score = 0;
 
     protected startX: number;
