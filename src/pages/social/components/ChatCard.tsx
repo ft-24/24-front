@@ -10,10 +10,6 @@ import UserIconButton from "./UserIconButton";
 
 type Props = {
   isMe: boolean;
-  sender?: string;
-  time?: string;
-  chat?: string;
-  setIsInfoOn?: any;
 };
 
 const Container = styled.div<Props>`
@@ -55,12 +51,17 @@ const ChatCard = ({isMe, message, setIsInfoOn, setData}: {isMe: boolean, message
         Authorization:"Bearer " + token
       }
     }).then(response => {
-      const data: UserProps = response.data;
-      setData(data);
-      setIsInfoOn(true);
+      if (response.data) {
+        const data: UserProps = response.data;
+        setData(data);
+        console.log(data);
+        setIsInfoOn(true);
+      } else {
+        console.error('There is no user named ' + message.intra_id);
+        setData(null);
+      }
     }).catch(error => {
       alert(message.intra_id + ' profile loading failed');
-      setIsInfoOn(true);
     });
     setIsInfoOn(true);
   }

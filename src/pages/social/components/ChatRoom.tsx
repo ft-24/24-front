@@ -3,6 +3,7 @@ import SectionHeader from "../../../components/SectionHeader";
 import ChatInput from "./ChatInput";
 import ChatCard from "./ChatCard";
 import { useEffect, useRef, useState } from "react";
+import { useAuthState } from "../../../context/AuthHooks";
 
 const Container = styled.div`
   position: relative;
@@ -108,6 +109,7 @@ const DummyMessages: Message[] = [
 const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn: boolean, setIsInfoOn: any, setData: any}) => {
   const [userMessage, setUserMessage] = useState(null);
   const lastChat = useRef<HTMLDivElement>(null);
+  const state = useAuthState();
 
   useEffect(() => {
     lastChat?.current?.scrollIntoView({
@@ -127,12 +129,11 @@ const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn:
       </SectionHeader>
       <ChatSection>
         <ChatContainer ref={lastChat}>
-          {DummyMessages.map((item, idx) => {
-            const { nickname: sender, time, chat } = item;
-            const isMe = (sender == "young-ch") ? true : false;
+          {DummyMessages.map((item: Message, index) => {
+            const isMe = (item.intra_id == state.intra) ? true : false;
             return (
               <ChatCard
-                key={idx}
+                key={index}
                 isMe={isMe}
                 message={item}
                 setIsInfoOn={() => setIsInfoOn(true)}

@@ -55,7 +55,7 @@ const Info = ({setIsInfoOn, data}: {setIsInfoOn: any, data: UserProps | null}) =
 				<div>Q</div>
 			</SectionHeader>
 			<ProfileSection>
-				<Avatar.txt size="5">😊</Avatar.txt>
+				<Avatar.img size="5" src={data?.profile_url} />
 				<br></br>
 				<p>{data ? data.nickname : "undefined"}</p>
 				<p>🎖️ {data ? data.stats.ladder_score : "???"}</p>

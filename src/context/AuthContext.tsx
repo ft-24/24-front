@@ -4,7 +4,8 @@ import authReducer from './AuthReducer'
 
 const INITIAL_STATE: AuthStateType = {
   token: localStorage.getItem('token') || undefined,
-  user: undefined,
+  intra: undefined,
+  nickname: undefined,
 };
 
 export const AuthContext = createContext<AuthStateType>(INITIAL_STATE);

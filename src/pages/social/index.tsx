@@ -51,7 +51,7 @@ const Social = () => {
     <Wrapper>
       <Container>
         <NavSection>
-          <Nav isInfoOn={isInfoOn} setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn}/>
+          <Nav isInfoOn={isInfoOn} setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn} setData={setData}/>
         </NavSection>
         {isListOn ? (
           <ListSection>

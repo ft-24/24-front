@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { useRef } from "react"
+import { useAuthState } from "../../../context/AuthHooks"
 
 const Input = styled.input`
 	flex: 9;
@@ -21,6 +22,7 @@ const Label = styled.label`
 
 const ChatInput = ({setUserMessage} : any) => {
     const ref = useRef<HTMLInputElement>(null);
+		const state = useAuthState();
 
 	const getTime = () => {
 		let time = new Date();   
@@ -33,7 +35,7 @@ const ChatInput = ({setUserMessage} : any) => {
 		const userInput = ref?.current?.value;
 		if (ref?.current?.value) {
 			ref.current.value = "";
-			setUserMessage({sender: "young-ch", time: getTime(), chat: userInput});
+			setUserMessage({nickname:state.nickname, intra_id:state.intra, time: getTime(), chat: userInput});
 		}
 	}
 
