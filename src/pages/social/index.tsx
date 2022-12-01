@@ -60,7 +60,7 @@ const Social = () => {
         ) : null}
         <MainSection>
           {locate === "home" ? <Home setLocate={setLocate} setTitle={setTitle}></Home> : null}
-          {locate === "dm" ? <Chat title={title} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
+          {locate === "chat" ? <Chat title={title} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
