@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import OuterLayout from "../layout/OuterLayout";
 import BasicLayout from "../layout/BasicLayout";
 import ErrorPage from "../ErrorPage";
 import Login from "../pages/login/Login";
@@ -13,7 +12,6 @@ import TFAPage from "../auth/TFAPage";
 import Restrict from "../auth/Restrict";
 import ArcadeGamePage from "../pages/arcade/ArcadeGame";
 import Matching from "../pages/matching/Matching";
-import GameLayout from "../layout/GameLayout";
 
 const router = createBrowserRouter([
   {
@@ -42,49 +40,34 @@ const router = createBrowserRouter([
   },
   {
     path: "/*",
-    element: <OuterLayout />,
+    element: <BasicLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/*",
-        element: <BasicLayout />,
-        children: [
-          {
-            path: "",
-            element: <Home />,
-          },
-          {
-            path: "lobby",
-            element: <Lobby />,
-          },
-          {
-            path: "social",
-            element: <Social />,
-          },
-          {
-            path: "profile",
-            element: <Profile />,
-          },
-        ]
+        path: "",
+        element: <Home />,
       },
       {
-        path: "/*",
-        element: <GameLayout />,
-        children: [
-          {
-            path: "game",
-            element: <GamePage />,
-          },
-          {
-            path: "arcade",
-            element: <ArcadeGamePage />,
-          },
-          {
-            path: "matching",
-            element: <Matching />,
-          },
-        ]
-      }
+        path: "lobby",
+        element: <Lobby />,
+      },
+      {
+        path: "social",
+        element: <Social />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "game",
+        element: <GamePage />,
+      },
+      {
+        path: "matching",
+        element: <Matching />,
+      },
+
     ],
   },
 ]);
