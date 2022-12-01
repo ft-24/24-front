@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { useAuthDispatch } from "../../context/AuthHooks"
 
 const FootBar = styled.div`
   z-index: 8;
@@ -71,9 +72,10 @@ const variants = {
 
 const Footer = () => {
   const [hover, setHover] = useState(false);
+  const dispatch = useAuthDispatch();
 
   const onClickLogout = () => {
-    console.log("onClickLogout");
+    dispatch({type:"LOGOUT"});
   }
 
   return (

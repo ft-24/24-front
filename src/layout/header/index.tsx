@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import { UserProps } from "../../pages/profile/ProfileProps";
+import { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import ProfileButton from "./ProfileButton";
 import LogoButton from "./LogoButton";
 import FriendsButton from "./FriendsButton";
@@ -25,39 +23,11 @@ const HeadBar = styled.div`
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
-  const [intra, setIntra] = useState("");
-
-  const getData = async () => {
-    let token = localStorage.getItem("token");
-    if (token) {
-      console.log("getData() in Header Called");
-      try {
-        const response = await axios({
-          url: "http://user/friends",
-          method: "get",
-          headers: { token: "bearer " + token },
-        });
-        const data: UserProps = await response.data;
-      } catch (error) {
-        console.error("get frends List failed");
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (intra == "") {
-      let tmp = localStorage.getItem("intra");
-      if (tmp) setIntra(tmp);
-    }
-    if (intra == "") {
-      getData();
-    }
-  }, []);
 
   return (
     <HeadBar>
       <div>
-        <ProfileButton intra={intra} />
+        <ProfileButton />
       </div>
       <div>
         <LogoButton />

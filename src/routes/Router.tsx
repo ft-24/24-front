@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-
 import BasicLayout from "../layout/BasicLayout";
-
 import ErrorPage from "../ErrorPage";
 import Login from "../pages/login/Login";
 import Auth from "../auth/Auth";
@@ -12,6 +10,8 @@ import Social from "../pages/social";
 import Lobby from "../pages/lobby";
 import TFAPage from "../auth/TFAPage";
 import Restrict from "../auth/Restrict";
+import ArcadeGamePage from "../pages/arcade/ArcadeGame";
+import Matching from "../pages/matching/Matching";
 
 const router = createBrowserRouter([
   {
@@ -52,10 +52,6 @@ const router = createBrowserRouter([
         element: <Lobby />,
       },
       {
-        path: "game",
-        element: <GamePage />,
-      },
-      {
         path: "social",
         element: <Social />,
       },
@@ -63,6 +59,19 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
+      {
+        path: "game",
+        element: <GamePage />,
+      },
+      {
+        path: "arcade",
+        element: <ArcadeGamePage />,
+      },
+      {
+        path: "matching",
+        element: <Matching />,
+      },
+
     ],
   },
 ]);

@@ -9,7 +9,7 @@ export namespace Pong {
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MainScene(this.ctx, this.socket));
+      this.gameContext.loadScene(new MainScene(this.ctx));
     }
 
     draw() {

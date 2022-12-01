@@ -1,23 +1,44 @@
-import { Socket } from "socket.io-client";
 import Scene from "../lib/Scene";
-import Player from "../objects/Player";
 import MenuScene from "./MenuScene";
 import Constants from "../Constants";
+
+import axios from "axios";
+
+import { Url } from "../../../constants/Global";
 
 export namespace Pong {
 
   export class EndScene extends Scene {
 
-    private winner: Player;
+    private score: string;
+    //const { token } = useAuthState();
+    private token: string | null;
+    
 
-    constructor(ctx: CanvasRenderingContext2D, socket:Socket, winner: Player) {
-      super(ctx, socket);
-      this.winner = winner;
+    constructor(ctx: CanvasRenderingContext2D, score: string) {
+      super(ctx);
+      this.score = score;
+      this.token = localStorage.getItem('token');
+      
+      this.setArcadeScore(score);
     }
 
-    // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MenuScene(this.ctx, this.socket));
+      this.gameContext.loadScene(new MenuScene(this.ctx));
+    }
+
+    private setArcadeScore = async (score: string) => {
+      await axios.put(Url + 'user/profile/arcade', {
+        arcade: score
+      }, {
+            headers: {
+              Authorization:"Bearer " + this.token
+            }
+      }).then (response => {
+        console.log("set arcade score: " + response.status);
+      }).catch (error => {
+        alert('score update failed');
+      });
     }
 
     draw() {
@@ -30,7 +51,7 @@ export namespace Pong {
 
       // == Draw text
       // Draw title
-      let title = 'Game Over! - ' + this.winner.name;
+      let title = 'Score : ' + this.score;
       ctx.font = Constants.Text.TITLE_SIZE + " " + Constants.Text.TITLE_FONT;
       ctx.fillStyle = '#FDF3E7';
       ctx.textAlign = 'center';
@@ -50,7 +71,6 @@ export namespace Pong {
     }
 
     load(params: any) {
-      this.winner = <Player>params.winner;
       this.ctx.canvas.addEventListener('click', this.handleClick);
     }
 
