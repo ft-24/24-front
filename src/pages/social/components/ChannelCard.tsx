@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import Avatar from "../../../components/Avatar"
+import { useAuthState } from "../../../context/AuthHooks"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,16 +28,19 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({setLocate, setTitle, title} : any) => {
+const ChannelCard = ({type, receiver, setLocate, setReceiver} : any) => {
+  const { nickname } = useAuthState();
+
   const onClick = () => {
     setLocate("chat");
-    setTitle(title ? title : "No Title");
+    setReceiver(receiver ?? "undefined");
   }
+  
   return (
     <Wrapper onClick={()=>{onClick()}}>
       <Container>
       <Title>
-        {title ? title : "No Title"}
+        {type == "dm" ? (nickname + ", " + receiver) : receiver}
       </Title>
       <MemberList>
         <Avatar.txt background="yellow">🤫</Avatar.txt>

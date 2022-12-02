@@ -4,6 +4,9 @@ import ChatInput from "./ChatInput";
 import ChatCard from "./ChatCard";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "../../../context/AuthHooks";
+import useSocket from "../../../context/useSocket";
+import axios from "axios";
+import { Url } from "../../../constants/Global";
 
 const Container = styled.div`
   position: relative;
@@ -106,30 +109,87 @@ const DummyMessages: Message[] = [
   },
 ];
 
-const ChatRoom = ({title, setIsInfoOn, setInfoIntra}: {title: string, setIsInfoOn: any, setInfoIntra: any}) => {
-  const [userMessage, setUserMessage] = useState(null);
+const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setIsInfoOn: any, setInfoIntra: any}) => {
+  const [sendMessage, setSendMessage] = useState<Message | null>();
+  const [receiveMessage, setReceiveMessage] = useState<Message | null>();
   const lastChat = useRef<HTMLDivElement>(null);
-  const state = useAuthState();
+  const [chatLog, setChatLog] = useState<Message[]>();
 
-  useEffect(() => {
+  const state = useAuthState();
+  const { socket } = useSocket();
+  const { token } = useAuthState();
+
+  const getChatLog = async () => {
+    await axios.get(Url + 'user/profile', {
+      headers: {
+        Authorization:"Bearer " + token
+      }, 
+      timeout: 1000,
+    }).then(response => {
+      const data: Message[] = response.data;
+      setChatLog([...data]);
+    }).catch(error => {
+      console.error('message log loading failed');
+      setChatLog([...DummyMessages]);
+    });
+  }
+
+  useEffect(()=>{
+    getChatLog();
+  },[])
+
+  const scrollDown = () => {
     lastChat?.current?.scrollIntoView({
       behavior: "smooth",
       block: "end",
       inline: "nearest",
     });
-	if (userMessage)
-		DummyMessages.push(userMessage);
-    return setUserMessage(null);
-  }, [userMessage]);
+  }
+
+  useEffect(() => {
+    scrollDown();
+    if (receiveMessage) {
+      chatLog?.push(receiveMessage);
+      setReceiveMessage(null);
+    }
+  }, [receiveMessage]);
+
+  useEffect(()=>{
+    if (sendMessage) {
+      scrollDown();
+      if (socket) {
+        console.log("emit message:" + sendMessage.chat + ", " + 'young-ch');
+        socket.emit("dm-message", {msg: sendMessage.chat , nickname: 'young-ch'});
+      } else {
+        console.log("There is no socket");
+      }
+      setSendMessage(null);
+    }
+  },[sendMessage])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("dm-message", (data: Message) => {
+        if (data) {
+          console.log("receive");
+          console.log(data);
+          setReceiveMessage(data);
+        }
+      })
+      return () => {
+        socket.off("dm-message");
+      }
+    }
+  }, [socket]);
 
   return (
     <Container>
-      <SectionHeader color="var(--purple)" title={title}>
+      <SectionHeader color="var(--purple)" title={state.nickname + ", " + receiver}>
         <div onClick={() => setIsInfoOn(true)}>{":"}</div>
       </SectionHeader>
       <ChatSection>
         <ChatContainer ref={lastChat}>
-          {DummyMessages.map((item: Message, index) => {
+          {chatLog?.map((item: Message, index) => {
             const isMe = (item.intra_id == state.intra) ? true : false;
             return (
               <ChatCard
@@ -144,7 +204,7 @@ const ChatRoom = ({title, setIsInfoOn, setInfoIntra}: {title: string, setIsInfoO
         </ChatContainer>
       </ChatSection>
       <InputSection>
-        <ChatInput setUserMessage={setUserMessage}></ChatInput>
+        <ChatInput setUserMessage={setSendMessage}></ChatInput>
       </InputSection>
     </Container>
   );

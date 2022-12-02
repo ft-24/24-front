@@ -3,8 +3,9 @@ import Nav from "./components/Nav";
 import Info from "./components/Info";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
-import List from "./components/List";
+import PublicList from "./components/PublicList";
 import { useState } from "react";
+import DMList from "./components/DMList";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -42,10 +43,11 @@ const ListSection = styled.div`
 
 const Social = () => {
   const [locate, setLocate] = useState("home");
-  const [title, setTitle] = useState("");
+  const [receiver, setReceiver] = useState("");
   const [infoIntra, setInfoIntra] = useState("");
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
+  const [isDMListOn, setIsDMListOn] = useState(false);
 
   return (
     <Wrapper>
@@ -53,25 +55,29 @@ const Social = () => {
         <NavSection>
           <Nav
             setLocate={setLocate}
+            setIsDMListOn={setIsDMListOn}
             setIsListOn={setIsListOn}
             setIsInfoOn={setIsInfoOn}
             setInfoIntra={setInfoIntra}/>
         </NavSection>
+        {isDMListOn ? (
+          <ListSection>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+          </ListSection>
+        ) : null}
         {isListOn ? (
           <ListSection>
-            <List
-              setIsListOn={setIsListOn}
-              setLocate={setLocate}/>
+            <PublicList setIsListOn={setIsListOn} setLocate={setLocate}/>
           </ListSection>
         ) : null}
         <MainSection>
           {locate === "home" ?
             <Home
               setLocate={setLocate}
-              setTitle={setTitle} /> : null}
+              setReceiver={setReceiver} /> : null}
           {locate === "chat" ?
             <ChatRoom
-              title={title}
+              receiver={receiver}
               setIsInfoOn={setIsInfoOn}
               setInfoIntra={setInfoIntra} /> : null}
         </MainSection>

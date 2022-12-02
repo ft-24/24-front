@@ -16,17 +16,17 @@ const ChannelSection = styled.div`
     flex-direction: column;
 `
 
-const List = ({setIsListOn, setLocate, setTitle} : any) => {
+const PublicList = ({setIsListOn, setLocate, setTitle} : any) => {
     return (
         <Container>
             <SectionHeader color='var(--purple)' title="채널목록">
                 <div onClick={()=>setIsListOn(false)}>{"X"}</div>
             </SectionHeader>
             <ChannelSection>
-                <ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
+                <ChannelCard title setLocate={setLocate} setTitle={setTitle}></ChannelCard>
             </ChannelSection>
         </Container>
     )
 };
 
-export default List
+export default PublicList

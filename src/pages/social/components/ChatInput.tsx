@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { useRef } from "react"
 import { useAuthState } from "../../../context/AuthHooks"
+import useSocket from "../../../context/useSocket"
 
 const Input = styled.input`
 	flex: 9;
@@ -39,17 +40,17 @@ const ChatInput = ({setUserMessage} : any) => {
 		}
 	}
 
-    const onClickHandler = (event : any) => {
+	const onClickHandler = (event : any) => {
 		event.preventDefault();
 		sendUserInput();
-    }
+	}
 
 	const onKeyPressHandler = (event: any) => {
-        if(event.key === 'Enter') {
+		if(event.key === 'Enter') {
 			const userInput = ref?.current?.value;
 			sendUserInput();
 		}
-    }
+	}
 
     return (
       <>
