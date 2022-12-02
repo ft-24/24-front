@@ -7,7 +7,14 @@ const authReducer = (state : AuthStateType, action : AuthActionType) : AuthState
             return {...state, token:action.payload};
         case "LOGOUT" :
             localStorage.removeItem('token');
-            return {token: undefined, user:undefined};
+            localStorage.removeItem('intra');
+            return {token: undefined, intra: undefined, nickname: undefined};
+        case "INTRA" :
+            localStorage.setItem('intra', action.payload);
+            return {...state, intra:action.payload};
+        case "NICKNAME" :
+            localStorage.setItem('intra', action.payload);
+            return {...state, nickname:action.payload};
         default :
             return state;
     }

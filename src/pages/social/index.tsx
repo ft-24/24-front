@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Nav from "./components/Nav";
 import Info from "./components/Info";
-import Chat from "./components/Chat";
+import Chat from "./components/ChatRoom";
 import Home from "./components/Home";
 import List from "./components/List";
 import { useState } from "react";
@@ -43,6 +43,7 @@ const ListSection = styled.div`
 const Social = () => {
   const [locate, setLocate] = useState("home");
   const [title, setTitle] = useState("");
+  const [data, setData] = useState(null);
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
 
@@ -50,7 +51,7 @@ const Social = () => {
     <Wrapper>
       <Container>
         <NavSection>
-          <Nav setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn}/>
+          <Nav isInfoOn={isInfoOn} setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn} setData={setData}/>
         </NavSection>
         {isListOn ? (
           <ListSection>
@@ -59,11 +60,11 @@ const Social = () => {
         ) : null}
         <MainSection>
           {locate === "home" ? <Home setLocate={setLocate} setTitle={setTitle}></Home> : null}
-          {locate === "dm" ? <Chat setIsInfoOn={setIsInfoOn} setTitle={setTitle}></Chat> : null}
+          {locate === "chat" ? <Chat title={title} isInfoOn={isInfoOn} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
-            <Info setIsInfoOn={setIsInfoOn} />
+            <Info setIsInfoOn={setIsInfoOn} data={data}/>
           </InfoSection>
         ) : null}
       </Container>

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import SectionHeader from "../../../components/SectionHeader";
+import { UserProps } from "../../profile/UserProps"
+import IconButton from "./IconButton";
 
 const Container = styled.div`
 	width: 100%;
@@ -25,7 +27,7 @@ const ProfileSection = styled.div`
 
 const IconSection = styled.div`
 	background: var(--light-gray);
-	border-radius: 1rem;
+	border-radius: 1rem 1rem 0 0;
 	width: 100%;
 	flex: 1;
 	display: flex;
@@ -33,7 +35,19 @@ const IconSection = styled.div`
 	align-items: center;
 `
 
-const Info = ({setIsInfoOn} : any) => {
+const Info = ({setIsInfoOn, data}: {setIsInfoOn: any, data: UserProps | null}) => {
+
+	const onClickAdd = () => {
+		console.log("onClickAdd");
+	}
+
+	const onClickPlay = () => {
+		console.log("onClickPlay");
+	}
+
+	const onClickBlock = () => {
+		console.log("onClickBlock");
+	}
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
@@ -41,15 +55,15 @@ const Info = ({setIsInfoOn} : any) => {
 				<div>Q</div>
 			</SectionHeader>
 			<ProfileSection>
-				<Avatar.txt size="5">😊</Avatar.txt>
+				<Avatar.img size="5" src={data?.profile_url} />
 				<br></br>
-				<p>Young il, Cho</p>
-				<p>🎖️ 100</p>
+				<p>{data ? data.nickname : "undefined"}</p>
+				<p>🎖️ {data ? data.stats.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
-				<Avatar.txt size="3">❤️</Avatar.txt>
-				<Avatar.txt size="3">🎮</Avatar.txt>
-				<Avatar.txt size="3">❌</Avatar.txt>
+				<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
 		</Container>
 	)
