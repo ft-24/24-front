@@ -11,15 +11,11 @@ const Container = styled.div`
   position: relative;
   font-family: SBAggroM;
   &:hover {
-    & > img {
-      opacity: 1;
-    }
     background-color: var(--dark-gray);
   }
 `;
 
 const Image = styled.img`
-  opacity: 0;
   position: absolute;
   background: none;
   width: 70px;
@@ -34,7 +30,6 @@ const FirstImage = styled(Image)`
 const LastImage = styled(Image)`
   top: 0px;
   left: 100px;
-  transition-delay: 100ms;
 `;
 
 const Text = styled.div`
