@@ -3,6 +3,7 @@ import SectionHeader from "../../../components/SectionHeader";
 import ChatInput from "./ChatInput";
 import ChatCard from "./ChatCard";
 import { useEffect, useRef, useState } from "react";
+import { useAuthState } from "../../../context/AuthHooks";
 
 const Container = styled.div`
   position: relative;
@@ -45,53 +46,70 @@ const InputSection = styled.div`
   gap: 0.5rem;
 `;
 
-type Message = {
-	sender: string,
+export type Message = {
+	nickname: string,
+	intra_id: string,
+  profile_url: string,
 	time: string,
 	chat: string,
 };
 
 const DummyMessages: Message[] = [
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:11",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "young-ch",
+    nickname: "young-ch",
+    intra_id: "young-ch",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:12",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:13",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:14",
     chat: "테스트",
   },
   {
-    sender: "other",
+    nickname: "other",
+    intra_id: "other",
+    profile_url: "/src/images/hero.png",
     time: "2022-11-11 11:14",
     chat: "테스트",
   },
 ];
 
-const Chat = ({ setIsInfoOn } : any) => {
+const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn: boolean, setIsInfoOn: any, setData: any}) => {
   const [userMessage, setUserMessage] = useState(null);
   const lastChat = useRef<HTMLDivElement>(null);
+  const state = useAuthState();
 
   useEffect(() => {
     lastChat?.current?.scrollIntoView({
@@ -106,21 +124,20 @@ const Chat = ({ setIsInfoOn } : any) => {
 
   return (
     <Container>
-      <SectionHeader color="var(--purple)" title="other, me">
+      <SectionHeader color="var(--purple)" title={title}>
         <div onClick={() => setIsInfoOn(true)}>{":"}</div>
       </SectionHeader>
       <ChatSection>
         <ChatContainer ref={lastChat}>
-          {DummyMessages.map((ele, idx) => {
-            const { sender, time, chat } = ele;
-            const isMe = (sender == "young-ch") ? true : false;
+          {DummyMessages.map((item: Message, index) => {
+            const isMe = (item.intra_id == state.intra) ? true : false;
             return (
               <ChatCard
-                key={idx}
+                key={index}
                 isMe={isMe}
-                sender={sender}
-                time={time}
-                chat={chat}
+                message={item}
+                setIsInfoOn={() => setIsInfoOn(true)}
+                setData={setData}
               ></ChatCard>
             );
           })}

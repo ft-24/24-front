@@ -1,11 +1,15 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
+import { UserProps } from "../../profile/UserProps";
+import { Message } from "./ChatRoom";
+import UserIconButton from "./UserIconButton";
 
 type Props = {
   isMe: boolean;
-  sender?: string;
-  time?: string;
-  chat?: string;
 };
 
 const Container = styled.div<Props>`
@@ -25,7 +29,7 @@ const MessageContainer = styled.div<Props>`
   margin-left: ${(props) => (props.isMe ? `` : `1rem`)};
 `;
 
-const Message = styled.div<Props>`
+const MessageBubble = styled.div<Props>`
   padding: 1rem;
   margin-top: 1rem;
   background: ${(props) => (props.isMe ? `var(--purple)` : `var(--white)`)};
@@ -38,17 +42,44 @@ const TimeBar = styled.div`
   align-self: flex-end;
 `;
 
-const ChatCard = ({ isMe, sender, time, chat }: Props) => {
+const ChatCard = ({isMe, message, setIsInfoOn, setData}: {isMe: boolean, message: Message, setIsInfoOn: any, setData: any}) => {
+  const { token } = useAuthState();
+  
+  const showInfo = async () => {
+    await axios.get(Url + 'user/profile/' + message.intra_id, {
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+      if (response.data) {
+        const data: UserProps = response.data;
+        setData(data);
+        console.log(data);
+        setIsInfoOn(true);
+      } else {
+        console.error('There is no user named ' + message.intra_id);
+        setData(null);
+      }
+    }).catch(error => {
+      alert(message.intra_id + ' profile loading failed');
+    });
+    setIsInfoOn(true);
+  }
+  
   return (
     <Container isMe={isMe}>
       {!isMe ? (
         <Sender>
-          <Avatar.txt>{sender}</Avatar.txt>
+          <UserIconButton
+            onClickButton={showInfo}
+            imgSrc={message.profile_url}
+            text={message.nickname ?? "undefined"}
+            iconSize="2.5" />
         </Sender>
       ) : null}
       <MessageContainer isMe={isMe}>
-        <Message isMe={isMe}>{chat}</Message>
-        <TimeBar>{time}</TimeBar>
+        <MessageBubble isMe={isMe}>{message.chat}</MessageBubble>
+        <TimeBar>{message.time}</TimeBar>
       </MessageContainer>
     </Container>
   );

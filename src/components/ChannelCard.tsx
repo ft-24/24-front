@@ -29,7 +29,7 @@ const MemberList = styled.div`
 
 const ChannelCard = ({setLocate, setTitle, title} : any) => {
   const onClick = () => {
-    setLocate("dm");
+    setLocate("chat");
     setTitle(title ? title : "No Title");
   }
   return (

@@ -1,5 +1,11 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
+import { UserProps } from "../../profile/UserProps";
+import UserIconButton from "./UserIconButton";
 
 const Container = styled.div`
 	width: 100%;
@@ -33,7 +39,45 @@ const Button = styled.div`
 	}
 `
 
-const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
+const Nav = ({isInfoOn, setLocate, setIsListOn, setIsInfoOn, setData}: {isInfoOn: boolean, setLocate: any, setIsListOn: any, setIsInfoOn: any, setData: any}) => {
+  const [image, setimage] = useState("");
+  const { token } = useAuthState();
+	
+  const getData = async() => {
+    await axios.get(Url + 'user/profile', {
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+      setimage(response.data.profile_url);
+    }).catch(error => {
+      setimage('/src/images/hero.png');
+    });
+  }
+
+	useEffect(() => {
+		getData();
+	}, []);
+
+  const showInfo = async () => {
+    await axios.get(Url + 'user/profile', {
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+      if (response.data) {
+        const data: UserProps = response.data;
+        setData(data);
+        setIsInfoOn(true);
+      } else {
+        console.error('There is no user data');
+        setData(null);
+      }
+    }).catch(error => {
+      console.error('user profile loading failed');
+    });
+  }
+	
 	return (
 			<Container>
 				LOGO
@@ -43,7 +87,7 @@ const Nav = ({setLocate, setIsListOn, setIsInfoOn} : any) => {
 					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<Avatar.txt size="3" onClick={()=>{setIsInfoOn(true);}}>😊</Avatar.txt>
+				<UserIconButton onClickButton={showInfo} imgSrc={image} text="" iconSize="3" />
 			</Container>
 	)
 }
