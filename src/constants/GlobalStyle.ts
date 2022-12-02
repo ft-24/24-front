@@ -4,14 +4,25 @@ export default createGlobalStyle`
 * {
   --yellow : #ecf700;
   --purple: #8156ff;
+  --white: #ffffff;
+  --light-light-gray: #cfcfcf;
   --light-gray: #4e4e4e;
   --dark-gray: #1c1c1c;
-  --white: white;
   --translucent-white: rgba(255, 255, 255, 0.2);
+
+  @font-face {
+    font-family: 'NanumSquareR';
+    src: url('/fonts/NanumSquareR.otf');
+  }
 
   @font-face {
     font-family: 'NanumSquareL';
     src: url('/fonts/NanumSquareL.otf');
+  }
+
+  @font-face {
+    font-family: 'NanumSquareB';
+    src: url('/fonts/NanumSquareB.otf');
   }
 
   @font-face {
@@ -22,6 +33,11 @@ export default createGlobalStyle`
   @font-face {
     font-family: 'SBAggroL';
     src: url('/fonts/SBAggroL.otf');
+  }
+  
+  @font-face {
+    font-family: 'SBAggroB';
+    src: url('/fonts/SBAggroB.otf');
   }
 
   margin: 0;

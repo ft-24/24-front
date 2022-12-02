@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
-import SectionHeader from "../../components/SectionHeader";
-import PlayerCard from "./PlayerCard";
+import CardWrapper from "./PlayerCard";
+import PlayerInfo from "./PlayerInfo";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	width: 100%;
@@ -30,6 +31,8 @@ const ContentHeader = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
+	line-height: 60px;
+  height: 60px;
 	padding: 0.5rem;	
 	background: var(--light-gray);
 	text-shadow: 0 2px 0 black;
@@ -80,30 +83,18 @@ const Text = styled.div`
 	font-family: SBAggroM;
 `;
 
-class Player {
-  intra: string;
-  nickname: string;
-  image: string;
-
-  constructor(i: string, n: string, img: string) {
-    this.intra = i;
-		this.nickname = n;
-		this.image = img;
-  }
-}
-
 const GameInfo = ({setInfo, setLocate, title} : any) => {
   const [hover, setHover] = useState(false);
 	
-  let playerList = new Array<Player>(0);
-	let spectatorList = new Array<Player>(0);
+  let playerList = new Array<PlayerInfo>();
+	let spectatorList = new Array<PlayerInfo>();
 
-	playerList.push(new Player("sunhkim", "sunhkim", "some link"));
-	playerList.push(new Player("yoahn", "yoahn", "some link"));
+	playerList.push(new PlayerInfo("sunhkim", "sunhkim", "some link"));
+	playerList.push(new PlayerInfo("yoahn", "yoahn", "some link"));
 
-	spectatorList.push(new Player("seonhjeo", "seonhjeo", "some link"))
-	spectatorList.push(new Player("chanhuil", "chanhuil", "some link"))
-	spectatorList.push(new Player("young-ch", "young-ch", "some link"))
+	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link"))
+	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link"))
+	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link"))
 
 	const enterLobby = () => {
 		setLocate("lobby");
@@ -119,16 +110,16 @@ const GameInfo = ({setInfo, setLocate, title} : any) => {
 			<ContentHeader>게임하는 사람들</ContentHeader>	
 			<PlayerSection>
 				{
-					playerList.map((item : Player, index) => (
-						<PlayerCard key={index} type="spectator" intra={item.intra}></PlayerCard>
+					playerList.map((item : PlayerInfo, index) => (
+						<CardWrapper key={index} type="spectator" player={item}></CardWrapper>
 					))
 				}
 			</PlayerSection>
 			<ContentHeader>관전중인 사람들</ContentHeader>	
 			<PlayerSection>
 				{
-					spectatorList.map((item : Player, index) => (
-						<PlayerCard key={index}	 type="spectator" intra={item.intra}></PlayerCard>
+					spectatorList.map((item : PlayerInfo, index) => (
+						<CardWrapper key={index}	 type="spectator" player={item}></CardWrapper>
 					))
 				}
 			</PlayerSection>
