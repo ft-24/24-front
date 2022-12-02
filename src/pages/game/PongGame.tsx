@@ -9,7 +9,6 @@ import GameEngine from "./lib/GameEngine";
 import PongIO from "./lib/IO";
 import Constants from "./Constants";
 
-
 const BackGround = styled.div`
   min-height: 100vh;
   display: flex;
@@ -20,14 +19,12 @@ const BackGround = styled.div`
 const GameBoard = styled.canvas`
   width : 80%;
   height : width / 2;
-  position: absolute;
   top:0;
   bottom: 0;
   left: 0;
   right: 0;
   margin:auto;
 `;
-
 
 export const PongGame = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,7 +43,7 @@ export const PongGame = () => {
     }
   }, [canvasRef.current, socket]);
 
-  
+
   useEffect(() => {
     if (socket) {
       socket.on("draw", (data: PongIO.GameRecvData) => {

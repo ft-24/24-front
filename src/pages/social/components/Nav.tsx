@@ -39,9 +39,10 @@ const Button = styled.div`
 	}
 `
 
-const Nav = ({isInfoOn, setLocate, setIsListOn, setIsInfoOn, setData}: {isInfoOn: boolean, setLocate: any, setIsListOn: any, setIsInfoOn: any, setData: any}) => {
+const Nav = ({setLocate, setIsListOn, setIsInfoOn, setInfoIntra}: {setLocate: any, setIsListOn: any, setIsInfoOn: any, setInfoIntra: any}) => {
   const [image, setimage] = useState("");
   const { token } = useAuthState();
+	const state = useAuthState();
 	
   const getData = async() => {
     await axios.get(Url + 'user/profile', {
@@ -58,26 +59,12 @@ const Nav = ({isInfoOn, setLocate, setIsListOn, setIsInfoOn, setData}: {isInfoOn
 	useEffect(() => {
 		getData();
 	}, []);
-
-  const showInfo = async () => {
-    await axios.get(Url + 'user/profile', {
-      headers: {
-        Authorization:"Bearer " + token
-      }
-    }).then(response => {
-      if (response.data) {
-        const data: UserProps = response.data;
-        setData(data);
-        setIsInfoOn(true);
-      } else {
-        console.error('There is no user data');
-        setData(null);
-      }
-    }).catch(error => {
-      console.error('user profile loading failed');
-    });
-  }
 	
+  const onClick = () => {
+    setInfoIntra(state.intra ?? "undefined");
+    setIsInfoOn(true);
+  }
+
 	return (
 			<Container>
 				LOGO
@@ -87,7 +74,7 @@ const Nav = ({isInfoOn, setLocate, setIsListOn, setIsInfoOn, setData}: {isInfoOn
 					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<UserIconButton onClickButton={showInfo} imgSrc={image} text="" iconSize="3" />
+				<UserIconButton onClickButton={onClick} imgSrc={image} text={state.nickname} iconSize="3" />
 			</Container>
 	)
 }

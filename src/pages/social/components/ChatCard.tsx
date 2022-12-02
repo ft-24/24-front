@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Avatar from "../../../components/Avatar";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import { UserProps } from "../../profile/UserProps";
@@ -42,36 +40,20 @@ const TimeBar = styled.div`
   align-self: flex-end;
 `;
 
-const ChatCard = ({isMe, message, setIsInfoOn, setData}: {isMe: boolean, message: Message, setIsInfoOn: any, setData: any}) => {
+const ChatCard = ({isMe, message, setIsInfoOn, setInfoIntra}: {isMe: boolean, message: Message, setIsInfoOn: any, setInfoIntra: any}) => {
   const { token } = useAuthState();
   
-  const showInfo = async () => {
-    await axios.get(Url + 'user/profile/' + message.intra_id, {
-      headers: {
-        Authorization:"Bearer " + token
-      }
-    }).then(response => {
-      if (response.data) {
-        const data: UserProps = response.data;
-        setData(data);
-        console.log(data);
-        setIsInfoOn(true);
-      } else {
-        console.error('There is no user named ' + message.intra_id);
-        setData(null);
-      }
-    }).catch(error => {
-      alert(message.intra_id + ' profile loading failed');
-    });
+  const onClick = () => {
+    setInfoIntra(message.intra_id);
     setIsInfoOn(true);
   }
-  
+
   return (
     <Container isMe={isMe}>
       {!isMe ? (
         <Sender>
           <UserIconButton
-            onClickButton={showInfo}
+            onClickButton={onClick}
             imgSrc={message.profile_url}
             text={message.nickname ?? "undefined"}
             iconSize="2.5" />

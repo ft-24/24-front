@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import SectionHeader from "../../../components/SectionHeader";
-import { PongGame } from "../../game/PongGame";
+import PongGame from "../../game/PongGame";
 import PlayerCard from "../../../components/PlayerCard";
-import PlayerInfo from "./PlayerInfo";
+import SectionHeader from "../../../components/SectionHeader";
+import PlayerInfo from "../../lobby/components/PlayerInfo";
 
 const Container = styled.div`
 	position: relative;
@@ -51,32 +51,6 @@ const Versus = styled.div`
 	line-height: 20vh;
 `;
 
-const SpectatorContainer = styled.div`
-	padding: 0 0.5rem;	
-	grid-area: spectator;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	display: flex;
-  justify-content: flex-start;
-	flex-wrap: wrap;
-	background: var(--light-gray);
-`;
-
-const ContentHeader = styled.div`
-	border-width: 1px;
-	border-style: hidden hidden solid;
-	grid-area: title;
-	width: 100%;
-	display: block;
-	font-family: SBAggroM;
-  height: 60px;
-	font-size: 1.5rem;
-	padding: 1rem;	
-	background: var(--dark-gray);
-	text-shadow: 0 2px 0 black;
-`;
-
 const GameContainer = styled.div`
 	border-width: 1px;
 	border-style: solid hidden hidden hidden;
@@ -87,16 +61,11 @@ const GameContainer = styled.div`
 	height: 100%;
 `;
 
-const GameRoom = ({setLocate, title} : any) => {
+const PrivateGameRoom = ({setLocate, title} : any) => {
   let playerList = new Array<PlayerInfo>();
-	let spectatorList = new Array<PlayerInfo>();
 
-	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
-
-	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
-	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
-	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
+	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500));
+	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200));
 
 	return (
 		<Container>
@@ -109,14 +78,6 @@ const GameRoom = ({setLocate, title} : any) => {
 					<Versus> vs </Versus>
 					{playerList[1] ? <PlayerCard type="yellow" player={playerList[1]} />: null}
 				</PlayerContainer>
-				<ContentHeader>관전중인 사람들</ContentHeader>
-				<SpectatorContainer>
-					{
-						spectatorList.map((item : PlayerInfo, index) => (
-							<PlayerCard key={index}	 type="spectator" player={item}></PlayerCard>
-						))
-					}
-				</SpectatorContainer>
 			</UserInfoContainer>
 			<GameContainer>
 				<PongGame />
@@ -125,4 +86,4 @@ const GameRoom = ({setLocate, title} : any) => {
 	);
 }
 
-export default GameRoom;
+export default PrivateGameRoom;

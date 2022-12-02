@@ -45,7 +45,7 @@ const UserTfa = ({isTfaOn} : {isTfaOn : boolean}) => {
       console.log("set tfa: " + response.status);
 			setTfa(!tfa);
     }).catch(error => {
-      alert('two factor setting failed');
+      console.error('two factor setting failed');
     });
   }
 

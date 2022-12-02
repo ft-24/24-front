@@ -1,6 +1,11 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import SectionHeader from "../../../components/SectionHeader";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
+import PlayerInfo from "../../lobby/components/PlayerInfo";
 import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
 
@@ -35,7 +40,44 @@ const IconSection = styled.div`
 	align-items: center;
 `
 
-const Info = ({setIsInfoOn, data}: {setIsInfoOn: any, data: UserProps | null}) => {
+const dummyUserData: PlayerInfo = {
+  intra_id: 'undefined',
+  nickname: 'undefined',
+  profile_url: '/src/images/hero.png',
+  ladder_score: 1500,
+	is_my_friend: false,
+}
+
+const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+  const [userData, setUserData] = useState<PlayerInfo>();
+  const { token } = useAuthState();
+  
+  const getData = async() => {
+    await axios.get(Url + 'user/profile/' + intra, {
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+      const data: PlayerInfo = response.data;
+      console.log(data);
+      setUserData(
+        prev => prev = new PlayerInfo(
+          data.intra_id,
+          data.nickname,
+          data.profile_url,
+					data.ladder_score,
+					data.is_my_friend,
+				))
+    }).catch(error => {
+      console.error(intra + ' profile loading failed');
+      setUserData(dummyUserData);
+    });
+  }
+
+  useEffect(() => {
+		console.log("info on");
+    getData();
+  }, [intra]);
 
 	const onClickAdd = () => {
 		console.log("onClickAdd");
@@ -48,20 +90,25 @@ const Info = ({setIsInfoOn, data}: {setIsInfoOn: any, data: UserProps | null}) =
 	const onClickBlock = () => {
 		console.log("onClickBlock");
 	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
 				<div onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
-				<div>Q</div>
 			</SectionHeader>
 			<ProfileSection>
-				<Avatar.img size="5" src={data?.profile_url} />
+				<Avatar.img size="5" src={userData?.profile_url} />
 				<br></br>
-				<p>{data ? data.nickname : "undefined"}</p>
-				<p>🎖️ {data ? data.stats.ladder_score : "???"}</p>
+				<p>{userData ? userData.nickname : "undefined"}</p>
+				<p>{intra}</p>
+				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
-				<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+				{
+					userData?.is_my_friend ? 
+						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+				}
 				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>

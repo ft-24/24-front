@@ -17,7 +17,7 @@ const Text = styled.div`
 	margin: 0.5rem;
 `;
 
-const UserIconButton = ({onClickButton, imgSrc, text, iconSize} : {onClickButton: any, imgSrc: string, text: string, iconSize: string}) => {
+const UserIconButton = ({onClickButton, imgSrc, text, iconSize} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string}) => {
 	return (
 		<Wrapper>
 			<Button onClick={onClickButton}>
