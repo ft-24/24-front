@@ -55,7 +55,12 @@ export namespace Pong {
       }
 
       if (this.y >= maxY || this.y <= 0) {
-        this.dy = -this.dy
+        this.dy = -this.dy;
+        if (this.y >= maxY) {
+          this.y = maxY;
+        } else {
+          this.y = 0;
+        }
       }
     }
 

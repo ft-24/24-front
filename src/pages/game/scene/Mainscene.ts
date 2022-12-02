@@ -30,11 +30,11 @@ namespace Pong {
       this.input = new PongIO.Input(Direction.NONE, socket);
       // Position objects
       this.ball = new Ball(centerH, centerV);
-      this.player1 = new Player(1, this.playerPadding, centerV, this.ball);
+      this.player1 = new Player(1, this.playerPadding, centerV, this.ball, Constants.Colours.PADDLE1_COLOUR);
 
       let player2Offset = ctx.canvas.width
                             - (this.playerPadding + this.player1.paddleWidth)
-      this.player2 = new Player(2, player2Offset, centerV, this.ball);
+      this.player2 = new Player(2, player2Offset, centerV, this.ball, Constants.Colours.PADDLE2_COLOUR);
 
       this.objectsInScene.push(this.player1);
       this.objectsInScene.push(this.player2);

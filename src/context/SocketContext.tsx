@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }:{ children: JSX.Element }) =>
   const [socket, setSocket] = useState<Socket | undefined>();
   const [error, setError] = useState("");
   useEffect(() => {
-    const _socket = io("http://localhost:3001");
+    const _socket = io("http://10.13.4.4:3000/game", {transports:['websocket']});
     _socket.on("connect", () => {setSocket(_socket)});
     _socket.on("disconnect", (reason)=>{setError(reason)});
     return (() => {
