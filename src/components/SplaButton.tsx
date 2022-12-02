@@ -39,9 +39,9 @@ const Text = styled.div`
   background: none;
 `;
 
-const SplaButton = ({ text }: { text: string }) => {
+const SplaButton = ({ text, onClickHandler }: { text: string, onClickHandler: VoidFunction }) => {
   return (
-    <Container>
+    <Container onClick={onClickHandler}>
       <FirstImage src="/src/images/splash1.png" alt="" />
       <LastImage src="/src/images/splash2.png" alt="" />
       <Text>{text}</Text>
