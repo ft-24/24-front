@@ -6,7 +6,7 @@ import { UserProps } from "../../profile/UserProps"
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
 `
 
 const Container = styled.div`
@@ -29,9 +29,14 @@ const Intra = styled.div`
 	font-size: 1.5rem;
 `
 
-const FriendCard = ({nickname, intra, setIsInfoOn}: {nickname: string, intra: string, setIsInfoOn: any}) => {
-  return (
-    <Wrapper onClick={() => setIsInfoOn(true)}>
+const FriendCard = ({nickname, intra, setIsInfoOn, setInfoIntra}: {nickname: string, intra: string, setIsInfoOn: any, setInfoIntra: any}) => {
+  const onClick = () => {
+		setInfoIntra(intra);
+		setIsInfoOn(true);
+	}
+	
+	return (
+    <Wrapper onClick={onClick}>
       <Container>
 				<Nickname>{nickname}</Nickname>
 				<Intra>{intra}</Intra>

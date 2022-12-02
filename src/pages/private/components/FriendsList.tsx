@@ -55,7 +55,7 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const dummyFriends: PlayerInfo[] = [
+const DummyFriends: PlayerInfo[] = [
 	{
 		intra_id: "yoahn",
 		nickname: "yoahn",
@@ -63,29 +63,35 @@ const dummyFriends: PlayerInfo[] = [
 		ladder_score: 1200,
 	},
 	{
-		intra_id: "HOYA",
-		nickname: "seonhjeo",
+		intra_id: "seonhjeo",
+		nickname: "HOYA",
 		profile_url: "/src/images/hero.png",
 		ladder_score: 1500,
 	},
 ]
 
-const FriendsList = ({setIsInfoOn} : any) => {
-  let onlineFriends = new Array<PlayerInfo>();
+const FriendsList = ({setIsInfoOn, setInfoIntra} : any) => {
+  const [onlineFriends, setOnlineFriends] = useState<PlayerInfo[]>([]);
 	const { token } = useAuthState();
 
   const getFriends = async () => {
 		await axios.get(Url + 'user/friends', {
-				headers: { 'token': 'bearer ' + token }
+				headers: { 'token': 'bearer ' + token },
+				timeout: 1000,
 		}).then(response => {
 			const Friends = response.data;
 			const onlineArray : PlayerInfo[] = [];
 			for (let friend of Friends) {
-				onlineArray.push(friend)
+				onlineArray.push(friend);
 			}
+			setOnlineFriends([...onlineArray]);
 		}).catch(error => {
-			console.log('online friends loading failed');
-			onlineFriends = dummyFriends;
+			console.error('online friends loading failed');
+			const onlineArray : PlayerInfo[] = [];
+			for (let friend of DummyFriends) {
+				onlineArray.push(friend);
+			}
+			setOnlineFriends([...onlineArray]);
 		});
 	}
 
@@ -100,13 +106,14 @@ const FriendsList = ({setIsInfoOn} : any) => {
 			<FriendsSection>
 				<FriendsContainer>
 					{
-						onlineFriends.length > 0 ?
+						(onlineFriends.length > 0) ?
 							onlineFriends.map((item : PlayerInfo, index) => (
 									<FriendCard
 										key={index}
-										nickname={""}
-										intra={""}
-										setIsInfoOn={setIsInfoOn} />
+										nickname={item.nickname}
+										intra={item.intra_id}
+										setIsInfoOn={setIsInfoOn} 
+										setInfoIntra={setInfoIntra} />
 							))
 						: <EmptyText>아직 친구가 한명도 없어요ㅜㅜ</EmptyText>
 					}

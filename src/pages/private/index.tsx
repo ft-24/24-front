@@ -41,12 +41,12 @@ const Private = () => {
 		<Wrapper>
 			<Container>
 				<MainSection>
-          {locate === "home" ? <FriendsList setIsInfoOn={() => setIsInfoOn(true)} /> : null}
+          {locate === "home" ? <FriendsList setIsInfoOn={() => setIsInfoOn(true)} setInfoIntra={setInfoIntra} /> : null}
           {locate === "lobby" ? <PrivateGameRoom setLocate={setLocate} title={state.nickname + (infoIntra ? infoIntra : "undefined")} /> : null}
 				</MainSection>
 				{isInfoOn ? (
 					<InfoSection>
-						<Info setIsInfoOn={() => setIsInfoOn(true)} intra={infoIntra} />
+						<Info setIsInfoOn={setIsInfoOn} intra={infoIntra} />
 					</InfoSection>
 				) : null}
 			</Container>
