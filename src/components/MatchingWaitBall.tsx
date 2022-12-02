@@ -14,6 +14,7 @@ const Wrapper = styled(motion.div)`
   border-radius: 50%;
   background: var(--white);
   color: var(--dark-gray);
+  box-shadow: 5px 5px 10px var(--dark-gray);
 `;
 
 const Xbutton = styled.div`
