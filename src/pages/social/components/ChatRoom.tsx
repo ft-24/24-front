@@ -106,7 +106,7 @@ const DummyMessages: Message[] = [
   },
 ];
 
-const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn: boolean, setIsInfoOn: any, setData: any}) => {
+const ChatRoom = ({title, setIsInfoOn, setInfoIntra}: {title: string, setIsInfoOn: any, setInfoIntra: any}) => {
   const [userMessage, setUserMessage] = useState(null);
   const lastChat = useRef<HTMLDivElement>(null);
   const state = useAuthState();
@@ -137,7 +137,7 @@ const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn:
                 isMe={isMe}
                 message={item}
                 setIsInfoOn={() => setIsInfoOn(true)}
-                setData={setData}
+                setInfoIntra={setInfoIntra}
               ></ChatCard>
             );
           })}
@@ -150,4 +150,4 @@ const Chat = ({title, isInfoOn, setIsInfoOn, setData}: {title: string, isInfoOn:
   );
 };
 
-export default Chat;
+export default ChatRoom;

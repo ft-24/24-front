@@ -37,7 +37,7 @@ export namespace Pong {
       }).then (response => {
         console.log("set arcade score: " + response.status);
       }).catch (error => {
-        alert('score update failed');
+        console.error('score update failed');
       });
     }
 

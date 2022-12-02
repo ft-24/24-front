@@ -29,30 +29,9 @@ const Intra = styled.div`
 	font-size: 1.5rem;
 `
 
-const FriendCard = ({nickname, intra, setData, setIsInfoOn}: {nickname: string, intra: string, setData: any, setIsInfoOn: any}) => {
-  const { token } = useAuthState();
-
-  const showInfo = async () => {
-    await axios.get(Url + 'user/profile/' + intra, {
-      headers: {
-        Authorization:"Bearer " + token
-      }
-    }).then(response => {
-      if (response.data) {
-        const data: UserProps = response.data;
-        console.log(data);
-        setIsInfoOn(true);
-      } else {
-        console.error('There is no user named ' + intra);
-        setData(null);
-      }
-    }).catch(error => {
-      console.error(intra + ' profile loading failed');
-    });
-  }
-
+const FriendCard = ({nickname, intra, setIsInfoOn}: {nickname: string, intra: string, setIsInfoOn: any}) => {
   return (
-    <Wrapper onClick={showInfo}>
+    <Wrapper onClick={() => setIsInfoOn(true)}>
       <Container>
 				<Nickname>{nickname}</Nickname>
 				<Intra>{intra}</Intra>

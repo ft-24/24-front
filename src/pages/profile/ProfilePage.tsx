@@ -87,6 +87,7 @@ const DummyUserData: UserProps = {
 const Profile = () => {
   const [userData, setUserData] = useState<UserProps>();
   const { token } = useAuthState();
+  
   const getData = async() => {
     await axios.get(Url + 'user/profile', {
       headers: {
@@ -104,7 +105,7 @@ const Profile = () => {
           data.stats,
           data.matching_history));    
     }).catch(error => {
-      alert('user profile loading failed');
+      console.error('user profile loading failed');
       setUserData(DummyUserData);
     });
   }

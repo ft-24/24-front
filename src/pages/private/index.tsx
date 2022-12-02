@@ -33,20 +33,20 @@ const InfoSection = styled.div`
 
 const Private = () => {
 	const [locate, setLocate] = useState("home");
-	const [info, setInfo] = useState(false);
-	const [data, setData] = useState<UserProps | null>(null);
+	const [isInfoOn, setIsInfoOn] = useState(false);
+	const [infoIntra, setInfoIntra] = useState("");
 	const state = useAuthState();
 
 	return (
 		<Wrapper>
 			<Container>
 				<MainSection>
-          {locate === "home" ? <FriendsList setIsInfoOn={() => setInfo(true)} setData={setData}></FriendsList> : null}
-          {locate === "lobby" ? <PrivateGameRoom setLocate={setLocate} title={state.nickname + (data? data.nickname : "undefined")}></PrivateGameRoom> : null}
+          {locate === "home" ? <FriendsList setIsInfoOn={() => setIsInfoOn(true)} /> : null}
+          {locate === "lobby" ? <PrivateGameRoom setLocate={setLocate} title={state.nickname + (infoIntra ? infoIntra : "undefined")} /> : null}
 				</MainSection>
-				{info ? (
+				{isInfoOn ? (
 					<InfoSection>
-						<Info setIsInfoOn={() => setInfo(true)} data={data} />
+						<Info setIsInfoOn={() => setIsInfoOn(true)} intra={infoIntra} />
 					</InfoSection>
 				) : null}
 			</Container>

@@ -70,9 +70,8 @@ const dummyFriends: PlayerInfo[] = [
 	},
 ]
 
-const FriendsList = ({setIsInfoOn, setData} : any) => {
+const FriendsList = ({setIsInfoOn} : any) => {
   let onlineFriends = new Array<PlayerInfo>();
-
 	const { token } = useAuthState();
 
   const getFriends = async () => {
@@ -107,7 +106,6 @@ const FriendsList = ({setIsInfoOn, setData} : any) => {
 										key={index}
 										nickname={""}
 										intra={""}
-										setData={setData}
 										setIsInfoOn={setIsInfoOn} />
 							))
 						: <EmptyText>아직 친구가 한명도 없어요ㅜㅜ</EmptyText>
