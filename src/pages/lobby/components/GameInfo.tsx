@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
-import CardWrapper from "./PlayerCard";
+import CardWrapper from "../../../components/PlayerCard";
 import PlayerInfo from "./PlayerInfo";
 import SectionHeader from "../../../components/SectionHeader";
 
