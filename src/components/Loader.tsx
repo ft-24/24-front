@@ -56,7 +56,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 32px;
 `
 
 type Props = {

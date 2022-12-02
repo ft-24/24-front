@@ -21,14 +21,13 @@ const Box = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     font-family: NanumSquareL;
     margin-top: 1rem;
 `
 
 const MatchingModal = ({ modalHandler }: ModalProps) => {
-  const [hover, setHover] = useState(false);
     const [count, setCount] = useState(10);
     useEffect(()=>{
         const timer = 

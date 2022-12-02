@@ -16,7 +16,7 @@ const ChildrenWrapper = styled.div`
 `
 
 export type ModalProps = {
-  children: JSX.Element,
+  children?: JSX.Element,
   modalHandler: VoidFunction,
 }
 
