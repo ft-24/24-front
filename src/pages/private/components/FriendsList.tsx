@@ -61,12 +61,14 @@ const DummyFriends: PlayerInfo[] = [
 		nickname: "yoahn",
 		profile_url: "/src/images/hero.png",
 		ladder_score: 1200,
+		is_my_friend: true,
 	},
 	{
 		intra_id: "seonhjeo",
 		nickname: "HOYA",
 		profile_url: "/src/images/hero.png",
 		ladder_score: 1500,
+		is_my_friend: true,
 	},
 ]
 

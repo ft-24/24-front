@@ -45,6 +45,7 @@ const dummyUserData: PlayerInfo = {
   nickname: 'undefined',
   profile_url: '/src/images/hero.png',
   ladder_score: 1500,
+	is_my_friend: false,
 }
 
 const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
@@ -65,6 +66,7 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
           data.nickname,
           data.profile_url,
 					data.ladder_score,
+					data.is_my_friend,
 				))
     }).catch(error => {
       console.error(intra + ' profile loading failed');
@@ -88,6 +90,7 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	const onClickBlock = () => {
 		console.log("onClickBlock");
 	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
@@ -101,7 +104,11 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
-				<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+				{
+					userData?.is_my_friend ? 
+						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+				}
 				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
