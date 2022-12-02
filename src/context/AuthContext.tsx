@@ -2,10 +2,11 @@ import { createContext, useReducer } from "react";
 import { AuthStateType, AuthDispatchType } from "./types";
 import authReducer from './AuthReducer'
 
-const INITIAL_STATE: AuthStateType = {
+export const INITIAL_STATE: AuthStateType = {
   token: localStorage.getItem('token') || undefined,
   intra: undefined,
   nickname: undefined,
+  socket_session: undefined,
 };
 
 export const AuthContext = createContext<AuthStateType>(INITIAL_STATE);

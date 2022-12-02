@@ -1,4 +1,5 @@
 import { AuthStateType, AuthActionType } from "./types";
+import { INITIAL_STATE } from "./AuthContext";
 
 const authReducer = (state : AuthStateType, action : AuthActionType) : AuthStateType => {
     switch (action.type) {
@@ -8,13 +9,18 @@ const authReducer = (state : AuthStateType, action : AuthActionType) : AuthState
         case "LOGOUT" :
             localStorage.removeItem('token');
             localStorage.removeItem('intra');
-            return {token: undefined, intra: undefined, nickname: undefined};
+            localStorage.removeItem('nickname');
+            localStorage.removeItem('session');
+            return {...INITIAL_STATE, token: undefined};
         case "INTRA" :
             localStorage.setItem('intra', action.payload);
             return {...state, intra:action.payload};
         case "NICKNAME" :
-            localStorage.setItem('intra', action.payload);
+            localStorage.setItem('nickname', action.payload);
             return {...state, nickname:action.payload};
+        case "SESSION" :
+            localStorage.setItem('session', action.payload);
+            return {...state, socket_session:action.payload};
         default :
             return state;
     }
