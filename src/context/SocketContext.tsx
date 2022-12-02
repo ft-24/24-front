@@ -11,7 +11,7 @@ export const SocketContext = createContext<SocketContext>({
   error: "",
 });
 
-export const SocketContextProvider = ({ children }:{ children: JSX.Element }) => {
+export const SocketContextProvider = ({ children }:{ children: JSX.Element[] }) => {
   const [socket, setSocket] = useState<Socket | undefined>();
   const [error, setError] = useState("");
   useEffect(() => {

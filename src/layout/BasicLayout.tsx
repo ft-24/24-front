@@ -8,11 +8,9 @@ const BasicLayout = () => {
   return (
     <RequireAuth>
       <SocketContextProvider>
-        <>
           <Header />
           <Outlet />
           <Footer />
-        </>
       </SocketContextProvider>
     </RequireAuth>
   );
