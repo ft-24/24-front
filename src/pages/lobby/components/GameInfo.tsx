@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
-import SectionHeader from "../../components/SectionHeader";
 import CardWrapper from "./PlayerCard";
 import PlayerInfo from "./PlayerInfo";
+import SectionHeader from "../../../components/SectionHeader";
 
 const Container = styled.div`
 	width: 100%;

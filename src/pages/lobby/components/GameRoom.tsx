@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SectionHeader from "../../components/SectionHeader";
+import SectionHeader from "../../../components/SectionHeader";
 import PlayerCard from "./PlayerCard";
 
 const Container = styled.div`
