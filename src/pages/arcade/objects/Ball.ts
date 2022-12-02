@@ -99,7 +99,10 @@ export namespace Pong {
     }
 
     getScore(): string {
-      const res = (Date.now() - this.startTime) / 1000;
+      let res = (Date.now() - this.startTime) / 1000 - 2;
+      if (res < 0) {
+        res = 0.00000;
+      }
       return (res.toFixed(2));
     }
   }
