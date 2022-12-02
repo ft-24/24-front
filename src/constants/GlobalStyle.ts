@@ -34,6 +34,7 @@ export default createGlobalStyle`
     font-family: 'SBAggroL';
     src: url('/fonts/SBAggroL.otf');
   }
+  
   @font-face {
     font-family: 'SBAggroB';
     src: url('/fonts/SBAggroB.otf');

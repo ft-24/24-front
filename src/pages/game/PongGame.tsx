@@ -30,49 +30,41 @@ const GameBoard = styled.canvas`
 
 
 export const PongGame = () => {
-  const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [game, setGame] = useState<GameEngine>();
-
-  // connect socket
+  let ctx: CanvasRenderingContext2D;
   const {socket} = useSocket();
+  const [game, setGame] = useState<GameEngine>();
+  const [recvData, setRecvData] = useState<PongIO.GameRecvData>();
 
-  if (socket !== undefined)
-  {
-    useEffect(() => {
-      if (!canvasRef.current) return ;
-      const canvas = canvasRef.current;
-      setCanvas(canvas);
-      setCtx(canvas.getContext("2d"));
-      if (ctx !== null && canvas !== null) {
+  useEffect(() => {
+    if (socket && canvasRef.current) {
+      const ref = canvasRef.current.getContext("2d");
+      if (ref !== null) {
+        ctx = ref;
         setGame(new GameEngine(ctx, socket));
       }
-    }, []);
+    }
+  }, [canvasRef.current, socket]);
 
-    const [recvData, setRecvData] = useState<PongIO.GameRecvData>();
-    useEffect(() => {
-      socket.on("draw", (data: PongIO.GameRecvData) =>{
-        setRecvData(data);
+  
+  useEffect(() => {
+    if (socket) {
+      socket.on("draw", (data: PongIO.GameRecvData) => {
+        if (data) {
+          setRecvData(data);
+        }
       })
-      return ()=>{
+      return () => {
         socket.off("draw");
       }
-    },[]);
-    
-    if (ctx !== null && canvas !== null) {
-      if (game === undefined) {
-        setGame(new GameEngine(ctx, socket));
-      }
-
-      // draw game
-      if (recvData !== undefined && recvData.ball !== undefined && game !== undefined) {
-        game.draw(recvData);
-      }
-    } else {
-      <ErrorPage/>
     }
-  }
+  }, [socket]);
+
+  useEffect(() => {
+    if (game && recvData) {
+      game.draw(recvData);
+    }
+  }, [game, recvData]);
   
   return (
     <>
@@ -82,7 +74,6 @@ export const PongGame = () => {
 }
 
 const GamePage = () => {
-
   return (
     <BackGround>
       <PongGame />

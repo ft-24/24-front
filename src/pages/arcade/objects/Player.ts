@@ -10,7 +10,7 @@ export namespace Pong {
 
     protected direction: Direction = Direction.NONE;
     protected speed = Constants.Game.PADDLE_SPEED;
-    protected colour = Constants.Colours.PADDLE_COLOUR;
+    protected colour = Constants.Colours.PADDLE1_COLOUR;
     protected score = 0;
 
     protected startX: number;
