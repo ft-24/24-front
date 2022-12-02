@@ -13,6 +13,7 @@ import Restrict from "../auth/Restrict";
 import ArcadeGamePage from "../pages/arcade/ArcadeGame";
 import Matching from "../pages/matching/Matching";
 import Private from "../pages/private";
+import Test from "../pages/Test";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/*",
+    path: "/",
     element: <BasicLayout />,
     errorElement: <ErrorPage />,
     children: [
@@ -76,7 +77,10 @@ const router = createBrowserRouter([
         path: "matching",
         element: <Matching />,
       },
-
+      {
+        path: "test",
+        element: <Test />,
+      },
     ],
   },
 ]);
