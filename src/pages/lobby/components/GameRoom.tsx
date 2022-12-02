@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import SectionHeader from "../../../components/SectionHeader";
+import { PongGame } from "../../game/PongGame";
 import PlayerCard from "./PlayerCard";
 
 const Container = styled.div`
@@ -75,6 +76,16 @@ const ContentHeader = styled.div`
 	text-shadow: 0 2px 0 black;
 `;
 
+const GameContainer = styled.div`
+	border-width: 1px;
+	border-style: solid hidden hidden hidden;
+	background: var(--light-gray);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+`;
+
 class Player {
   intra: string;
   nickname: string;
@@ -118,7 +129,9 @@ const GameRoom = ({setLocate, title} : any) => {
 					}
 				</SpectatorContainer>
 			</UserInfoContainer>
-			{/* <GameWindow /> */}
+			<GameContainer>
+				<PongGame />
+			</GameContainer>
 		</Container>
 	);
 }
