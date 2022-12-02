@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ProfileButton from "./ProfileButton";
 import LogoButton from "./LogoButton";
 import FriendsButton from "./FriendsButton";
 import MatchingWaitBall from "../../components/MatchingWaitBall";
+import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
+import MatchingModal from "../../components/modals/MatchingModal";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -24,10 +26,32 @@ const HeadBar = styled.div`
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
-  const [matchingBall, setMatchingBall] = useState(true);
+  const [matchingBall, setMatchingBall] = useState(false);
+  const [matchingModal, setMatchingModal] = useState(false);
+  const queueState = useQueueState();
+  const queueDispatch = useQueueDispatch();
+
+  useEffect(()=>{
+    if (queueState.queue_state === "NONE")
+      setMatchingBall(false);
+    else if (queueState.queue_state === "MATCHED") {
+      setMatchingBall(false);
+      setMatchingModal(true);
+    }
+    else if (queueState.queue_state === "INGAME")
+      setMatchingBall(false);
+    else
+      setMatchingBall(true);
+  },[queueState]);
 
   const matchingBallCancel = () => {
     setMatchingBall(false);
+    queueDispatch({type:"NONE"});
+  }
+
+  const matchingModalCancel = () => {
+    setMatchingModal(false);
+    queueDispatch({type:"NONE"});
   }
   
   return (
@@ -42,7 +66,10 @@ const Header = () => {
         <FriendsButton toggle={toggle} setToggle={setToggle} />
       </div>
       {matchingBall &&
-      <MatchingWaitBall handler={matchingBallCancel}/>
+        <MatchingWaitBall handler={matchingBallCancel}/>
+      }
+      {matchingModal &&
+        <MatchingModal modalHandler={matchingModalCancel} />
       }
     </HeadBar>
   );
