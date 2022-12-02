@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { AuthContext, AuthContextProvider } from "../context/AuthContext";
+import { useAuthState } from "../context/AuthHooks";
+import useSocket from "../context/useSocket";
+import Player from "../pages/game/objects/Player";
 import PlayerInfo from "../pages/lobby/components/PlayerInfo";
 
 type DynamicColor = {
@@ -24,8 +29,8 @@ type DynamicSize = {
 }
 
 const ProfileImg = styled.img<DynamicSize>`
-  display: block;
-	margin: 20px;
+    display: block;
+	margin: 10px;
 	width: ${props=>props.size};
 `;
 
@@ -52,8 +57,32 @@ const SpectatorCard = styled.div`
 	align-self: flex-start;
 `
 
+const ReadyButton = styled.button`
+
+`
+
 const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 	const RenderCard = () => {
+		const {socket} = useSocket();
+		const [isReady, setIsReady] = useState(false);
+		const [isMine, setIsMine] = useState(false);
+		const {intra} = useAuthState();
+
+		useEffect(() => {
+			if (props.player.intra_id === intra) {
+				setIsMine(true);
+			}
+			console.log(isMine);
+		}, []);
+
+		const getReady = () => {
+			if (isMine) {
+				setIsReady(!isReady);
+				socket?.emit("Ready", isReady);
+				console.log(isReady);
+			}
+		}
+
 		switch(props.type)
 		{
 			case "purple":	
@@ -62,6 +91,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
 						<IntraText color="--light-light-gray">{props.player.intra_id}</IntraText>
+						<ReadyButton disabled={!isMine} onClick={getReady}>{isReady ? "Cancel" : "Ready!"}</ReadyButton>
 					</CardWrapper>
 				);
 			case "yellow":
@@ -70,6 +100,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
 						<IntraText color="--light-gray">{props.player.intra_id}</IntraText>
+						<ReadyButton disabled={!isMine} onClick={getReady}>{isReady ? "Cancel" : "Ready!"}</ReadyButton>
 					</CardWrapper>
 				);
 			case "spectator":
