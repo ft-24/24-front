@@ -58,7 +58,7 @@ const UserName = ({name, children}: {name: string, children: any} ) => {
       console.log("set profile name: " + response.status);
       setNickname(name);
     }).catch (error => {
-      alert('image upload failed');
+      console.error('set name failed');
     });
   }
 

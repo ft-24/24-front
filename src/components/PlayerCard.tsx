@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import PlayerInfo from "./PlayerInfo";
+import PlayerInfo from "../pages/lobby/components/PlayerInfo";
 
 type DynamicColor = {
 	color: string;
@@ -59,22 +59,22 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 			case "purple":	
 				return (
 					<CardWrapper color="--purple">
-						<ProfileImg src={props.player.image} size="100px"/>
+						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
-						<IntraText color="--light-light-gray">{props.player.intra}</IntraText>
+						<IntraText color="--light-light-gray">{props.player.intra_id}</IntraText>
 					</CardWrapper>
 				);
 			case "yellow":
 				return (
 					<CardWrapper color="--yellow">
-						<ProfileImg src={props.player.image} size="100px"/>
+						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
-						<IntraText color="--light-gray">{props.player.intra}</IntraText>
+						<IntraText color="--light-gray">{props.player.intra_id}</IntraText>
 					</CardWrapper>
 				);
 			case "spectator":
 				return (
-					<SpectatorCard>{props.player.intra}</SpectatorCard>
+					<SpectatorCard>{props.player.intra_id}</SpectatorCard>
 				);
 		} 
 	}

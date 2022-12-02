@@ -57,7 +57,7 @@ const UserImage = ({profile_url} : {profile_url : string}) => {
       const url = URL.createObjectURL(file);
       setImage(url);
     }).catch(error => {
-      alert('image upload failed');
+      console.error('image upload failed');
     });
   }
 

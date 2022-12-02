@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Nav from "./components/Nav";
 import Info from "./components/Info";
-import Chat from "./components/ChatRoom";
+import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
 import List from "./components/List";
 import { useState } from "react";
@@ -43,7 +43,7 @@ const ListSection = styled.div`
 const Social = () => {
   const [locate, setLocate] = useState("home");
   const [title, setTitle] = useState("");
-  const [data, setData] = useState(null);
+  const [infoIntra, setInfoIntra] = useState("");
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
 
@@ -51,20 +51,33 @@ const Social = () => {
     <Wrapper>
       <Container>
         <NavSection>
-          <Nav isInfoOn={isInfoOn} setLocate={setLocate} setIsListOn={setIsListOn} setIsInfoOn={setIsInfoOn} setData={setData}/>
+          <Nav
+            setLocate={setLocate}
+            setIsListOn={setIsListOn}
+            setIsInfoOn={setIsInfoOn}
+            setInfoIntra={setInfoIntra}/>
         </NavSection>
         {isListOn ? (
           <ListSection>
-            <List setIsListOn={setIsListOn} setLocate={setLocate}/>
+            <List
+              setIsListOn={setIsListOn}
+              setLocate={setLocate}/>
           </ListSection>
         ) : null}
         <MainSection>
-          {locate === "home" ? <Home setLocate={setLocate} setTitle={setTitle}></Home> : null}
-          {locate === "chat" ? <Chat title={title} isInfoOn={isInfoOn} setIsInfoOn={setIsInfoOn} setData={setData}></Chat> : null}
+          {locate === "home" ?
+            <Home
+              setLocate={setLocate}
+              setTitle={setTitle} /> : null}
+          {locate === "chat" ?
+            <ChatRoom
+              title={title}
+              setIsInfoOn={setIsInfoOn}
+              setInfoIntra={setInfoIntra} /> : null}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
-            <Info setIsInfoOn={setIsInfoOn} data={data}/>
+            <Info setIsInfoOn={setIsInfoOn} intra={infoIntra}/>
           </InfoSection>
         ) : null}
       </Container>

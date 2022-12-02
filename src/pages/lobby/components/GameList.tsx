@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import SectionHeader from "../../../components/SectionHeader";
+import SimpleCard from "../../../components/SimpleCard";
 import GameCard from "./GameCard";
 
 const Container = styled.div`
@@ -15,8 +16,8 @@ const NoticeSection = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
-	font-family: SBAggroM;
-	margin-top: 1rem;
+	font-family: NanumSquareB;
+	margin-right: 0.5rem;
 `
 
 const ChannelSection = styled.div`
@@ -61,6 +62,7 @@ const GameList = ({toggleInfo, setTitle} : any) => {
 			<SectionHeader color='var(--purple)' title="Welcome to Pong Game World!"/>
 			<ContentHeader>공지사항</ContentHeader>
 			<NoticeSection>
+				<SimpleCard text="매너있는 플레이 부탁드립니다."/>
 			</NoticeSection>
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>

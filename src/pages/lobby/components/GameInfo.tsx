@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
-import CardWrapper from "./PlayerCard";
+import CardWrapper from "../../../components/PlayerCard";
 import PlayerInfo from "./PlayerInfo";
 import SectionHeader from "../../../components/SectionHeader";
 
@@ -89,12 +89,12 @@ const GameInfo = ({setInfo, setLocate, title} : any) => {
   let playerList = new Array<PlayerInfo>();
 	let spectatorList = new Array<PlayerInfo>();
 
-	playerList.push(new PlayerInfo("sunhkim", "sunhkim", "some link"));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "some link"));
+	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
+	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
 
-	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link"))
-	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link"))
-	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link"))
+	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
+	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
+	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
 
 	const enterLobby = () => {
 		setLocate("lobby");

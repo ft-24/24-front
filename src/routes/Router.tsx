@@ -12,6 +12,7 @@ import TFAPage from "../auth/TFAPage";
 import Restrict from "../auth/Restrict";
 import ArcadeGamePage from "../pages/arcade/ArcadeGame";
 import Matching from "../pages/matching/Matching";
+import Private from "../pages/private";
 import Test from "../pages/Test";
 
 const router = createBrowserRouter([
@@ -49,16 +50,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "private",
+        element: <Private />,
+      },
+      {
         path: "lobby",
         element: <Lobby />,
       },
       {
         path: "social",
         element: <Social />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
       },
       {
         path: "game",
