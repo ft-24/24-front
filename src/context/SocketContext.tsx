@@ -7,7 +7,8 @@ type SocketContext = { socket: Socket | undefined; error: string; };
 
 export const SocketContext = createContext<SocketContext>({ socket: undefined, error: "", });
 
-export const SocketContextProvider = ({ children }: { children: JSX.Element }) => {
+export const SocketContextProvider = ({ children }:{ children: JSX.Element }) => {
+
   const [socket, setSocket] = useState<Socket | undefined>();
   const [error, setError] = useState("");
   const {token} = useAuthState();
