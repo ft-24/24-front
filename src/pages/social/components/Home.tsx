@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import CreateChannel from "../../../components/modals/CreateChannel";
 import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
@@ -67,7 +68,7 @@ const EmptyText = styled.div`
 const CreateButton = styled.button`
 	z-index: 2;
 	position: absolute;
-  right: 10px;
+  	right: 10px;
 	bottom: 10px;
 	border: none;
 	border-radius: 10px;
@@ -80,8 +81,9 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const Home = ({setLocate, setReceiver} : any) => {
+const Home = ({setIsModalOn, setLocate} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
+
 	const { token } = useAuthState();
 
 	const getList = async() => {
@@ -101,7 +103,7 @@ const Home = ({setLocate, setReceiver} : any) => {
 	}, []);
 
 	const onClickCreate = () => {
-
+		setIsModalOn(true);
 	}
 
 	return (
@@ -119,8 +121,7 @@ const Home = ({setLocate, setReceiver} : any) => {
 							key={index}
 							type={item.access_modifier}
 							receiver={item.name}
-							setLocate={setLocate}
-							setReceiver={setReceiver} />
+							setLocate={setLocate} />
 					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
 				}
 				</ChannelContainer>

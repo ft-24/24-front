@@ -7,6 +7,7 @@ import JoinedList from "./components/JoinedList";
 import { useState } from "react";
 import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
+import CreateChannel from "../../components/modals/CreateChannel";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -45,12 +46,15 @@ const ListSection = styled.div`
 const Social = () => {
   const pathVar = useParams();
   const target = pathVar ? pathVar.receiver : "undefined";
+
   const [locate, setLocate] = useState(target ? "chat" : "home");
   const [type, setType] = useState("dm");
   const [infoIntra, setInfoIntra] = useState("");
+
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
+	const [isModalOn, setIsModalOn] = useState(false);
 
   console.log("target: " + target);
 
@@ -78,7 +82,9 @@ const Social = () => {
         <MainSection>
           {locate === "home" ?
             <Home
-              setLocate={setLocate} /> : 
+              setLocate={setLocate}
+              setIsModalOn={setIsModalOn}
+              /> : 
             <ChatRoom
               type={type}
               setIsInfoOn={setIsInfoOn}
@@ -90,6 +96,7 @@ const Social = () => {
           </InfoSection>
         ) : null}
       </Container>
+      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} /> : null}
     </Wrapper>
   );
 };
