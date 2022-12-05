@@ -1,23 +1,26 @@
 import { Socket } from "socket.io-client";
 import Scene from "../lib/Scene";
 import Player from "../objects/Player";
-import MenuScene from "./MenuScene";
+import Mainscene from "./Mainscene";
 import Constants from "../Constants";
 
 export namespace Pong {
 
   export class EndScene extends Scene {
 
-    private winner: Player;
+    public readonly sceneNum = 1;
 
-    constructor(ctx: CanvasRenderingContext2D, socket:Socket, winner: Player) {
+    private winner: string;
+
+    constructor(ctx: CanvasRenderingContext2D, socket:Socket, winner: string) {
       super(ctx, socket);
+      this.sceneNum = 1;
       this.winner = winner;
     }
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MenuScene(this.ctx, this.socket));
+      this.gameContext.loadScene(new Mainscene(this.ctx, this.socket));
     }
 
     draw() {
@@ -30,7 +33,7 @@ export namespace Pong {
 
       // == Draw text
       // Draw title
-      let title = 'Game Over! - ' + this.winner.name;
+      let title = 'Game Over! - ' + this.winner;
       ctx.font = Constants.Text.TITLE_SIZE + " " + Constants.Text.TITLE_FONT;
       ctx.fillStyle = '#FDF3E7';
       ctx.textAlign = 'center';
@@ -50,7 +53,7 @@ export namespace Pong {
     }
 
     load(params: any) {
-      this.winner = <Player>params.winner;
+      this.winner = <string>params;
       this.ctx.canvas.addEventListener('click', this.handleClick);
     }
 

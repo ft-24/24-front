@@ -10,9 +10,11 @@ namespace Pong {
 
     protected gameContext!: GameEngine;
 
+    protected sceneNum!: number;
+
     // Must be implemented
     abstract draw(recvData: PongIO.GameRecvData): void;
-    abstract update(deltaTime: number): void;
+    abstract update(): void;
     abstract getInput(): void;
 
     // Optionally implement
@@ -22,6 +24,10 @@ namespace Pong {
 
     setGameContext(game: GameEngine) {
       this.gameContext = game;
+    }
+
+    getSceneNum(): number {
+      return this.sceneNum;
     }
   }
 }

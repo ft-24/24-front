@@ -11,7 +11,8 @@ import { Direction } from "../lib/Directions";
 namespace Pong {
   export class MainScene extends Scene {
 
-    private playerPadding = Constants.Game.PLAYER_PADDING;
+    private playerPadding = Constants.Game.PLAYER_PADDING
+    private recvData?: PongIO.GameRecvData;
     private input: PongIO.Input;
     private ball: Ball;
     private player1: Player;
@@ -22,6 +23,7 @@ namespace Pong {
 
     constructor(ctx: CanvasRenderingContext2D, socket: Socket) {
       super(ctx, socket);
+      this.sceneNum = 0;
       let {width, height} = ctx.canvas;
       let centerH = width / 2;
       let centerV = height / 2;
@@ -71,12 +73,13 @@ namespace Pong {
       ctx.fillText(recvData.score.p2.toString(), 3 * (width / 4), height / 2);
     }
 
+
     getInput() {
     }
 
     draw(recvData: PongIO.GameRecvData) {
       let ctx = this.ctx;
-
+      this.recvData = recvData;
       this.drawBackground(ctx);
       if (recvData !== undefined) {
         this.drawScores(ctx, recvData);
@@ -93,7 +96,7 @@ namespace Pong {
       this.input.unbind();
     }
 
-    update(deltaTime: number) {
+    update() {
       if (this.ball.isDestroyed()) {
         if (this.ball.x <= 0) {
           this.player2.givePoint();
@@ -102,15 +105,21 @@ namespace Pong {
         }
         this.ball.restart();
       }
-
-      if (this.player1.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player1), { winner: this.player1 });
-      } else if (this.player2.getScore() >= this.winningScore) {
-        this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player2), { winner: this.player2 });
-      } else {
-        // Draw remaining objects
-        this.objectsInScene.forEach(object => object.update(deltaTime));
+      if (this.recvData) {
+        if (this.recvData.score.p1 >= this.winningScore) {
+          //TODO : socket.on(getresult)
+          this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player1.name), { winner: this.player1.name });
+          //socket off
+        } else if (this.recvData.score.p1 >= this.winningScore) {
+          //TODO : socket.on(getresult)
+          this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player2.name), { winner: this.player2.name });
+          //socket off
+        } else {
+          // Draw remaining objects
+          this.objectsInScene.forEach(object => object.update());
+        }
       }
+      
     }
 
     restart() {

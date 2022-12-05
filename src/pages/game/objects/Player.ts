@@ -45,14 +45,14 @@ export namespace Pong {
 
     }
 
-    update(deltaTime: number) {
+    update() {
       if (this.direction !== null) {
         switch (this.direction) {
           case Direction.UP:
-            this.y -= this.speed * deltaTime;
+            this.y -= this.speed;
             break;
           case Direction.DOWN:
-            this.y += this.speed * deltaTime;
+            this.y += this.speed;
         }
       }
 
