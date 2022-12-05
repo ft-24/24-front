@@ -21,7 +21,7 @@ const ChannelSection = styled.div`
     flex-direction: column;
 `
 
-const DMList = ({setIsListOn, setLocate, setReceiver} : any) => {
+const DMList = ({setIsListOn, setLocate} : any) => {
 	const [list, setList] = useState<PlayerInfo[]>();
   const { token } = useAuthState();
 
@@ -53,8 +53,7 @@ const DMList = ({setIsListOn, setLocate, setReceiver} : any) => {
 						key={index}
 						type="dm"
 						receiver={item.nickname}
-						setLocate={setLocate}
-						setReceiver={setReceiver} />
+						setLocate={setLocate} />
 				)) : "참여중인 DM이 없어요..."
 			}
 			</ChannelSection>

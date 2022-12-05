@@ -29,12 +29,11 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, memberList, setLocate, setReceiver} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
   const { nickname } = useAuthState();
 
   const onClick = () => {
     setLocate("chat");
-    setReceiver(receiver ?? "undefined");
   }
   
   return (
@@ -46,7 +45,7 @@ const ChannelCard = ({type, receiver, memberList, setLocate, setReceiver} : any)
         </Title>
         <MemberList>
         {
-          memberList.map((url: string, index: number) => {
+          memberList?.map((url: string, index: number) => {
             <Avatar.img key={index} src={url} />
           })
         }

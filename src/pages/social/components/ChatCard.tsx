@@ -1,8 +1,4 @@
-import axios from "axios";
 import styled from "styled-components";
-import { Url } from "../../../constants/Global";
-import { useAuthState } from "../../../context/AuthHooks";
-import { UserProps } from "../../profile/UserProps";
 import { Message } from "./ChatRoom";
 import UserIconButton from "./UserIconButton";
 
@@ -41,8 +37,6 @@ const TimeBar = styled.div`
 `;
 
 const ChatCard = ({isMe, message, setIsInfoOn, setInfoIntra}: {isMe: boolean, message: Message, setIsInfoOn: any, setInfoIntra: any}) => {
-  const { token } = useAuthState();
-  
   const onClick = () => {
     setInfoIntra(message.intra_id);
     setIsInfoOn(true);

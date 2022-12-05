@@ -7,6 +7,7 @@ import { useAuthState } from "../../../context/AuthHooks";
 import useSocket from "../../../context/useSocket";
 import axios from "axios";
 import { Url } from "../../../constants/Global";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   position: relative;
@@ -109,7 +110,11 @@ const DummyMessages: Message[] = [
   },
 ];
 
-const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setIsInfoOn: any, setInfoIntra: any}) => {
+const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn: any, setInfoIntra: any}) => {
+  const pathVar = useParams();
+  const target = pathVar ? pathVar.receiver : "undefined";
+  const eventName = type === "dm" ? "dm-message" : "message";
+  
   const [sendMessage, setSendMessage] = useState<Message | null>();
   const [receiveMessage, setReceiveMessage] = useState<Message | null>();
   const lastChat = useRef<HTMLDivElement>(null);
@@ -120,7 +125,7 @@ const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setI
   const { token } = useAuthState();
 
   const getChatLog = async () => {
-    await axios.get(Url + 'user/profile', {
+    await axios.get(Url + 'channel/dsinfa/dsofi', {
       headers: {
         Authorization:"Bearer " + token
       }, 
@@ -148,18 +153,19 @@ const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setI
 
   useEffect(() => {
     if (receiveMessage) {
-      scrollDown();
       chatLog?.push(receiveMessage);
       setReceiveMessage(null);
+      scrollDown();
     }
   }, [receiveMessage]);
 
   useEffect(()=>{
     if (sendMessage) {
-      scrollDown();
       if (socket) {
-        console.log("emit message:" + sendMessage.chat + ", " + 'young-ch');
-        socket.emit("dm-message", {msg: sendMessage.chat , nickname: 'young-ch'});
+        chatLog?.push(sendMessage);
+        console.log("emit " + eventName + ":" + sendMessage.chat + ", " + target);
+        socket.emit(eventName, {msg: sendMessage.chat , receiver: target});
+        scrollDown();
       } else {
         console.log("There is no socket");
       }
@@ -169,22 +175,21 @@ const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setI
 
   useEffect(() => {
     if (socket) {
-      socket.on("dm-message", (data: Message) => {
+      socket.on(eventName, (data: Message) => {
         if (data) {
-          console.log("receive");
-          console.log(data);
+          console.log("receive: " + data);
           setReceiveMessage(data);
         }
       })
       return () => {
-        socket.off("dm-message");
+        socket.off(eventName);
       }
     }
   }, [socket]);
 
   return (
     <Container>
-      <SectionHeader color="var(--purple)" title={state.nickname + ", " + receiver}>
+      <SectionHeader color="var(--purple)" title={ type === "dm" ? state.nickname + ", " + target : target}>
         <div onClick={() => setIsInfoOn(true)}>{":"}</div>
       </SectionHeader>
       <ChatSection>

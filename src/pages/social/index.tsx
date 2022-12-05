@@ -44,9 +44,9 @@ const ListSection = styled.div`
 
 const Social = () => {
   const pathVar = useParams();
-  const target = pathVar ? pathVar.receiver : null;
-  const [locate, setLocate] = useState(target ?? "home");
-  const [receiver, setReceiver] = useState(target ?? "undefined");
+  const target = pathVar ? pathVar.receiver : "undefined";
+  const [locate, setLocate] = useState(target ? "chat" : "home");
+  const [type, setType] = useState("dm");
   const [infoIntra, setInfoIntra] = useState("");
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
@@ -67,21 +67,20 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
+            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
           </ListSection>
         ) : null}
         <MainSection>
           {locate === "home" ?
             <Home
-              setLocate={setLocate}
-              setReceiver={setReceiver} /> : 
+              setLocate={setLocate} /> : 
             <ChatRoom
-              receiver={receiver}
+              type={type}
               setIsInfoOn={setIsInfoOn}
               setInfoIntra={setInfoIntra} />}
         </MainSection>
