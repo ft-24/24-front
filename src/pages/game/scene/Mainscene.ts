@@ -13,7 +13,7 @@ namespace Pong {
 
     private playerPadding = Constants.Game.PLAYER_PADDING
     private recvData?: PongIO.GameRecvData;
-    private resData?: PongIO.ResultData;
+    private resData?: PongIO.ResultData = undefined;
     private input: PongIO.Input;
     private ball: Ball;
     private player1: Player;
@@ -42,6 +42,7 @@ namespace Pong {
       this.objectsInScene.push(this.player1);
       this.objectsInScene.push(this.player2);
       this.objectsInScene.push(this.ball);
+      this.drawBackground(this.ctx);
     }
 
     private drawBackground(ctx: CanvasRenderingContext2D) {
@@ -93,17 +94,14 @@ namespace Pong {
       this.input.bind();
       this.socket.on("result", (data: PongIO.ResultData) => {
         if (data) {
-          if (data.win === 1) {
-            this.gameContext.loadScene(new EndScene(this.ctx, this.socket, data));
-          } else if (data.win === 2) {
-            this.gameContext.loadScene(new EndScene(this.ctx, this.socket, data));
-          }
+          console.log(data);
+          this.resData = data;
+          this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.resData));
         }
       })
       return () => {
         this.socket.off("result");
       }
-      
     }
 
     unload() {
@@ -128,6 +126,11 @@ namespace Pong {
           // Draw remaining objects
           this.objectsInScene.forEach(object => object.update());
         }
+      }
+
+      if (this.resData) {
+        console.log("result updated");
+        this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.resData));
       }
       
     }

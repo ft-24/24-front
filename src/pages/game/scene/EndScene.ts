@@ -13,13 +13,16 @@ export namespace Pong {
     private result: PongIO.ResultData;
 
     constructor(ctx: CanvasRenderingContext2D, socket:Socket, result: PongIO.ResultData) {
+      console.log("endscene loaded");
       super(ctx, socket);
       this.sceneNum = 1;
       this.result = result;
+      this.draw();
     }
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
+      console.log("clickeed");
       this.gameContext.loadScene(new Mainscene(this.ctx, this.socket));
     }
 

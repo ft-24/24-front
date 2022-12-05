@@ -64,7 +64,6 @@ export const PongGame = () => {
   
       if (game.getSceneNum() === 0) {
         pState.setPState(PlayerState.stay);
-        console.log(pState.pState);
       }
     }
     
