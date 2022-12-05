@@ -8,6 +8,7 @@ import ChannelCard from "./ChannelCard";
 import { ChannelInfo } from "./ChannelInfo";
 
 const Container = styled.div`
+	position: relative;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -63,6 +64,22 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
+const CreateButton = styled.button`
+	z-index: 2;
+	position: absolute;
+  right: 10px;
+	bottom: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--yellow);
+`
+
+const ButtonText = styled.div`
+	margin: 1rem;
+	font-size: 1rem;
+	color: black;
+`
+
 const Home = ({setLocate, setReceiver} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 	const { token } = useAuthState();
@@ -82,6 +99,10 @@ const Home = ({setLocate, setReceiver} : any) => {
 	useEffect(() => {
 			getList();
 	}, []);
+
+	const onClickCreate = () => {
+
+	}
 
 	return (
 		<Container>
@@ -104,6 +125,9 @@ const Home = ({setLocate, setReceiver} : any) => {
 				}
 				</ChannelContainer>
 			</ChannelSection>
+			<CreateButton onClick={onClickCreate}>
+				<ButtonText>새 채널 만들기</ButtonText>
+			</CreateButton>
 		</Container>
 	);
 }
