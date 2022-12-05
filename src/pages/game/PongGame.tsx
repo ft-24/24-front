@@ -1,9 +1,8 @@
-import {useRef, useState, useEffect} from "react";
+import {useRef, useState, useEffect, useContext} from "react";
 
 import styled from 'styled-components';
 import useSocket from "../../context/useSocket";
-
-import ErrorPage from "../../ErrorPage";
+import {ReadyContext, PlayerState} from "../lobby/components/GameRoom";
 
 import GameEngine from "./lib/GameEngine";
 import PongIO from "./lib/IO";
@@ -32,6 +31,7 @@ export const PongGame = () => {
   const {socket} = useSocket();
   const [game, setGame] = useState<GameEngine>();
   const [recvData, setRecvData] = useState<PongIO.GameRecvData>();
+  const pState = useContext(ReadyContext);
 
   useEffect(() => {
     if (socket && canvasRef.current) {
@@ -42,7 +42,6 @@ export const PongGame = () => {
       }
     }
   }, [canvasRef.current, socket]);
-
 
   useEffect(() => {
     if (socket) {
@@ -58,9 +57,17 @@ export const PongGame = () => {
   }, [socket]);
 
   useEffect(() => {
-    if (game && recvData) {
-      game.draw(recvData);
+    if (game) {
+      if (recvData) {
+        game.draw(recvData);
+      }
+  
+      if (game.getSceneNum() === 0) {
+        pState.setPState(PlayerState.stay);
+        console.log(pState.pState);
+      }
     }
+    
   }, [game, recvData]);
   
   return (

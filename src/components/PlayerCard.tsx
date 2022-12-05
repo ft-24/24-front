@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { AuthContext, AuthContextProvider } from "../context/AuthContext";
 import { useAuthState } from "../context/AuthHooks";
 import useSocket from "../context/useSocket";
-import Player from "../pages/game/objects/Player";
 import PlayerInfo from "../pages/lobby/components/PlayerInfo";
+import {ReadyContext, PlayerState} from "../pages/lobby/components/GameRoom";
 
 type DynamicColor = {
 	color: string;
@@ -64,9 +63,11 @@ const ReadyButton = styled.button`
 const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 	const RenderCard = () => {
 		const {socket} = useSocket();
-		const [isReady, setIsReady] = useState(false);
+		const [isActive, setIsActive] = useState(false);
 		const [isMine, setIsMine] = useState(false);
 		const {intra} = useAuthState();
+		const pState = useContext(ReadyContext);
+		
 
 		useEffect(() => {
 			if (props.player.intra_id === intra) {
@@ -77,9 +78,17 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 
 		const getReady = () => {
 			if (isMine) {
-				setIsReady(!isReady);
-				socket?.emit("Ready", isReady);
-				console.log(isReady);
+				if (pState.pState === PlayerState.stay) {
+					pState.setPState(PlayerState.ready);
+					setIsActive(true);
+					socket?.emit("ready", true);
+				} else if (pState.pState === PlayerState.ready) {
+					pState.setPState(PlayerState.stay);
+					setIsActive(false);
+					socket?.emit("ready", false);
+				} else {
+					setIsActive(false);
+				}
 			}
 		}
 
@@ -91,7 +100,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
 						<IntraText color="--light-light-gray">{props.player.intra_id}</IntraText>
-						<ReadyButton disabled={!isMine} onClick={getReady}>{isReady ? "Cancel" : "Ready!"}</ReadyButton>
+						<ReadyButton disabled={!isMine} onClick={getReady}>{isActive ? "Cancel" : "Ready!"}</ReadyButton>
 					</CardWrapper>
 				);
 			case "yellow":
@@ -100,7 +109,7 @@ const PlayerCard = (props: {type: string, player: PlayerInfo}) => {
 						<ProfileImg src={props.player.profile_url} size="100px"/>
 						<NicknameText>{props.player.nickname}</NicknameText>
 						<IntraText color="--light-gray">{props.player.intra_id}</IntraText>
-						<ReadyButton disabled={!isMine} onClick={getReady}>{isReady ? "Cancel" : "Ready!"}</ReadyButton>
+						<ReadyButton disabled={!isMine} onClick={getReady}>{isActive ? "Cancel" : "Ready!"}</ReadyButton>
 					</CardWrapper>
 				);
 			case "spectator":

@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }: { children: JSX.Element }) =
 
   useEffect(() => {
     const _session = localStorage.getItem('session');
-    const _socket = io("http://10.28.2.1:3000/session", { transports: ['websocket'], autoConnect: false, query:{token:token} });
+    const _socket = io("http://10.28.3.3:3000", { transports: ['websocket'], autoConnect: false, query:{token:token} });
     _socket.auth = { sessionID:_session };
     _socket.connect();
     _socket.on("connect", () => {});

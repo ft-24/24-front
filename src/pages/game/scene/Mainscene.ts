@@ -13,6 +13,7 @@ namespace Pong {
 
     private playerPadding = Constants.Game.PLAYER_PADDING
     private recvData?: PongIO.GameRecvData;
+    private resData?: PongIO.ResultData;
     private input: PongIO.Input;
     private ball: Ball;
     private player1: Player;
@@ -90,6 +91,19 @@ namespace Pong {
 
     load() {
       this.input.bind();
+      this.socket.on("result", (data: PongIO.ResultData) => {
+        if (data) {
+          if (data.win === 1) {
+            this.gameContext.loadScene(new EndScene(this.ctx, this.socket, data));
+          } else if (data.win === 2) {
+            this.gameContext.loadScene(new EndScene(this.ctx, this.socket, data));
+          }
+        }
+      })
+      return () => {
+        this.socket.off("result");
+      }
+      
     }
 
     unload() {
@@ -107,13 +121,9 @@ namespace Pong {
       }
       if (this.recvData) {
         if (this.recvData.score.p1 >= this.winningScore) {
-          //TODO : socket.on(getresult)
-          this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player1.name), { winner: this.player1.name });
-          //socket off
+          //this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player1.name), { winner: this.player1.name });
         } else if (this.recvData.score.p1 >= this.winningScore) {
-          //TODO : socket.on(getresult)
-          this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player2.name), { winner: this.player2.name });
-          //socket off
+          //this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.player2.name), { winner: this.player2.name });
         } else {
           // Draw remaining objects
           this.objectsInScene.forEach(object => object.update());
