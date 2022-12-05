@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Avatar from "../../../components/Avatar"
 import { useAuthState } from "../../../context/AuthHooks"
@@ -37,20 +38,22 @@ const ChannelCard = ({type, receiver, memberList, setLocate, setReceiver} : any)
   }
   
   return (
-    <Wrapper onClick={()=>{onClick()}}>
-      <Container>
-      <Title>
-        {type == "dm" ? (nickname + ", " + receiver) : receiver}
-      </Title>
-      <MemberList>
-      {
-        memberList.map((url: string, index: number) => {
-          <Avatar.img key={index} src={url} />
-        })
-      }
-      </MemberList>
-      </Container>
-    </Wrapper>
+    <Link to={'/social/' + receiver}>
+      <Wrapper onClick={()=>{onClick()}}>
+        <Container>
+        <Title>
+          {type == "dm" ? (nickname + ", " + receiver) : receiver}
+        </Title>
+        <MemberList>
+        {
+          memberList.map((url: string, index: number) => {
+            <Avatar.img key={index} src={url} />
+          })
+        }
+        </MemberList>
+        </Container>
+      </Wrapper>
+    </Link>
   )
 }
 

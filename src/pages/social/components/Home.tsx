@@ -66,12 +66,12 @@ const Home = ({setLocate, setReceiver} : any) => {
 	const getList = async() => {
 		await axios.get(Url + 'channels', {
 		headers: {
-				Authorization:"Bearer " + token
+			Authorization:"Bearer " + token
 		}
 		}).then(response => {
-						setList(response.data);
+			setList(response.data);
 		}).catch(error => {
-		console.error('Public List loading failed');
+			console.error('Public List loading failed');
 		});
 	}
 
@@ -89,14 +89,14 @@ const Home = ({setLocate, setReceiver} : any) => {
 			<ChannelSection>
 				<ChannelContainer>
 				{
-					list?.map((item: ChannelInfo, index) => (
+					list && (list.length > 0) ? list.map((item: ChannelInfo, index) => (
 						<ChannelCard
 							key={index}
 							type={item.access_modifier}
 							receiver={item.name}
 							setLocate={setLocate}
 							setReceiver={setReceiver} />
-					))
+					)) : "열려있는 채널이 없어요..."
 				}
 				</ChannelContainer>
 			</ChannelSection>

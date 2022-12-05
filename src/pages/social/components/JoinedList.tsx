@@ -48,14 +48,14 @@ const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
             </SectionHeader>
             <ChannelSection>
             {
-                list?.map((item: ChannelInfo, index) => (
+                list && (list.length > 0) ? list.map((item: ChannelInfo, index) => (
 					<ChannelCard
 						key={index}
 						type={item.access_modifier}
 						receiver={item.name}
 						setLocate={setLocate}
 						setReceiver={setReceiver} />
-                ))
+                )) : "참여중인 채널이 없어요..."
             }
             </ChannelSection>
         </Container>

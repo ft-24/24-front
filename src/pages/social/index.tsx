@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import JoinedList from "./components/JoinedList";
 import { useState } from "react";
 import DMList from "./components/DMList";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -42,12 +43,16 @@ const ListSection = styled.div`
 `;
 
 const Social = () => {
-  const [locate, setLocate] = useState("home");
-  const [receiver, setReceiver] = useState("");
+  const pathVar = useParams();
+  const target = pathVar ? pathVar.receiver : null;
+  const [locate, setLocate] = useState(target ?? "home");
+  const [receiver, setReceiver] = useState(target ?? "undefined");
   const [infoIntra, setInfoIntra] = useState("");
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
+
+  console.log("target: " + target);
 
   return (
     <Wrapper>
@@ -74,12 +79,11 @@ const Social = () => {
           {locate === "home" ?
             <Home
               setLocate={setLocate}
-              setReceiver={setReceiver} /> : null}
-          {locate === "chat" ?
+              setReceiver={setReceiver} /> : 
             <ChatRoom
               receiver={receiver}
               setIsInfoOn={setIsInfoOn}
-              setInfoIntra={setInfoIntra} /> : null}
+              setInfoIntra={setInfoIntra} />}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>

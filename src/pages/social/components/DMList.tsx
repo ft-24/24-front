@@ -48,14 +48,14 @@ const DMList = ({setIsListOn, setLocate, setReceiver} : any) => {
 			</SectionHeader>
 			<ChannelSection>
 			{
-				list?.map((item: PlayerInfo, index) => (
+				list && (list.length > 0) ? list.map((item: PlayerInfo, index) => (
 					<ChannelCard
 						key={index}
 						type="dm"
 						receiver={item.nickname}
 						setLocate={setLocate}
 						setReceiver={setReceiver} />
-				))
+				)) : "참여중인 DM이 없어요..."
 			}
 			</ChannelSection>
 		</Container>
