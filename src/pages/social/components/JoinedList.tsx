@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "../../../context/AuthHooks";
 import axios from "axios";
 import { Url } from "../../../constants/Global";
+import { ChannelInfo } from "./ChannelInfo";
 
 const Container = styled.div`
     width: 100%;
@@ -20,23 +21,19 @@ const ChannelSection = styled.div`
     flex-direction: column;
 `
 
-type ChannelInfo = {
-    title: string;
-}
-
-const PublicList = ({setIsListOn, setLocate, setReceiver} : any) => {
+const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
     const [list, setList] = useState<ChannelInfo[]>();
-    const { token } = useAuthState();
+    const { token, intra } = useAuthState();
   
     const getList = async() => {
-    await axios.get(Url + 'user/profile', {
+    await axios.get(Url + 'channels/' + intra, {
     headers: {
         Authorization:"Bearer " + token
     }
     }).then(response => {
             setList(response.data);
     }).catch(error => {
-    console.error('Public List loading failed');
+    console.error('Joined List loading failed');
     });
     }
 
@@ -54,8 +51,8 @@ const PublicList = ({setIsListOn, setLocate, setReceiver} : any) => {
                 list?.map((item: ChannelInfo, index) => (
 					<ChannelCard
 						key={index}
-						type="public"
-						receiver={item.title}
+						type={item.access_modifier}
+						receiver={item.name}
 						setLocate={setLocate}
 						setReceiver={setReceiver} />
                 ))
@@ -65,4 +62,4 @@ const PublicList = ({setIsListOn, setLocate, setReceiver} : any) => {
     )
 };
 
-export default PublicList
+export default JoinedList

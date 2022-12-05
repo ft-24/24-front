@@ -1,6 +1,11 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SectionHeader from "../../../components/SectionHeader";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
 import ChannelCard from "./ChannelCard";
+import { ChannelInfo } from "./ChannelInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -55,6 +60,25 @@ const ChannelContainer = styled.div`
 `
 
 const Home = ({setLocate, setReceiver} : any) => {
+	const [list, setList] = useState<ChannelInfo[]>();
+	const { token } = useAuthState();
+
+	const getList = async() => {
+		await axios.get(Url + 'channels', {
+		headers: {
+				Authorization:"Bearer " + token
+		}
+		}).then(response => {
+						setList(response.data);
+		}).catch(error => {
+		console.error('Public List loading failed');
+		});
+	}
+
+	useEffect(() => {
+			getList();
+	}, []);
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="welcome home!"/>
@@ -64,7 +88,16 @@ const Home = ({setLocate, setReceiver} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate} setReceiver={setReceiver} title="트센뽀개기"></ChannelCard>
+				{
+					list?.map((item: ChannelInfo, index) => (
+						<ChannelCard
+							key={index}
+							type={item.access_modifier}
+							receiver={item.name}
+							setLocate={setLocate}
+							setReceiver={setReceiver} />
+					))
+				}
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>

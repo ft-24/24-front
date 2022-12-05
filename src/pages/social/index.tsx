@@ -3,7 +3,7 @@ import Nav from "./components/Nav";
 import Info from "./components/Info";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
-import PublicList from "./components/PublicList";
+import JoinedList from "./components/JoinedList";
 import { useState } from "react";
 import DMList from "./components/DMList";
 
@@ -67,7 +67,7 @@ const Social = () => {
         ) : null}
         {isListOn ? (
           <ListSection>
-            <PublicList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
+            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
           </ListSection>
         ) : null}
         <MainSection>
