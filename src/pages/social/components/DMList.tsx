@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ChannelCard from "./ChannelCard";
 import SectionHeader from "../../../components/SectionHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
 import axios from "axios";
 import { Url } from "../../../constants/Global";
@@ -37,23 +37,28 @@ const DMList = ({setIsListOn, setLocate, setReceiver} : any) => {
     });
 	}
 
+	useEffect(() => {
+		getList();
+	}, []);
+
 	return (
-			<Container>
-					<SectionHeader color='var(--purple)' title="DM목록">
-							<div onClick={()=>setIsListOn(false)}>{"X"}</div>
-					</SectionHeader>
-					<ChannelSection>
-						{
-							list?.map((item: PlayerInfo, index) => (
-								<ChannelCard
-									type="dm"
-									receiver={item.nickname}
-									setLocate={setLocate}
-									setReceiver={setReceiver} />
-							))
-						}
-					</ChannelSection>
-			</Container>
+		<Container>
+			<SectionHeader color='var(--purple)' title="DM목록">
+				<div onClick={()=>setIsListOn(false)}>{"X"}</div>
+			</SectionHeader>
+			<ChannelSection>
+			{
+				list?.map((item: PlayerInfo, index) => (
+					<ChannelCard
+						key={index}
+						type="dm"
+						receiver={item.nickname}
+						setLocate={setLocate}
+						setReceiver={setReceiver} />
+				))
+			}
+			</ChannelSection>
+		</Container>
 	)
 };
 

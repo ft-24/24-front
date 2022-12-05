@@ -62,12 +62,12 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <PublicList setIsListOn={setIsListOn} setLocate={setLocate}/>
+            <PublicList setIsListOn={setIsDMListOn} setLocate={setLocate} setReceiver={setReceiver}/>
           </ListSection>
         ) : null}
         <MainSection>

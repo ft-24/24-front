@@ -28,7 +28,7 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, setLocate, setReceiver} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate, setReceiver} : any) => {
   const { nickname } = useAuthState();
 
   const onClick = () => {
@@ -43,7 +43,11 @@ const ChannelCard = ({type, receiver, setLocate, setReceiver} : any) => {
         {type == "dm" ? (nickname + ", " + receiver) : receiver}
       </Title>
       <MemberList>
-        <Avatar.txt background="yellow">🤫</Avatar.txt>
+      {
+        memberList.map((url: string, index: number) => {
+          <Avatar.img key={index} src={url} />
+        })
+      }
       </MemberList>
       </Container>
     </Wrapper>

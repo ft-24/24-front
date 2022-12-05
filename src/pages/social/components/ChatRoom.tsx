@@ -147,8 +147,8 @@ const ChatRoom = ({receiver, setIsInfoOn, setInfoIntra}: {receiver: string, setI
   }
 
   useEffect(() => {
-    scrollDown();
     if (receiveMessage) {
+      scrollDown();
       chatLog?.push(receiveMessage);
       setReceiveMessage(null);
     }
