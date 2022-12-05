@@ -59,6 +59,10 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
+const EmptyText = styled.div`
+	padding: 1rem;
+`
+
 const Home = ({setLocate, setReceiver} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 	const { token } = useAuthState();
@@ -96,7 +100,7 @@ const Home = ({setLocate, setReceiver} : any) => {
 							receiver={item.name}
 							setLocate={setLocate}
 							setReceiver={setReceiver} />
-					)) : "열려있는 채널이 없어요..."
+					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
 				}
 				</ChannelContainer>
 			</ChannelSection>

@@ -21,6 +21,10 @@ const ChannelSection = styled.div`
     flex-direction: column;
 `
 
+const EmptyText = styled.div`
+	padding: 1rem;
+`
+
 const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
     const [list, setList] = useState<ChannelInfo[]>();
     const { token, intra } = useAuthState();
@@ -55,7 +59,7 @@ const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
 						receiver={item.name}
 						setLocate={setLocate}
 						setReceiver={setReceiver} />
-                )) : "참여중인 채널이 없어요..."
+                )) : <EmptyText>참여중인 채널이 없어요...</EmptyText>
             }
             </ChannelSection>
         </Container>
