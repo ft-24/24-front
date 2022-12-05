@@ -44,8 +44,8 @@ const UserStats = ({stats} : {stats : statsProps}) => {
       <GridContainer>
           <Stat>{"Rank: " + stats.ladder_score}</Stat>
           <Stat>{"Arcade: " + stats.arcade_score}</Stat>
-          <Stat>{"Total Win: " + stats.wins.toString()}</Stat>
-          <Stat>{"Total Lose: " + stats.loses.toString()}</Stat>
+          <Stat>{"Total Win: " + stats.wins}</Stat>
+          <Stat>{"Total Lose: " + stats.loses}</Stat>
       </GridContainer>
     </Wrapper>
   );
