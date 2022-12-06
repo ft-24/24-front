@@ -4,7 +4,6 @@ import SplaButton from "../SplaButton";
 import { BackDrop, ModalProps } from "./ModalUtils";
 
 const Box = styled.div`
-  position: absolute;
   width: 24rem;
   padding: 1rem;
   background: var(--white);
@@ -18,6 +17,7 @@ const Box = styled.div`
       background: transparent;
   }
   gap: 2rem;
+  font-family: NanumSquareL;
 `;
 
 const Wrapper = styled.div`
@@ -31,7 +31,6 @@ const Wrapper = styled.div`
 const Title = styled.div`
   font-size: 1.5rem;
   text-align: center;
-  font-family: NanumSquareL;
   margin-top: 1rem;
 `
 

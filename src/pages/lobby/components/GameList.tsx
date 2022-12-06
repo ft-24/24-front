@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CreateGameRoom from "../../../components/modals/CreateGameRoom";
+import ModalPortal from "../../../components/modals/ModalPotal";
 import SectionHeader from "../../../components/SectionHeader";
 import SimpleCard from "../../../components/SimpleCard";
 import useSocket from "../../../context/useSocket";
@@ -149,7 +150,10 @@ const GameList = ({toggleInfo, setTitle} : any) => {
 				</CreateButton>
 				</ChannelContainer>
 			</ChannelSection>
-      {isModalOn ? <CreateGameRoom modalHandler={() => setIsModalOn(false)} /> : null}
+      {isModalOn ? <ModalPortal>
+        <CreateGameRoom modalHandler={() => setIsModalOn(false)} /> 
+        </ModalPortal>
+        : null}
 		</Container>
 	);
 }
