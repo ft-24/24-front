@@ -29,6 +29,11 @@ const Title = styled.div`
   margin-top: 1rem;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`
+
 const MatchingModal = ({ modalHandler }: ModalProps) => {
   const [count, setCount] = useState(10);
   const queueDispatch = useQueueDispatch();
@@ -56,7 +61,10 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
       <Box>
         <Title>게임을 찾았습니다!</Title>
         {count}
-        <SplaButton text="GO!" onClickHandler={buttonHandler} />
+        <ButtonContainer>
+        <SplaButton text="수락" onClickHandler={buttonHandler} />
+        <SplaButton text="거절" onClickHandler={modalHandler} />
+        </ButtonContainer>
       </Box>
     </BackDrop>
   );
