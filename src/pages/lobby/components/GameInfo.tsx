@@ -83,7 +83,7 @@ const Text = styled.div`
 	font-family: SBAggroM;
 `;
 
-const GameInfo = ({setInfo, setLocate, title} : any) => {
+const GameInfo = ({setInfo, setLocate, title, id} : any) => {
   const [hover, setHover] = useState(false);
 	
   let playerList = new Array<PlayerInfo>();

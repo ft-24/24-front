@@ -33,6 +33,7 @@ const Lobby = () => {
 	const [locate, setLocate] = useState("home");
 	const [info, setInfo] = useState(false);
 	const [title, setTitle] = useState("");
+	const [roomId, setRoomId] = useState("");
 
 	const toggleInfo = () => {
 		info ? setInfo(false) : setInfo(true);
@@ -47,7 +48,7 @@ const Lobby = () => {
 				</MainSection>
 				{info ? (
 					<InfoSection>
-						<GameInfo setInfo={setInfo} setLocate={setLocate} title={title} />
+						<GameInfo setInfo={setInfo} setLocate={setLocate} title={title} id={roomId}/>
 					</InfoSection>
 				) : null}
 			</Container>

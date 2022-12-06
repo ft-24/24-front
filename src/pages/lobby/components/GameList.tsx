@@ -1,7 +1,10 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import SectionHeader from "../../../components/SectionHeader";
 import SimpleCard from "../../../components/SimpleCard";
+import useSocket from "../../../context/useSocket";
 import GameCard from "./GameCard";
+import { GameRoomInfo } from "./GameRoomInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -57,6 +60,10 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
+const EmptyText = styled.div`
+	padding: 1rem;
+`
+
 const CreateButton = styled.button`
 	position: absolute;
 	z-index: 2;
@@ -74,7 +81,22 @@ const ButtonText = styled.div`
 `
 
 const GameList = ({toggleInfo, setTitle} : any) => {
-	let toggle = false;
+	const [list, setList] = useState<GameRoomInfo[]>();
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('refresh', (data: GameRoomInfo[]) => {
+        if (data) {
+          console.log("received gamelist");
+          setList(data);
+        }
+      })
+      return () => {
+        socket.off('refresh');
+      }
+    }
+  }, [socket]);
 
 	const onClickCreate = () => {
 		
@@ -90,11 +112,19 @@ const GameList = ({toggleInfo, setTitle} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<GameCard toggleInfo={toggleInfo} setTitle={setTitle} title="트센뽀개기"></GameCard>
-					<CreateButton onClick={onClickCreate}>
-						<ButtonText>새 방 만들기</ButtonText>
-					</CreateButton>
+				{
+					list && (list.length > 0) ? list.map((item: GameRoomInfo, index) => (
+						<GameCard
+							key={index}
+							toggleInfo={toggleInfo}
+							title={item.name}
+							id={item.id} />
+					)) : <EmptyText>열려있는 게임이 없어요...</EmptyText>
+				}
 				</ChannelContainer>
+				<CreateButton onClick={onClickCreate}>
+					<ButtonText>새 방 만들기</ButtonText>
+				</CreateButton>
 			</ChannelSection>
 		</Container>
 	);

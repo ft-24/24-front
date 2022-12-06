@@ -26,11 +26,12 @@ const MemberList = styled.div`
     
 `
 
-const GameCard = ({toggleInfo, setTitle, title} : any) => {
+const GameCard = ({toggleInfo, setTitle, title, id} : any) => {
   const onClick = () => {
     toggleInfo();
     setTitle(title ? title : "No Title");
   }
+  
   return (
     <Wrapper onClick={()=>{onClick()}}>
       <Container>
