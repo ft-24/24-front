@@ -91,6 +91,7 @@ const Sidebar = () => {
   const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
   const { token } = useAuthState();
   const [searchFriend, setSearchFriend] = useState(false);
+  const [addFriend, setAddfriend] = useState("");
 
   const getFriends = async () => {
     await axios
@@ -113,10 +114,29 @@ const Sidebar = () => {
         console.log(error);
       });
   };
+  const addFriendHandler = async () => {
+    await axios.put(Url + 'user/friends', {
+      nickname: addFriend
+    }, {
+          headers: {
+            Authorization:"Bearer " + token
+          }
+    }).then (response => {
+      console.log("added Friend: " + response.status);
+    }).catch (error => {
+      console.error('add friend failed', addFriend);
+    });
+  }
 
   useEffect(() => {
     getFriends();
   }, []);
+
+  useEffect(()=>{
+    if (addFriend !== "")
+      addFriendHandler();
+    getFriends();
+  },[addFriend])
 
   return (
     <Wrapper className="sidebar">
@@ -148,6 +168,7 @@ const Sidebar = () => {
               modalHandler={() => {
                 setSearchFriend(false);
               }}
+              setFriend={setAddfriend}
             ></UserSearch>
           </ModalPortal>
         ) : null}

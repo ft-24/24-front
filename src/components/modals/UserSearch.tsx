@@ -213,7 +213,7 @@ type SearchState = {
     SEND : JSX.Element,
 }
 
-const UserSearch = ({ modalHandler }: ModalProps) => {
+const UserSearch = ({ modalHandler, setFriend }: any) => {
   const [value, setValue] = useState("");
   const [userArray, setUserArray] = useState<User[]>([]);
   const [state, setState] = useState("NONE");
@@ -244,7 +244,7 @@ const UserSearch = ({ modalHandler }: ModalProps) => {
     "NONE" : null,
     "LOAD" : <Loader title="찾는중..."/>,
     "DONE" : userArray.length!==0 ? userArray.map((ele, idx)=>{
-        return <UserCard key={idx} onClick={()=>{setState("SEND")}}>
+        return <UserCard key={idx} onClick={()=>{setState("SEND"); setFriend(ele.intraID);}}>
           <UserName>
           {`${ele.nickname}(${ele.intraID})`}
           </UserName>
@@ -253,7 +253,7 @@ const UserSearch = ({ modalHandler }: ModalProps) => {
           </ChatButton>
           </UserCard>
     }) : <div>유저를 찾을 수 없습니다.</div>,
-    "SEND" : <div>친구요청을 보냈습니다.</div>
+    "SEND" : <div>친구추가가 완료되었습니다.</div>
   };
 
   return (
