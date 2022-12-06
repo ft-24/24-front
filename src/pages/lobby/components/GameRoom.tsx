@@ -3,6 +3,7 @@ import SectionHeader from "../../../components/SectionHeader";
 import { PongGame } from "../../game/PongGame";
 import PlayerCard from "../../../components/PlayerCard";
 import PlayerInfo from "./PlayerInfo";
+import { useState, createContext, useContext } from "react";
 
 const Container = styled.div`
 	position: relative;
@@ -87,12 +88,25 @@ const GameContainer = styled.div`
 	height: 100%;
 `;
 
+export enum PlayerState
+{
+  stay=1, ready=2, gaming=3
+}
+
+export const ReadyContext = createContext({
+  pState: PlayerState.stay,
+  setPState: (active: PlayerState) => {}
+});
+
 const GameRoom = ({setLocate, title} : any) => {
+  const [pState, setPState] = useState<PlayerState>(PlayerState.stay);
+  const value = { pState, setPState };
+
   let playerList = new Array<PlayerInfo>();
 	let spectatorList = new Array<PlayerInfo>();
 
-	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
+	playerList.push(new PlayerInfo("seonhjeo", "seonhjeo", "/src/images/earth.jpg", 1500, true));
+	playerList.push(new PlayerInfo("sunhkim", "sunhkim", "/src/images/game.jpg", 1200, true));
 
 	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
 	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
@@ -100,6 +114,7 @@ const GameRoom = ({setLocate, title} : any) => {
 
 	return (
 		<Container>
+      <ReadyContext.Provider value={value}>
 			<SectionHeader color='var(--dark-gray)' title={title}>
 				<div onClick={()=>setLocate("home")}>{"나가기"}</div>
 			</SectionHeader>
@@ -121,6 +136,7 @@ const GameRoom = ({setLocate, title} : any) => {
 			<GameContainer>
 				<PongGame />
 			</GameContainer>
+      </ReadyContext.Provider>
 		</Container>
 	);
 }

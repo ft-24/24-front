@@ -1,23 +1,29 @@
 import { Socket } from "socket.io-client";
 import Scene from "../lib/Scene";
-import Player from "../objects/Player";
-import MenuScene from "./MenuScene";
+import Mainscene from "./Mainscene";
 import Constants from "../Constants";
+import PongIO from "../lib/IO";
 
 export namespace Pong {
 
   export class EndScene extends Scene {
 
-    private winner: Player;
+    public readonly sceneNum = 1;
 
-    constructor(ctx: CanvasRenderingContext2D, socket:Socket, winner: Player) {
+    private result: PongIO.ResultData;
+
+    constructor(ctx: CanvasRenderingContext2D, socket:Socket, result: PongIO.ResultData) {
+      console.log("endscene loaded");
       super(ctx, socket);
-      this.winner = winner;
+      this.sceneNum = 1;
+      this.result = result;
+      this.draw();
     }
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      this.gameContext.loadScene(new MenuScene(this.ctx, this.socket));
+      console.log("clickeed");
+      this.gameContext.loadScene(new Mainscene(this.ctx, this.socket));
     }
 
     draw() {
@@ -30,17 +36,29 @@ export namespace Pong {
 
       // == Draw text
       // Draw title
-      let title = 'Game Over! - ' + this.winner.name;
+      let title: string = "";
+      if (this.result.win === 1) {
+        title += this.result.p1;
+      } else {
+        title += this.result.p2;
+      }
+      title += " Win!!";
       ctx.font = Constants.Text.TITLE_SIZE + " " + Constants.Text.TITLE_FONT;
       ctx.fillStyle = '#FDF3E7';
       ctx.textAlign = 'center';
-      ctx.fillText(title, width / 2, height / 2);
+      ctx.fillText(title, width / 2, (height / 2) - 60);
 
       // Draw title
-      let subtitle = 'Click to go to main menu.'
+      let subtitle = this.result.p1_score + "  :  " + this.result.p2_score; 
       ctx.font = Constants.Text.RES_SUBTITLE_SIZE + " " + Constants.Text.SUBTITLE_FONT;
       ctx.textAlign = 'center';
-      ctx.fillText(subtitle, width / 2, (height / 2) + 60);
+      ctx.fillText(subtitle, width / 2, (height / 2));
+
+      // Draw title
+      let subtitle2 = 'Click to go to main menu.'
+      ctx.font = Constants.Text.RES_SUBTITLE_SIZE + " " + Constants.Text.SUBTITLE_FONT;
+      ctx.textAlign = 'center';
+      ctx.fillText(subtitle2, width / 2, (height / 2) + 60);
     }
 
     update() {
@@ -49,8 +67,7 @@ export namespace Pong {
     getInput() {
     }
 
-    load(params: any) {
-      this.winner = <Player>params.winner;
+    load() {
       this.ctx.canvas.addEventListener('click', this.handleClick);
     }
 
