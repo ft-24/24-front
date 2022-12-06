@@ -67,6 +67,10 @@ const router = createBrowserRouter([
         element: <Social />,
       },
       {
+        path: "social/:receiver",
+        element: <Social />,
+      },
+      {
         path: "game",
         element: <GamePage />,
       },

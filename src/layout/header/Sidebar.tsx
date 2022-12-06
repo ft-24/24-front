@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useAuthState } from '../../context/AuthHooks';
 import { Url } from '../../constants/Global';
+import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -58,6 +59,7 @@ const Circle = styled.div<dynamicColor>`
 `;
 
 type Friend = {
+  intra_id: string,
   nickname: string,
   online: boolean,
 }
@@ -68,23 +70,22 @@ const Sidebar = () => {
   const { token } = useAuthState();
 
   const getFriends = async () => {
-      try {
-        const response = await axios({
-          url: Url + 'user/friends',
-          method: 'get',
-          headers: { 'token': 'bearer ' + token }
-        });
-        const Friends = await response.data;
-        const onlineArray : Friend[] = [];
-        const offlineArray : Friend[] = [];
-        for (let friend of Friends) {
-          friend.online ? onlineArray.push(friend) : offlineArray.push(friend);
-        }
-        setOnlineFriends([...onlineArray]);
-        setOfflineFriends([...offlineArray]);
-      } catch (error) {
-        console.log(error);
+    await axios.get(Url + 'user/friends', {
+      headers: {
+        Authorization:"Bearer " + token
       }
+    }).then(response => {
+      const Friends = response.data;
+      const onlineArray : Friend[] = [];
+      const offlineArray : Friend[] = [];
+      for (let friend of Friends) {
+        friend.online ? onlineArray.push(friend) : offlineArray.push(friend);
+      }
+      setOnlineFriends([...onlineArray]);
+      setOfflineFriends([...offlineArray]);
+    }).catch (error => {
+      console.log(error);
+    });
   }
 
   useEffect(()=>{
@@ -98,7 +99,9 @@ const Sidebar = () => {
           onlineFriends.map((item : Friend, index) => (
               <FriendWrapper key={index}>
                 <Circle color='var(--yellow)' />
-                <OnlineText>{item.nickname}</OnlineText>
+                <Link to={'/social/' + item.nickname}>
+                  <OnlineText>{item.nickname}</OnlineText>
+                </Link>
               </FriendWrapper>
           ))
         }
@@ -108,7 +111,9 @@ const Sidebar = () => {
           offlineFriends.map((item : Friend, index) => (
               <FriendWrapper key={index}>
                 <Circle color='var(--purple)' />
-                <OfflineText>{item.nickname}</OfflineText>
+                <Link to={'/social/' + item.nickname}>
+                  <OfflineText>{item.nickname}</OfflineText>
+                </Link>
               </FriendWrapper>
           ))
         }

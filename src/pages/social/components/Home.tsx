@@ -1,8 +1,15 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import CreateChannel from "../../../components/modals/CreateChannel";
 import SectionHeader from "../../../components/SectionHeader";
+import { Url } from "../../../constants/Global";
+import { useAuthState } from "../../../context/AuthHooks";
 import ChannelCard from "./ChannelCard";
+import { ChannelInfo } from "./ChannelInfo";
 
 const Container = styled.div`
+	position: relative;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -54,7 +61,51 @@ const ChannelContainer = styled.div`
 	align-items: center;
 `
 
-const Home = ({setLocate, setTitle} : any) => {
+const EmptyText = styled.div`
+	padding: 1rem;
+`
+
+const CreateButton = styled.button`
+	z-index: 2;
+	position: absolute;
+  	right: 10px;
+	bottom: 10px;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--yellow);
+`
+
+const ButtonText = styled.div`
+	margin: 1rem;
+	font-size: 1rem;
+	color: black;
+`
+
+const Home = ({setIsModalOn, setLocate} : any) => {
+	const [list, setList] = useState<ChannelInfo[]>();
+
+	const { token } = useAuthState();
+
+	const getList = async() => {
+		await axios.get(Url + 'channels', {
+		headers: {
+			Authorization:"Bearer " + token
+		}
+		}).then(response => {
+			setList(response.data);
+		}).catch(error => {
+			console.error('Public List loading failed');
+		});
+	}
+
+	useEffect(() => {
+			getList();
+	}, []);
+
+	const onClickCreate = () => {
+		setIsModalOn(true);
+	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="welcome home!"/>
@@ -64,9 +115,20 @@ const Home = ({setLocate, setTitle} : any) => {
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
-					<ChannelCard setLocate={setLocate} setTitle={setTitle} title="트센뽀개기"></ChannelCard>
+				{
+					list && (list.length > 0) ? list.map((item: ChannelInfo, index) => (
+						<ChannelCard
+							key={index}
+							type={item.access_modifier}
+							receiver={item.name}
+							setLocate={setLocate} />
+					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
+				}
 				</ChannelContainer>
 			</ChannelSection>
+			<CreateButton onClick={onClickCreate}>
+				<ButtonText>새 채널 만들기</ButtonText>
+			</CreateButton>
 		</Container>
 	);
 }

@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Avatar from "../../../components/Avatar"
+import { useAuthState } from "../../../context/AuthHooks"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,22 +29,30 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({setLocate, setTitle, title} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
+  const { nickname } = useAuthState();
+
   const onClick = () => {
     setLocate("chat");
-    setTitle(title ? title : "No Title");
   }
+  
   return (
-    <Wrapper onClick={()=>{onClick()}}>
-      <Container>
-      <Title>
-        {title ? title : "No Title"}
-      </Title>
-      <MemberList>
-        <Avatar.txt background="yellow">🤫</Avatar.txt>
-      </MemberList>
-      </Container>
-    </Wrapper>
+    <Link to={'/social/' + receiver}>
+      <Wrapper onClick={()=>{onClick()}}>
+        <Container>
+        <Title>
+          {type == "dm" ? (nickname + ", " + receiver) : receiver}
+        </Title>
+        <MemberList>
+        {
+          memberList?.map((url: string, index: number) => {
+            <Avatar.img key={index} src={url} />
+          })
+        }
+        </MemberList>
+        </Container>
+      </Wrapper>
+    </Link>
   )
 }
 
