@@ -14,6 +14,7 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: NanumSquareL;
   & > * {
     background: transparent;
   }
@@ -23,7 +24,6 @@ const Box = styled.div`
 const Title = styled.div`
   font-size: 1.5rem;
   text-align: center;
-  font-family: NanumSquareL;
   margin-top: 1rem;
 `;
 
@@ -209,7 +209,8 @@ type SearchState = {
     [index:string] : JSX.Element | JSX.Element[] | null,
     NONE: null,
     LOAD : JSX.Element,
-    DONE : JSX.Element[] | null,
+    DONE : JSX.Element[] | JSX.Element,
+    SEND : JSX.Element,
 }
 
 const UserSearch = ({ modalHandler }: ModalProps) => {
@@ -231,11 +232,11 @@ const UserSearch = ({ modalHandler }: ModalProps) => {
     if (value.length === 0)
         setState("NONE");
     else {
-    _interval = setInterval(findUsers, 500);
+    _interval = setTimeout(findUsers, 500);
     }
     return (()=>{
         if (_interval)
-            clearInterval(_interval)
+            clearTimeout(_interval)
     })
   },[value])
 
@@ -243,7 +244,7 @@ const UserSearch = ({ modalHandler }: ModalProps) => {
     "NONE" : null,
     "LOAD" : <Loader title="찾는중..."/>,
     "DONE" : userArray.length!==0 ? userArray.map((ele, idx)=>{
-        return <UserCard key={idx}>
+        return <UserCard key={idx} onClick={()=>{setState("SEND")}}>
           <UserName>
           {`${ele.nickname}(${ele.intraID})`}
           </UserName>
@@ -251,7 +252,8 @@ const UserSearch = ({ modalHandler }: ModalProps) => {
           💬
           </ChatButton>
           </UserCard>
-    }) : null,
+    }) : <div>유저를 찾을 수 없습니다.</div>,
+    "SEND" : <div>친구요청을 보냈습니다.</div>
   };
 
   return (
