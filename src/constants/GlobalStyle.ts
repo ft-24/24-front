@@ -1,6 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
+body{
+  position: relative;
+}
+#modal {
+  position: fixed;
+  top: 0;
+}
 * {
   --yellow : #ecf700;
   --purple: #8156ff;
@@ -53,7 +60,6 @@ export default createGlobalStyle`
     background: inherit;
     color: inherit;
   }
-
 }
 `;
 

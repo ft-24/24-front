@@ -19,13 +19,17 @@ type Props = {
   setToggle: any;
 };
 
+const FriendSideBar = styled(motion.div)`
+  position: relative;
+`
+
 const FriendsButton = ({ toggle, setToggle }: Props) => {
   return (
     <>
       <Friends onClick={() => setToggle(!toggle)}>친 구</Friends>
-      <motion.div animate={toggle ? "open" : "closed"} variants={variants}>
+      <FriendSideBar animate={toggle ? "open" : "closed"} variants={variants}>
         {toggle ? <Sidebar /> : null}
-      </motion.div>
+      </FriendSideBar>
     </>
   );
 };
