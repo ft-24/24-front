@@ -39,23 +39,23 @@ const ChatInput = ({setUserMessage} : any) => {
 		}
 	}
 
-    const onClickHandler = (event : any) => {
+	const onClickHandler = (event : any) => {
 		event.preventDefault();
 		sendUserInput();
-    }
+	}
 
 	const onKeyPressHandler = (event: any) => {
-        if(event.key === 'Enter') {
+		if(event.key === 'Enter') {
 			const userInput = ref?.current?.value;
 			sendUserInput();
 		}
-    }
+	}
 
-    return (
-      <>
-        <Input ref={ref} type="text" id="message" placeholder="" onKeyPress={onKeyPressHandler}></Input>
-        <Label htmlFor="message" onClick={onClickHandler}>SEND</Label>
-      </>
+	return (
+		<>
+			<Input ref={ref} type="text" id="message" placeholder="" onKeyPress={onKeyPressHandler}></Input>
+			<Label htmlFor="message" onClick={onClickHandler}>SEND</Label>
+		</>
   )
 }
 

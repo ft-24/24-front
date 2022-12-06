@@ -25,6 +25,7 @@ const ProfileButton = () => {
 				}
 			})
 			dispatch({type:"INTRA", payload: response.data.intra_id});
+			dispatch({type:"NICKNAME", payload: response.data.nickname});
 			setNickname(response.data.nickname);
 		} catch (err) {
 			console.log(err);

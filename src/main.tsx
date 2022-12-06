@@ -12,10 +12,13 @@ if (!rootElement) throw new Error("Failed to find the root Element");
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <>
     <GlobalStyle />
     <AuthContextProvider>
     <RouterProvider router={router} />
     </AuthContextProvider>
-  </React.StrictMode>
+  </>
+  // </React.StrictMode>
 );
+  
