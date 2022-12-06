@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import CreateGameRoom from "../../../components/modals/CreateGameRoom";
 import SectionHeader from "../../../components/SectionHeader";
 import SimpleCard from "../../../components/SimpleCard";
 import useSocket from "../../../context/useSocket";
@@ -67,7 +68,17 @@ const EmptyText = styled.div`
 const CreateButton = styled.button`
 	position: absolute;
 	z-index: 2;
-  	right: 1rem;
+  right: 1rem;
+	bottom: 1rem;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--yellow);
+`
+
+const RefreshButton = styled.button`
+	position: absolute;
+	z-index: 2;
+  left: 1rem;
 	bottom: 1rem;
 	border: none;
 	border-radius: 10px;
@@ -81,10 +92,11 @@ const ButtonText = styled.div`
 `
 
 const GameList = ({toggleInfo, setTitle} : any) => {
+  const [isModalOn, setIsModalOn] = useState(false);
 	const [list, setList] = useState<GameRoomInfo[]>();
   const { socket } = useSocket();
 
-  useEffect(() => {
+  const RefreshList = () => {
     if (socket) {
       socket.on('refresh', (data: GameRoomInfo[]) => {
         if (data) {
@@ -96,11 +108,19 @@ const GameList = ({toggleInfo, setTitle} : any) => {
         socket.off('refresh');
       }
     }
+  }
+
+  useEffect(() => {
+    RefreshList();
   }, [socket]);
 
 	const onClickCreate = () => {
-		
+		setIsModalOn(true);
 	}
+
+  const onClickRefresh = () => {
+    RefreshList();
+  }
 
 	return (
 		<Container>
@@ -121,11 +141,15 @@ const GameList = ({toggleInfo, setTitle} : any) => {
 							id={item.id} />
 					)) : <EmptyText>열려있는 게임이 없어요...</EmptyText>
 				}
-				</ChannelContainer>
-				<CreateButton onClick={onClickCreate}>
+        <RefreshButton onClick={onClickRefresh}>
+          <ButtonText>새로고침</ButtonText>
+        </RefreshButton>
+        <CreateButton onClick={onClickCreate}>
 					<ButtonText>새 방 만들기</ButtonText>
 				</CreateButton>
+				</ChannelContainer>
 			</ChannelSection>
+      {isModalOn ? <CreateGameRoom modalHandler={() => setIsModalOn(false)} /> : null}
 		</Container>
 	);
 }
