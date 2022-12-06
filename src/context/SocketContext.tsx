@@ -16,7 +16,7 @@ export const SocketContextProvider = ({ children }:{ children: JSX.Element }) =>
 
   useEffect(() => {
     const _session = localStorage.getItem('session');
-    const _socket = io(Url +  "session", { transports: ['websocket'], autoConnect: false, query:{token:token} });
+    const _socket = io(Url +  "24", { transports: ['websocket'], autoConnect: false, query:{token:token} });
     _socket.auth = { sessionID:_session };
     _socket.connect();
     _socket.on("connect", () => {});
