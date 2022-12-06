@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CreateChannel from "../../../components/modals/CreateChannel";
 import SectionHeader from "../../../components/SectionHeader";
+import SimpleCard from "../../../components/SimpleCard";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import ChannelCard from "./ChannelCard";
@@ -20,10 +21,10 @@ const Container = styled.div`
 const NoticeSection = styled.div`
 	flex: 1;
 	display: flex;
-	justify-content: flex-start;
+	max-height: 5.5rem;
+	justify-content: center;
 	flex-direction: column;
 	font-family: SBAggroM;
-	margin-top: 1rem;
 `
 
 const ChannelSection = styled.div`
@@ -110,8 +111,9 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 		<Container>
 			<SectionHeader color='var(--purple)' title="welcome home!"/>
 			<ContentHeader>공지사항</ContentHeader>
-			<NoticeSection>
-			</NoticeSection>
+				<NoticeSection>
+					<SimpleCard text="매너있는 채팅 부탁드립니다."/>
+				</NoticeSection>
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
