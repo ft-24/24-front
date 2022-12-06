@@ -4,10 +4,11 @@ import Info from "./components/Info";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
 import JoinedList from "./components/JoinedList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
+import useSocket from "../../context/useSocket";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -56,7 +57,12 @@ const Social = () => {
   const [isDMListOn, setIsDMListOn] = useState(false);
 	const [isModalOn, setIsModalOn] = useState(false);
 
-  console.log("target: " + target);
+  console.log(target);
+
+  useEffect(() => {
+    setLocate(target ? "chat" : "home");
+    setIsModalOn(false);
+  }, [target])
 
   return (
     <Wrapper>
@@ -96,7 +102,7 @@ const Social = () => {
           </InfoSection>
         ) : null}
       </Container>
-      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} /> : null}
+      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} setType={() => setType("public")} /> : null}
     </Wrapper>
   );
 };

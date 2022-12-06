@@ -1,4 +1,5 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthState } from "../../context/AuthHooks";
 import useSocket from "../../context/useSocket";
@@ -105,11 +106,12 @@ const Radio = ({label, index, select, handler}: {label: string, index: number, s
   )
 }
 
-const CreateChannel = ({modalHandler} : ModalProps) => {
+const CreateChannel = ({modalHandler, setType} : any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState<string>("");
   const [select, setSelect] = useState(1);
   let isEmpty = true;
+  let navigate = useNavigate();
 
   const { socket } = useSocket();
   const { intra } = useAuthState();
@@ -148,7 +150,15 @@ const CreateChannel = ({modalHandler} : ModalProps) => {
           password:password,
           owner_id:intra,
           access_modifier:access
-        })
+        }, (result: string) => {
+          console.log(result);
+          if (result == "") {
+            setType();
+            navigate('/social/' + title);
+          } else {
+            alert(result);
+          }
+        });
       } else {
         select === 2 ? alert('제목과 비밀번호를 입력해주세요!') : alert('제목을 입력해주세요!');
       }
