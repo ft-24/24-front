@@ -1,5 +1,8 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { Url } from "../../constants/Global";
+import { useQueueDispatch } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
 import SplaButton from "../SplaButton";
 import { BackDrop, ModalProps } from "./ModalUtils";
 
@@ -88,6 +91,11 @@ const Label= styled.label`
   background: none;
 `
 
+type SendGameRoomData = {
+	name: string,
+	access_modifier: string,
+}
+
 const Radio = ({label, index, select, handler}: {label: string, index: number, select: number, handler: any}) => {
   return (
     <>
@@ -102,11 +110,22 @@ const Radio = ({label, index, select, handler}: {label: string, index: number, s
 }
 
 const CreateGameRoom = ({modalHandler} : ModalProps) => {
-  const [tmp, setTmp] = useState("");
-  const [select, setSelect] = useState(1);
+  const inputRef = useRef(null);
+  const {socket} = useSocket();
+  const dispatch = useQueueDispatch();
 
 	const onClickCreate = () => {
-
+    const data: SendGameRoomData = {
+      name: '',
+      access_modifier: ''
+    };
+    if (inputRef.current && socket) {
+      data.name = inputRef.current['value'];
+      data.access_modifier = "public";
+      socket.emit("make-room", data);
+      modalHandler();
+      dispatch({type: "INQUEUE"});
+    }
 	}
 
   return (
@@ -114,7 +133,7 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
       <Box>
         <Wrapper>
           <Title>새 방 생성하기</Title>
-          <InputTitle id="input_title" type="text" placeholder="title" maxLength={28} />
+          <InputTitle id="input_title" ref={inputRef} type="text" placeholder="title" maxLength={28} />
           <Column>
             <CancelButton onClick={modalHandler}>
               <ButtonText>취소</ButtonText>

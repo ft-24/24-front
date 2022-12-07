@@ -2,7 +2,7 @@ import { createContext, useReducer, Dispatch } from "react";
 import { useNavigate } from "react-router-dom";
 
 type QueueContextType = {
-    queue_state: "INQUEUE" | "NONE" | "MATCHED" | "WAIT" | "INGAME",
+    queue_state: "INQUEUE" | "NONE" | "MATCHED" | "CREATE_ROOM" |"WAIT" | "INGAME",
     room: string | undefined,
 }
 
@@ -15,6 +15,7 @@ export type QueueActionType =
   | { type: "INQUEUE" }
   | { type: "WAIT", payload: string }
   | { type: "MATCHED", payload: string }
+  | { type: "CREATE_ROOM", payload: string }
   | { type: "NONE" }
   | { type: "INGAME"}
 
@@ -31,6 +32,9 @@ const queueReducer = (state: QueueContextType, action:QueueActionType) : QueueCo
         }
         case "MATCHED" : {
             return ({queue_state: "MATCHED", room: action.payload});
+        }
+        case "CREATE_ROOM" : {
+            return ({queue_state: "CREATE_ROOM", room: action.payload});
         }
         case "NONE" : {
             return ({queue_state: "NONE", room: undefined});

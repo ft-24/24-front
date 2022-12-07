@@ -92,9 +92,9 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const GameList = ({toggleInfo, setTitle} : any) => {
+const GameList = ({ toggleInfo, setTitle }: any) => {
   const [isModalOn, setIsModalOn] = useState(false);
-	const [list, setList] = useState<GameRoomInfo[]>();
+  const [list, setList] = useState<GameRoomInfo[]>();
   const { socket } = useSocket();
 
   const RefreshList = () => {
@@ -115,47 +115,49 @@ const GameList = ({toggleInfo, setTitle} : any) => {
     RefreshList();
   }, [socket]);
 
-	const onClickCreate = () => {
-		setIsModalOn(true);
-	}
-
-  const onClickRefresh = () => {
-    RefreshList();
+  const onClickCreate = () => {
+    setIsModalOn(true);
   }
 
-	return (
-		<Container>
-			<SectionHeader color='var(--purple)' title="Welcome to Pong Game World!"/>
-			<ContentHeader>공지사항</ContentHeader>
-			<NoticeSection>
-				<SimpleCard text="매너있는 플레이 부탁드립니다."/>
-			</NoticeSection>
-			<ContentHeader>공개채널</ContentHeader>
-			<ChannelSection>
-				<ChannelContainer>
-				{
-					list && (list.length > 0) ? list.map((item: GameRoomInfo, index) => (
-						<GameCard
-							key={index}
-							toggleInfo={toggleInfo}
-							title={item.name}
-							id={item.id} />
-					)) : <EmptyText>열려있는 게임이 없어요...</EmptyText>
-				}
-        <RefreshButton onClick={onClickRefresh}>
-          <ButtonText>새로고침</ButtonText>
-        </RefreshButton>
-        <CreateButton onClick={onClickCreate}>
-					<ButtonText>새 방 만들기</ButtonText>
-				</CreateButton>
-				</ChannelContainer>
-			</ChannelSection>
+  const onClickRefresh = () => {
+    if (!isModalOn) {
+      RefreshList();
+    }
+  }
+
+  return (
+    <Container>
+      <SectionHeader color='var(--purple)' title="Welcome to Pong Game World!" />
+      <ContentHeader>공지사항</ContentHeader>
+      <NoticeSection>
+        <SimpleCard text="매너있는 플레이 부탁드립니다." />
+      </NoticeSection>c
+      <ContentHeader>공개채널</ContentHeader>
+      <ChannelSection>
+        <ChannelContainer>
+          {
+            list && (list.length > 0) ? list.map((item: GameRoomInfo, index) => (
+              <GameCard
+                key={index}
+                toggleInfo={toggleInfo}
+                title={item.name}
+                id={item.id} />
+            )) : <EmptyText>열려있는 게임이 없어요...</EmptyText>
+          }
+          <RefreshButton onClick={onClickRefresh}>
+            <ButtonText>새로고침</ButtonText>
+          </RefreshButton>
+          <CreateButton onClick={onClickCreate}>
+            <ButtonText>새 방 만들기</ButtonText>
+          </CreateButton>
+        </ChannelContainer>
+      </ChannelSection>
       {isModalOn ? <ModalPortal>
-        <CreateGameRoom modalHandler={() => setIsModalOn(false)} /> 
-        </ModalPortal>
+        <CreateGameRoom modalHandler={() => setIsModalOn(false)} />
+      </ModalPortal>
         : null}
-		</Container>
-	);
+    </Container>
+  );
 }
 
 export default GameList;
