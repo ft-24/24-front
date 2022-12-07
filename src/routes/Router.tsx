@@ -15,6 +15,7 @@ import ArcadeGamePage2 from "../pages/arcade2/ArcadeGame";
 import Matching from "../pages/matching/Matching";
 import Private from "../pages/private";
 import Test from "../pages/Test";
+import GameRoom from "../pages/ingame";
 
 const router = createBrowserRouter([
   {
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
       },
       {
         path: "game",
-        element: <GamePage />,
+        element: <GameRoom />,
       },
       {
         path: "arcade",

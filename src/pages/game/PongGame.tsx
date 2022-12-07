@@ -17,7 +17,8 @@ const BackGround = styled.div`
 
 const GameBoard = styled.canvas`
   width : 80%;
-  height : width / 2;
+  max-width: 1440px;
+  height : calc(width / 2);
   top:0;
   bottom: 0;
   left: 0;
