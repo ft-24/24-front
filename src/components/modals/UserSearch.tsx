@@ -148,6 +148,8 @@ type SearchState = {
   LOAD: JSX.Element;
   DONE: JSX.Element[] | JSX.Element;
   SEND: JSX.Element;
+  FAIL: JSX.Element;
+  CANTFOUND: JSX.Element;
 };
 
 const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
@@ -171,9 +173,12 @@ const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
       })
       .then((response) => {
         const _users = response.data;
-        console.log(_users);
         setUsers([..._users]);
-        setState("DONE");
+        if (_users.length === 0)
+        setState("CANTFOUND")
+        else{
+          setState("DONE");
+        }
       })
       .catch((error) => {
         setState("NONE");
@@ -182,10 +187,13 @@ const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
   };
 
   const findUsers = () => {
-    setState("LOAD");
     const _users = users.filter((ele) => ele.intra_id.indexOf(value) !== -1);
     setFoundUsers([..._users]);
-    setState("DONE");
+    if (_users.length === 0)
+      setState("CANTFOUND")
+    else {
+      setState("DONE");
+    }
   };
 
   useEffect(() => {
@@ -203,15 +211,20 @@ const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
     NONE: null,
     LOAD: <Loader title="찾는중..." />,
     DONE:
-      foundUsers.length !== 0 ? (
         foundUsers.map((ele, idx) => {
           return (
             <UserCard
               key={idx}
               onClick={() => {
-                if (!ele.is_friend){
-                  setState("SEND");
-                  addFriendHandler(ele.intra_id);
+                try {
+                  if (!ele.is_friend){
+                    addFriendHandler(ele.intra_id);
+                    setState("SEND");
+                    getUsers();
+                  }
+                } catch (err) 
+                {
+                  setState("FAIL");
                 }
               }}
             >
@@ -219,15 +232,15 @@ const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
               {ele.is_friend ? (
                 <ChatButton>✔</ChatButton>
               ) : (
-                <ChatButton>💬</ChatButton>
+                <ChatButton>➕</ChatButton>
               )}
             </UserCard>
           );
         })
-      ) : (
-        <div>유저를 찾을 수 없습니다.</div>
-      ),
-    SEND: <div>친구추가가 완료되었습니다.</div>
+    ,
+    SEND: <div>친구추가가 완료되었습니다.</div>,
+    CANTFOUND : <div>유저를 찾을 수 없습니다.</div>,
+    FAIL: <div>친구추가 오류!</div>,
   };
 
   return (

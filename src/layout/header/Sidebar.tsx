@@ -32,13 +32,13 @@ const OfflineList = styled.div`
 
 const FriendWrapper = styled.div`
   margin: 0.25em 0;
-  padding: .5rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: 1em;
-  height:100%;
+  height: 100%;
   &:hover {
     background: var(--light-gray);
   }
@@ -66,7 +66,7 @@ const Circle = styled.div<dynamicColor>`
 
 const NameContainer = styled.div`
   display: flex;
-`
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -74,16 +74,16 @@ const ButtonContainer = styled.div`
   padding: 0 1rem;
   align-content: center;
   cursor: pointer;
-`
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  background:transparent;
-`
+  background: transparent;
+`;
 
 const DeleteButton = styled.div`
-  background:transparent;
-`
+  background: transparent;
+`;
 
 type Friend = {
   intra_id: string;
@@ -115,8 +115,8 @@ const Button = styled.div`
 
 const Sidebar = () => {
   const { token } = useAuthState();
-  const [onlineFriends, setOnlineFriends] = useState<Friend[]>([{intra_id: "fake", nickname: "fake", online: true}]);
-  const [offlineFriends, setOfflineFriends] = useState<Friend[]>([{intra_id: "fake", nickname: "fake", online: true}]);
+  const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
+  const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
   const [searchFriendModal, setSearchFriendModal] = useState(false);
 
   const getFriends = async () => {
@@ -133,6 +133,7 @@ const Sidebar = () => {
         for (let friend of Friends) {
           friend.online ? onlineArray.push(friend) : offlineArray.push(friend);
         }
+        console.log(Friends);
         setOnlineFriends([...onlineArray]);
         setOfflineFriends([...offlineArray]);
       })
@@ -142,32 +143,43 @@ const Sidebar = () => {
   };
 
   const addFriendHandler = async (friend_intra_name: string) => {
-    await axios.put(Url + 'user/friends', {
-      nickname: friend_intra_name
-    }, {
-          headers: {
-            Authorization:"Bearer " + token
+    try {
+      const response = await axios.put(
+          Url + "user/friends",
+          {
+            intra_id: friend_intra_name,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
           }
-    }).then (response => {
-      console.log("added Friend: " + response.status);
-    }).catch (error => {
-      console.error('add friend failed', friend_intra_name);
-    });
-  }
+          )
+      getFriends();
+    } catch (error) {
+      console.error("add friend failed", friend_intra_name);
+      throw (error);
+    }
+  };
 
   const deleteFriendHandler = async (friend_intra_name: string) => {
-    // await axios.delete(Url + 'user/friends', {
-    //   nickname: handleFriend
-    // }, {
-    //       headers: {
-    //         Authorization:"Bearer " + token
-    //       }
-    // }).then (response => {
-    //   console.log("added Friend: " + response.status);
-    // }).catch (error => {
-    //   console.error('add friend failed', handleFriend);
-    // });
-  }
+    await axios
+      .delete(Url + "user/friends", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        data: {
+          intra_id: friend_intra_name,
+        },
+      })
+      .then((response) => {
+        console.log("added Friend: " + response.status);
+        getFriends();
+      })
+      .catch((error) => {
+        console.error("add friend failed", friend_intra_name);
+      });
+  };
 
   useEffect(() => {
     getFriends();
@@ -180,12 +192,18 @@ const Sidebar = () => {
           {onlineFriends.map((item: Friend, index) => (
             <FriendWrapper key={index}>
               <NameContainer>
-              <Circle color="var(--yellow)" />
+                <Circle color="var(--yellow)" />
                 <OnlineText>{item.nickname}</OnlineText>
               </NameContainer>
               <ButtonContainer>
-              <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
-              <DeleteButton onClick={()=>{deleteFriendHandler(item.intra_id)}}>✖️</DeleteButton>
+                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DeleteButton
+                  onClick={() => {
+                    deleteFriendHandler(item.intra_id);
+                  }}
+                >
+                  ✖️
+                </DeleteButton>
               </ButtonContainer>
             </FriendWrapper>
           ))}
@@ -193,15 +211,21 @@ const Sidebar = () => {
         <OfflineList>
           {offlineFriends.map((item: Friend, index) => (
             <FriendWrapper key={index}>
-            <NameContainer>
-            <Circle color="var(--purple)" />
-              <OnlineText>{item.nickname}</OnlineText>
-            </NameContainer>
-            <ButtonContainer>
-            <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
-            <DeleteButton onClick={()=>{deleteFriendHandler(item.intra_id)}}>✖️</DeleteButton>
-            </ButtonContainer>
-          </FriendWrapper>
+              <NameContainer>
+                <Circle color="var(--purple)" />
+                <OfflineText>{item.nickname}</OfflineText>
+              </NameContainer>
+              <ButtonContainer>
+                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DeleteButton
+                  onClick={() => {
+                    deleteFriendHandler(item.intra_id);
+                  }}
+                >
+                  ✖️
+                </DeleteButton>
+              </ButtonContainer>
+            </FriendWrapper>
           ))}
         </OfflineList>
         <Button onClick={() => setSearchFriendModal(true)}>➕</Button>
