@@ -3,9 +3,6 @@ import Scene from "../lib/Scene";
 import Mainscene from "./Mainscene";
 import Constants from "../Constants";
 import PongIO from "../lib/IO";
-import { useContext } from "react";
-import { PlayerState, ReadyContext } from "../../ingame";
-
 
 export namespace Pong {
 
@@ -14,8 +11,6 @@ export namespace Pong {
     public readonly sceneNum = 1;
 
     private result: PongIO.ResultData;
-
-    private pState = useContext(ReadyContext);
 
     constructor(ctx: CanvasRenderingContext2D, socket:Socket, result: PongIO.ResultData) {
       console.log("endscene loaded");
@@ -28,7 +23,6 @@ export namespace Pong {
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
       this.gameContext.loadScene(new Mainscene(this.ctx, this.socket));
-      this.pState.setPState(PlayerState.stay);
     }
 
     draw() {
