@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAuthState } from "../context/AuthHooks";
 import useSocket from "../context/useSocket";
 import PlayerInfo from "../pages/lobby/components/PlayerInfo";
-import { ReadyContext, PlayerState } from "../pages/lobby/components/GameRoom";
+import { ReadyContext, PlayerState } from "../pages/ingame/index";
 import { motion } from "framer-motion";
 
 type DynamicColor = {
@@ -87,7 +87,7 @@ const IsME = styled(motion.div)`
 const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
   const RenderCard = () => {
     const { socket } = useSocket();
-    const [isActive, setIsActive] = useState(false);
+    const [isReady, setIsReady] = useState(false);
     const [isMine, setIsMine] = useState(false);
     const { intra } = useAuthState();
     const pState = useContext(ReadyContext);
@@ -99,17 +99,16 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
     }, []);
 
     const getReady = () => {
+      console.log(pState);
       if (isMine) {
         if (pState.pState === PlayerState.stay) {
           pState.setPState(PlayerState.ready);
-          setIsActive(true);
-          socket?.emit("ready", true);
+          setIsReady(true);
+          socket?.emit("ready", {is_ready:isReady});
         } else if (pState.pState === PlayerState.ready) {
           pState.setPState(PlayerState.stay);
-          setIsActive(false);
-          socket?.emit("ready", false);
-        } else {
-          setIsActive(false);
+          setIsReady(false);
+          socket?.emit("ready", {is_ready:isReady});
         }
       }
     };
@@ -131,7 +130,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
               {props.player.intra_id}
             </IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isActive ? "Cancel" : "Ready!"}
+            {isMine ? (isReady ? "Cancel" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
@@ -149,7 +148,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isMine ? (isActive ? "Cancel" : "Ready!") : props.player.is_ready}
+              {isMine ? (isReady ? "Cancel" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
