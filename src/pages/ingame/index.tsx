@@ -125,6 +125,7 @@ const GameRoom = () => {
   const RefreshRoom = () => {
     if (socket && id) {
       console.log("refresh room entered, id : ",id);
+      console.log(room?.ready);
       socket.emit('get', {id:id});
       socket.on('get', (data: GameRoomInfo) => {
         if (data) {
@@ -153,11 +154,11 @@ const GameRoom = () => {
           <UserInfoContainer>
             <PlayerContainer>
               {room?.player_list[0] ? (
-                <PlayerCard type="purple" player={room.player_list[0]} />
+                <PlayerCard type="purple" player={room.player_list[0]} isReady={room.ready.p1} />
               ) : null}
               <Versus> vs </Versus>
               {room?.player_list[1] ? (
-                <PlayerCard type="yellow" player={room.player_list[1]} />
+                <PlayerCard type="yellow" player={room.player_list[1]} isReady={room.ready.p2}/>
               ) : null}
             </PlayerContainer>
             <ContentHeader>관전중인 사람들</ContentHeader>
@@ -167,6 +168,7 @@ const GameRoom = () => {
                   key={index}
                   type="spectator"
                   player={item}
+                  isReady={false}
                 ></PlayerCard>
               ))}
             </SpectatorContainer>

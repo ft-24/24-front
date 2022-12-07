@@ -64,19 +64,6 @@ export const PongGame = () => {
       }
     }
   }, [game, recvData]);
-
-  useEffect(() => {
-    if (game) {
-      console.log(pState.pState);
-      if (game.sceneNum === 1) {
-        pState.setPState(PlayerState.gameEnd);
-      }
-      if (pState.pState === PlayerState.gameEnd && game.sceneNum === 0) {
-        pState.setPState(PlayerState.stay);
-      }
-    }
-    
-  }, [game?.sceneNum]);
   
   return (
     <>

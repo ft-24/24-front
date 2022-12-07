@@ -98,10 +98,8 @@ namespace Pong {
           this.resData = data;
           this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.resData));
         }
-      })
-      return () => {
         this.socket.off("result");
-      }
+      })
     }
 
     unload() {
