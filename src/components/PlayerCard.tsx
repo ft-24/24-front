@@ -105,6 +105,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
           pState.setPState(PlayerState.ready);
           setIsReady(true);
           socket?.emit("ready", {is_ready:true});
+        } else {
+          setIsReady(false);
         }
       }
     };
