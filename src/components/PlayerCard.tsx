@@ -104,11 +104,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
         if (pState.pState === PlayerState.stay) {
           pState.setPState(PlayerState.ready);
           setIsReady(true);
-          socket?.emit("ready", {is_ready:isReady});
-        } else if (pState.pState === PlayerState.ready) {
-          pState.setPState(PlayerState.stay);
-          setIsReady(false);
-          socket?.emit("ready", {is_ready:isReady});
+          socket?.emit("ready", {is_ready:true});
         }
       }
     };
@@ -129,8 +125,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <IntraText color="--light-light-gray">
               {props.player.intra_id}
             </IntraText>
-            <ReadyButton disabled={!isMine} onClick={getReady}>
-            {isMine ? (isReady ? "Cancel" : "Ready!") : props.player.is_ready}
+            <ReadyButton disabled={!isMine || isReady} onClick={getReady}>
+            {isMine ? (isReady ? "Set!" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
@@ -147,8 +143,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <ProfileImg src={props.player.profile_url} size="100px" />
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
-            <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isMine ? (isReady ? "Cancel" : "Ready!") : props.player.is_ready}
+            <ReadyButton disabled={!isMine || isReady} onClick={getReady}>
+              {isMine ? (isReady ? "Set!" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
