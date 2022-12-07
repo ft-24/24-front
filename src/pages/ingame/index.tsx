@@ -106,6 +106,7 @@ export enum PlayerState {
   stay = 1,
   ready = 2,
   gaming = 3,
+  gameEnd = 4
 }
 
 export const ReadyContext = createContext({

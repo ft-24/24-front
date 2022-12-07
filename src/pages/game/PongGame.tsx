@@ -2,7 +2,7 @@ import {useRef, useState, useEffect, useContext} from "react";
 
 import styled from 'styled-components';
 import useSocket from "../../context/useSocket";
-import {ReadyContext, PlayerState} from "../lobby/components/GameRoom";
+import {ReadyContext, PlayerState} from "../ingame/index";
 
 import GameEngine from "./lib/GameEngine";
 import PongIO from "./lib/IO";
@@ -60,11 +60,15 @@ export const PongGame = () => {
   useEffect(() => {
     if (game) {
       if (recvData) {
+        console.log(pState.pState);
         game.draw(recvData);
-      }
-  
-      if (game.getSceneNum() === 0) {
-        pState.setPState(PlayerState.stay);
+        pState.setPState(PlayerState.gaming);
+        if (pState.pState === PlayerState.gaming && game.getSceneNum() === 1) {
+          pState.setPState(PlayerState.gameEnd);
+        }
+        if (pState.pState === PlayerState.gameEnd && game.getSceneNum() === 0) {
+          pState.setPState(PlayerState.stay);
+        }
       }
     }
     

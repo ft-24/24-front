@@ -87,7 +87,6 @@ const IsME = styled(motion.div)`
 const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
   const RenderCard = () => {
     const { socket } = useSocket();
-    const [isReady, setIsReady] = useState(false);
     const [isMine, setIsMine] = useState(false);
     const { intra } = useAuthState();
     const pState = useContext(ReadyContext);
@@ -99,14 +98,10 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
     }, []);
 
     const getReady = () => {
-      console.log(pState);
       if (isMine) {
         if (pState.pState === PlayerState.stay) {
           pState.setPState(PlayerState.ready);
-          setIsReady(true);
           socket?.emit("ready", {is_ready:true});
-        } else {
-          setIsReady(false);
         }
       }
     };
@@ -127,8 +122,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <IntraText color="--light-light-gray">
               {props.player.intra_id}
             </IntraText>
-            <ReadyButton disabled={!isMine || isReady} onClick={getReady}>
-            {isMine ? (isReady ? "Set!" : "Ready!") : props.player.is_ready}
+            <ReadyButton disabled={!isMine || pState.pState === PlayerState.stay} onClick={getReady}>
+            {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
@@ -145,8 +140,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <ProfileImg src={props.player.profile_url} size="100px" />
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
-            <ReadyButton disabled={!isMine || isReady} onClick={getReady}>
-              {isMine ? (isReady ? "Set!" : "Ready!") : props.player.is_ready}
+            <ReadyButton disabled={!isMine} onClick={getReady}>
+              {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );
