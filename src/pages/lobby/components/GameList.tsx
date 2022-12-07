@@ -94,26 +94,6 @@ const ButtonText = styled.div`
 `
 
 const GameList = ({ toggleInfo, setTitle }: any) => {
-  let playerList = new Array<PlayerInfo>();
-  let spectatorList = new Array<PlayerInfo>();
-
-  playerList.push(
-    new PlayerInfo("young-ch", "young-ch", "/src/images/earth.jpg", 1500, true)
-  );
-  playerList.push(
-    new PlayerInfo("young-ch", "young-ch", "/src/images/game.jpg", 1200, true)
-  );
-
-  spectatorList.push(
-    new PlayerInfo("young-ch", "young-ch", "some link", 1500, true)
-  );
-  spectatorList.push(
-    new PlayerInfo("young-ch", "young-ch", "some link", 1600, false)
-  );
-  spectatorList.push(
-    new PlayerInfo("young-ch", "young-ch", "some link", 1600, false)
-  );
-
   const [isModalOn, setIsModalOn] = useState(false);
   const [list, setList] = useState<GameRoomInfo[]>(); //[{name:"fake", id:"fake", access_modifier:"public", player_list:playerList, spectator_list:spectatorList}]);
   const { socket } = useSocket();
@@ -125,6 +105,7 @@ const GameList = ({ toggleInfo, setTitle }: any) => {
         if (data) {
           console.log(data);
           setList([...data]);
+          socket.off('list');
         }
       })
     }

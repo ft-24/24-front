@@ -96,7 +96,6 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
       if (props.player.intra_id === intra) {
         setIsMine(true);
       }
-      console.log(isMine);
     }, []);
 
     const getReady = () => {
@@ -150,7 +149,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isActive ? "Cancel" : "Ready!"}
+              {isMine ? (isActive ? "Cancel" : "Ready!") : props.player.is_ready}
             </ReadyButton>
           </CardWrapper>
         );

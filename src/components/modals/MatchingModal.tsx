@@ -53,7 +53,7 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
     }
   }, [count]);
   const buttonHandler = () => {
-    navigator("/lobby");
+    navigator("/game");
     queueDispatch({ type: "INGAME" });
   };
   return (
