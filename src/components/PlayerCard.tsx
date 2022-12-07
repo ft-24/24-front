@@ -32,6 +32,7 @@ const ProfileImg = styled.img<DynamicSize>`
   display: block;
   margin: 10px;
   width: ${(props) => props.size};
+  height: ${(props) => props.size};
 `;
 
 const NicknameText = styled.div`
@@ -122,8 +123,8 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <IntraText color="--light-light-gray">
               {props.player.intra_id}
             </IntraText>
-            <ReadyButton disabled={!isMine || pState.pState === PlayerState.stay} onClick={getReady}>
-            {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : props.player.is_ready}
+            <ReadyButton disabled={!isMine} onClick={getReady}>
+            {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : "props.player.is_ready"}
             </ReadyButton>
           </CardWrapper>
         );
@@ -141,7 +142,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : props.player.is_ready}
+              {isMine ? (pState.pState === PlayerState.ready ? "Set!" : "Ready!") : "props.player.is_ready"}
             </ReadyButton>
           </CardWrapper>
         );
