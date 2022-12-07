@@ -7,7 +7,6 @@ import SimpleCard from "../../../components/SimpleCard";
 import useSocket from "../../../context/useSocket";
 import GameCard from "./GameCard";
 import { GameRoomInfo } from "./GameRoomInfo";
-import PlayerInfo from "./PlayerInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -38,7 +37,7 @@ const ChannelSection = styled.div`
 	}
 	&::-webkit-scrollbar-thumb{
 		background-color: var(--yellow);
-		border-radius: 10px;    
+		border-radius: 10px;
 	}
 	&::-webkit-scrollbar-track{
 		background-color: rgba(0,0,0,0);
@@ -50,7 +49,7 @@ const ContentHeader = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
-	padding: 0.5rem;	
+	padding: 0.5rem;
 	background: var(--purple);
 	text-shadow: 0 2px 0 black;
 `

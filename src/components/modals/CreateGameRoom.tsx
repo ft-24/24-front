@@ -100,7 +100,7 @@ type SendGameRoomData = {
 const Radio = ({label, index, select, handler}: {label: string, index: number, select: number, handler: any}) => {
   return (
     <>
-      <RadioButton 
+      <RadioButton
         type="radio"
         value={index}
         checked={select === index}
@@ -126,7 +126,7 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
       data.access_modifier = "public";
       socket.emit("make-room", data, (id: string)=>{
         console.log("emit response",id);
-        dispatch({type: "PUT_ID", payload: id});
+        dispatch({type: "ENTER", payload: id});
         socket.emit("join", {id:id});
         modalHandler();
         navigate('/game');

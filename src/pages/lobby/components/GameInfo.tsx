@@ -24,7 +24,7 @@ const Title = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
-	padding: 0.5rem;	
+	padding: 0.5rem;
 	background: var(--purple);
 	text-shadow: 0 2px 0 black;
 `
@@ -36,7 +36,7 @@ const ContentHeader = styled.div`
 	font-size: 1.5rem;
 	line-height: 60px;
   height: 60px;
-	padding: 0.5rem;	
+	padding: 0.5rem;
 	background: var(--light-gray);
 	text-shadow: 0 2px 0 black;
 `;
@@ -88,13 +88,12 @@ const Text = styled.div`
 
 const GameInfo = ({setInfo, setLocate} : any) => {
   const [hover, setHover] = useState(false);
-	const {room} = useQueueState();
+	const {room_info} = useQueueState();
 	const {socket} = useSocket();
 	const navigate = useNavigate();
-	const dispatch = useQueueDispatch();
-	
+
 	const enterLobby = () => {
-		socket?.emit("join", {id:room?.id});
+		socket?.emit("join", {id:room_info?.id});
 		navigate("/game");
 	}
 
@@ -103,24 +102,24 @@ const GameInfo = ({setInfo, setLocate} : any) => {
 			<SectionHeader color='var(--purple)'>
 				{setInfo ? <div onClick={()=>setInfo(false)}>{"X"}</div> : null}
 			</SectionHeader>
-			<Title>{room?.name}</Title>
-			<ContentHeader>게임하는 사람들</ContentHeader>	
+			<Title>{room_info?.name}</Title>
+			<ContentHeader>게임하는 사람들</ContentHeader>
 			<PlayerSection>
 				{
-					room?.player_list.map((item : PlayerInfo, index) => (
+					room_info?.player_list.map((item : PlayerInfo, index) => (
 						<CardWrapper key={index} type="spectator" player={item}></CardWrapper>
 					))
 				}
 			</PlayerSection>
-			<ContentHeader>관전중인 사람들</ContentHeader>	
+			<ContentHeader>관전중인 사람들</ContentHeader>
 			<PlayerSection>
 				{
-					room?.spectator_list.map((item : PlayerInfo, index) => (
+					room_info?.spectator_list.map((item : PlayerInfo, index) => (
 						<CardWrapper key={index}	 type="spectator" player={item}></CardWrapper>
 					))
 				}
 			</PlayerSection>
-			<IconSection>	
+			<IconSection>
 				<StyledButton
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
@@ -128,18 +127,18 @@ const GameInfo = ({setInfo, setLocate} : any) => {
 					>
 					{hover ?
 						<>
-							<motion.div 
+							<motion.div
 								style={{ position: "absolute", top: "-2.5rem", left: "-2.5rem"}}
 								animate={{ opacity: 1 }}
 								transition={{ from: 0, duration: 0.1 }}
 								>
 								<Image src="/src/images/splash1.png" size="7rem" z-index="2"/>
 							</motion.div>
-							<motion.div 
+							<motion.div
 								style={{ position: "absolute", bottom: "-1rem", right: "-2rem"}}
 								animate={{ opacity: 1 }}
 								transition={{ from: 0, duration: 0.3 }}
-								>	
+								>
 								<Image src="/src/images/splash2.png" size="5rem" z-index="1"/>
 							</motion.div>
 						</>

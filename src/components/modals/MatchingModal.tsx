@@ -36,7 +36,6 @@ const ButtonContainer = styled.div`
 
 const MatchingModal = ({ modalHandler }: ModalProps) => {
   const [count, setCount] = useState(10);
-  const queueDispatch = useQueueDispatch();
   const navigator = useNavigate();
   useEffect(() => {
     const timer = setInterval(() => {
@@ -54,7 +53,6 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
   }, [count]);
   const buttonHandler = () => {
     navigator("/game");
-    queueDispatch({ type: "INGAME" });
   };
   return (
     <BackDrop modalHandler={modalHandler}>
