@@ -6,6 +6,7 @@ import FriendsButton from "./FriendsButton";
 import MatchingWaitBall from "../../components/MatchingWaitBall";
 import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
 import MatchingModal from "../../components/modals/MatchingModal";
+import ModalPortal from "../../components/modals/ModalPotal";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -40,6 +41,8 @@ const Header = () => {
     }
     else if (queueState.queue_state === "INGAME")
       setMatchingBall(false);
+    else if (queueState.queue_state === "ENTER_ROOM")
+      setMatchingBall(false);
     else
       setMatchingBall(true);
   },[queueState]);
@@ -69,7 +72,7 @@ const Header = () => {
         <MatchingWaitBall handler={matchingBallCancel}/>
       }
       {matchingModal &&
-        <MatchingModal modalHandler={matchingModalCancel} />
+        <ModalPortal><MatchingModal modalHandler={matchingModalCancel} /></ModalPortal>
       }
     </HeadBar>
   );

@@ -3,8 +3,11 @@ import SectionHeader from "../../components/SectionHeader";
 import { PongGame } from "../game/PongGame";
 import PlayerCard from "../../components/PlayerCard";
 import PlayerInfo from "../lobby/components/PlayerInfo";
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import {useNavigate} from 'react-router-dom'
+import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
+import { GameRoomInfo } from "../lobby/components/GameRoomInfo";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -110,51 +113,56 @@ export const ReadyContext = createContext({
   setPState: (active: PlayerState) => {},
 });
 
-const GameRoom = ({ title }: any) => {
+const GameRoom = () => {
   const [pState, setPState] = useState<PlayerState>(PlayerState.stay);
   const value = { pState, setPState };
   const navigate = useNavigate();
+  const {room, id} = useQueueState();
+  const {socket} = useSocket();
+  const dispatch = useQueueDispatch();
 
-  let playerList = new Array<PlayerInfo>();
-  let spectatorList = new Array<PlayerInfo>();
+  const RefreshRoom = () => {
+    if (socket && id) {
+      console.log("refresh room entered, id : ",id);
+      socket.emit('get', {id:id});
+      socket.on('get', (data: GameRoomInfo) => {
+      console.log("thisisdata",data);
+        if (data) {
+          dispatch({type:"ENTER_ROOM", roominfo:data});
+        }
+      })
+    }
+  }
 
-  playerList.push(
-    new PlayerInfo("seonhjeo", "seonhjeo", "/src/images/earth.jpg", 1500, true)
-  );
-  playerList.push(
-    new PlayerInfo("sunhkim", "sunhkim", "/src/images/game.jpg", 1200, true)
-  );
+  useEffect(() => {
+    RefreshRoom();
+    return () => {
+      socket?.off('get');
+    }
+  }, [socket, id]);
 
-  spectatorList.push(
-    new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true)
-  );
-  spectatorList.push(
-    new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false)
-  );
-  spectatorList.push(
-    new PlayerInfo("young-ch", "young-ch", "some link", 1600, false)
-  );
 
   return (
     <Wrapper>
       <Container>
+        <button onClick={()=>{RefreshRoom()}}>REFRESH</button>
         <ReadyContext.Provider value={value}>
-          <SectionHeader color="var(--dark-gray)" title={title}>
+          <SectionHeader color="var(--dark-gray)" title={room?.name}>
             <div onClick={() => navigate(-1)}>{"나가기"}</div>
           </SectionHeader>
           <UserInfoContainer>
             <PlayerContainer>
-              {playerList[0] ? (
-                <PlayerCard type="purple" player={playerList[0]} />
+              {room?.player_list[0] ? (
+                <PlayerCard type="purple" player={room.player_list[0]} />
               ) : null}
               <Versus> vs </Versus>
-              {playerList[1] ? (
-                <PlayerCard type="yellow" player={playerList[1]} />
+              {room?.player_list[1] ? (
+                <PlayerCard type="yellow" player={room.player_list[1]} />
               ) : null}
             </PlayerContainer>
             <ContentHeader>관전중인 사람들</ContentHeader>
             <SpectatorContainer>
-              {spectatorList.map((item: PlayerInfo, index) => (
+              {room?.spectator_list.map((item: PlayerInfo, index) => (
                 <PlayerCard
                   key={index}
                   type="spectator"

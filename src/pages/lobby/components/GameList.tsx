@@ -7,6 +7,7 @@ import SimpleCard from "../../../components/SimpleCard";
 import useSocket from "../../../context/useSocket";
 import GameCard from "./GameCard";
 import { GameRoomInfo } from "./GameRoomInfo";
+import PlayerInfo from "./PlayerInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -93,26 +94,47 @@ const ButtonText = styled.div`
 `
 
 const GameList = ({ toggleInfo, setTitle }: any) => {
+  let playerList = new Array<PlayerInfo>();
+  let spectatorList = new Array<PlayerInfo>();
+
+  playerList.push(
+    new PlayerInfo("young-ch", "young-ch", "/src/images/earth.jpg", 1500, true)
+  );
+  playerList.push(
+    new PlayerInfo("young-ch", "young-ch", "/src/images/game.jpg", 1200, true)
+  );
+
+  spectatorList.push(
+    new PlayerInfo("young-ch", "young-ch", "some link", 1500, true)
+  );
+  spectatorList.push(
+    new PlayerInfo("young-ch", "young-ch", "some link", 1600, false)
+  );
+  spectatorList.push(
+    new PlayerInfo("young-ch", "young-ch", "some link", 1600, false)
+  );
+
   const [isModalOn, setIsModalOn] = useState(false);
-  const [list, setList] = useState<GameRoomInfo[]>();
+  const [list, setList] = useState<GameRoomInfo[]>(); //[{name:"fake", id:"fake", access_modifier:"public", player_list:playerList, spectator_list:spectatorList}]);
   const { socket } = useSocket();
 
   const RefreshList = () => {
     if (socket) {
-      socket.on('refresh', (data: GameRoomInfo[]) => {
+      socket.emit('refresh');
+      socket.on('list', (data: GameRoomInfo[]) => {
         if (data) {
-          console.log("received gamelist");
-          setList(data);
+          console.log(data);
+          setList([...data]);
         }
       })
-      return () => {
-        socket.off('refresh');
-      }
     }
   }
 
   useEffect(() => {
     RefreshList();
+    return () => {
+      socket?.off('list');
+    }
   }, [socket]);
 
   const onClickCreate = () => {
@@ -131,7 +153,7 @@ const GameList = ({ toggleInfo, setTitle }: any) => {
       <ContentHeader>공지사항</ContentHeader>
       <NoticeSection>
         <SimpleCard text="매너있는 플레이 부탁드립니다." />
-      </NoticeSection>c
+      </NoticeSection>
       <ContentHeader>공개채널</ContentHeader>
       <ChannelSection>
         <ChannelContainer>
@@ -140,8 +162,8 @@ const GameList = ({ toggleInfo, setTitle }: any) => {
               <GameCard
                 key={index}
                 toggleInfo={toggleInfo}
-                title={item.name}
-                id={item.id} />
+                info={item}
+                setTitle={setTitle} />
             )) : <EmptyText>열려있는 게임이 없어요...</EmptyText>
           }
           <RefreshButton onClick={onClickRefresh}>

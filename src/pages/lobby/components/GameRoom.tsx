@@ -105,12 +105,12 @@ const GameRoom = ({setLocate, title} : any) => {
   let playerList = new Array<PlayerInfo>();
 	let spectatorList = new Array<PlayerInfo>();
 
-	playerList.push(new PlayerInfo("seonhjeo", "seonhjeo", "/src/images/earth.jpg", 1500, true));
-	playerList.push(new PlayerInfo("sunhkim", "sunhkim", "/src/images/game.jpg", 1200, true));
+	// playerList.push(new PlayerInfo("seonhjeo", "seonhjeo", "/src/images/earth.jpg", 1500, true));
+	// playerList.push(new PlayerInfo("sunhkim", "sunhkim", "/src/images/game.jpg", 1200, true));
 
-	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
-	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
-	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
+	// spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
+	// spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
+	// spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
 
 	return (
 		<Container>

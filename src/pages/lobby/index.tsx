@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useQueueDispatch } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
 import GameInfo from "./components/GameInfo";
 import GameList from "./components/GameList";
 import GameRoom from "./components/GameRoom";
@@ -34,6 +36,8 @@ const Lobby = () => {
 	const [info, setInfo] = useState(false);
 	const [title, setTitle] = useState("");
 	const [roomId, setRoomId] = useState("");
+	const {socket} = useSocket();
+	const dispatch = useQueueDispatch();
 
 	const toggleInfo = () => {
 		info ? setInfo(false) : setInfo(true);

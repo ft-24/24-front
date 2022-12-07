@@ -1,4 +1,5 @@
 import { SetStateAction, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Url } from "../../constants/Global";
 import { useQueueDispatch } from "../../context/QueueHooks";
@@ -113,6 +114,7 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
   const inputRef = useRef(null);
   const {socket} = useSocket();
   const dispatch = useQueueDispatch();
+  const navigate = useNavigate();
 
 	const onClickCreate = () => {
     const data: SendGameRoomData = {
@@ -122,9 +124,13 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
     if (inputRef.current && socket) {
       data.name = inputRef.current['value'];
       data.access_modifier = "public";
-      socket.emit("make-room", data);
-      modalHandler();
-      dispatch({type: "INQUEUE"});
+      socket.emit("make-room", data, (id: string)=>{
+        console.log("emit response",id);
+        dispatch({type: "PUT_ID", payload: id});
+        socket.emit("join", {id:id});
+        modalHandler();
+        navigate('/game');
+      });
     }
 	}
 

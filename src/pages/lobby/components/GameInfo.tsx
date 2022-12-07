@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
 import CardWrapper from "../../../components/PlayerCard";
 import PlayerInfo from "./PlayerInfo";
 import SectionHeader from "../../../components/SectionHeader";
+import { useQueueDispatch, useQueueState } from "../../../context/QueueHooks";
+import { useNavigate } from "react-router-dom";
+import useSocket from "../../../context/useSocket";
 
 const Container = styled.div`
 	width: 100%;
@@ -83,22 +86,16 @@ const Text = styled.div`
 	font-family: SBAggroM;
 `;
 
-const GameInfo = ({setInfo, setLocate, title, id} : any) => {
+const GameInfo = ({setInfo, setLocate} : any) => {
   const [hover, setHover] = useState(false);
+	const {room} = useQueueState();
+	const {socket} = useSocket();
+	const navigate = useNavigate();
+	const dispatch = useQueueDispatch();
 	
-  let playerList = new Array<PlayerInfo>();
-	let spectatorList = new Array<PlayerInfo>();
-
-	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
-
-	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
-	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
-	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
-
 	const enterLobby = () => {
-		setLocate("lobby");
-		setInfo(false);
+		socket?.emit("join", {id:room?.id});
+		navigate("/game");
 	}
 
 	return (
@@ -106,11 +103,11 @@ const GameInfo = ({setInfo, setLocate, title, id} : any) => {
 			<SectionHeader color='var(--purple)'>
 				{setInfo ? <div onClick={()=>setInfo(false)}>{"X"}</div> : null}
 			</SectionHeader>
-			<Title>{title}</Title>
+			<Title>{room?.name}</Title>
 			<ContentHeader>게임하는 사람들</ContentHeader>	
 			<PlayerSection>
 				{
-					playerList.map((item : PlayerInfo, index) => (
+					room?.player_list.map((item : PlayerInfo, index) => (
 						<CardWrapper key={index} type="spectator" player={item}></CardWrapper>
 					))
 				}
@@ -118,7 +115,7 @@ const GameInfo = ({setInfo, setLocate, title, id} : any) => {
 			<ContentHeader>관전중인 사람들</ContentHeader>	
 			<PlayerSection>
 				{
-					spectatorList.map((item : PlayerInfo, index) => (
+					room?.spectator_list.map((item : PlayerInfo, index) => (
 						<CardWrapper key={index}	 type="spectator" player={item}></CardWrapper>
 					))
 				}
