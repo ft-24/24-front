@@ -17,6 +17,9 @@ const Container = styled.div`
 	padding: 2rem 1rem;
 	border-right: 1px solid white;
 	background: var(--purple);
+	& > p {
+		background: transparent;
+	}
 `
 
 const IconSection = styled.div`
@@ -33,6 +36,7 @@ const IconSection = styled.div`
 `
 
 const Button = styled.div`
+	cursor: pointer;
 	margin: 1rem 0;
 	&:hover {
 		transform: scale(1.5);
