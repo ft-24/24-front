@@ -149,7 +149,7 @@ const GameRoom = () => {
         <button onClick={()=>{RefreshRoom()}}>REFRESH</button>
         <ReadyContext.Provider value={value}>
           <SectionHeader color="var(--dark-gray)" title={room?.name}>
-            <div onClick={() => navigate(-1)}>{"나가기"}</div>
+            <div onClick={() => {navigate(-1); dispatch({type:"NONE"});}}>{"나가기"}</div>
           </SectionHeader>
           <UserInfoContainer>
             <PlayerContainer>

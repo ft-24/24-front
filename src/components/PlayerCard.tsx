@@ -124,7 +124,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo; isReady: boolean 
               {props.player.intra_id}
             </IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-            {isMine ? (pState.pState !== PlayerState.stay  ? "Set!" : "Ready!") : props.isReady}
+            {isMine ? (pState.pState !== PlayerState.stay  ? "Set!" : "Ready!") : (props.isReady === true ? "Set!" : "Ready!")}
             </ReadyButton>
           </CardWrapper>
         );
@@ -142,7 +142,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo; isReady: boolean 
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isMine ? (pState.pState !== PlayerState.stay ? "Set!" : "Ready!") : props.isReady}
+              {isMine ? (pState.pState !== PlayerState.stay ? "Set!" : "Ready!") : (props.isReady === true ? "Set!" : "Ready!")}
             </ReadyButton>
           </CardWrapper>
         );
