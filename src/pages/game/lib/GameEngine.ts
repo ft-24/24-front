@@ -9,9 +9,11 @@ namespace Pong {
   export class GameEngine {
 
     private scene!: Scene;
+    public sceneNum: Number;
 
     constructor(private ctx: CanvasRenderingContext2D, private socket: Socket) {
       let menu = new MainScene(ctx, socket);
+      this.sceneNum = menu.sceneNum;
       this.loadScene(menu);
     }
 
@@ -19,14 +21,11 @@ namespace Pong {
       // Clear ready for next render
       Utils.clearScreen(this.ctx);
       this.scene.draw(recvData);
+      this.sceneNum = this.scene.sceneNum;
     }
 
     update() {
       this.scene.update();
-    }
-
-    getSceneNum(): number {
-      return this.scene.getSceneNum();
     }
 
     getInput() {
