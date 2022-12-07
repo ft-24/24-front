@@ -1,5 +1,8 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Url } from "../../constants/Global";
+import { useAuthState } from "../../context/AuthHooks";
 import Loader from "../Loader";
 import { BackDrop, ModalProps } from "./ModalUtils";
 
@@ -97,170 +100,145 @@ const Bar = styled.span`
 `;
 
 const ContentWrapper = styled.div`
-    width: 100%;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: auto;
-    &::-webkit-scrollbar{
-		width: 0.5rem;
-	}
-	&::-webkit-scrollbar-thumb{
-		background-color: var(--purple);
-		border-radius: 10px;    
-	}
-    &::-webkit-scrollbar-track{
-		background-color: rgba(0,0,0,0);
-	}
-`
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--purple);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+`;
 
 const UserCard = styled.div`
-    width: 80%;
-    height: 3rem;
-    padding: 1rem;
-    font-family: NanumSquareR;
-    display: flex;
-    justify-content: space-between;
+  width: 80%;
+  height: 3rem;
+  padding: 1rem;
+  font-family: NanumSquareR;
+  display: flex;
+  justify-content: space-between;
   &:hover {
     scale: 1.05;
     cursor: pointer;
     background: var(--light-light-gray);
   }
-`
+`;
 
-const UserName = styled.div`
-`
-const ChatButton = styled.div`
-`
+const UserName = styled.div``;
+const ChatButton = styled.div``;
 
-type User = 
-{
-    nickname: string,
-    intraID: string,
-    profile: string,
+type User = {
+  nickname: string;
+  intra_id: string;
+  is_friend: boolean;
 };
 
-const dummyUserArray = [
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-    {nickname: "선호", intraID: "seonhjeo", profile: "profile"},
-    {nickname: "썬킴", intraID: "sunhkim", profile: "profile"},
-    {nickname: "찬휘", intraID: "chanhuil", profile: "profile"},
-    {nickname: "요안", intraID: "yoahn", profile: "profile"},
-    {nickname: "영일", intraID: "young-ch", profile: "profile"},
-];
-
 type SearchState = {
-    [index:string] : JSX.Element | JSX.Element[] | null,
-    NONE: null,
-    LOAD : JSX.Element,
-    DONE : JSX.Element[] | JSX.Element,
-    SEND : JSX.Element,
-}
+  [index: string]: JSX.Element | JSX.Element[] | null;
+  NONE: null;
+  LOAD: JSX.Element;
+  DONE: JSX.Element[] | JSX.Element;
+  SEND: JSX.Element;
+};
 
-const UserSearch = ({ modalHandler, setFriend }: any) => {
+const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
   const [value, setValue] = useState("");
-  const [userArray, setUserArray] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [foundUsers, setFoundUsers] = useState<User[]>([]);
   const [state, setState] = useState("NONE");
+  const { token } = useAuthState();
 
-  const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-  const findUsers = () => {
-      setState("LOAD");
-      const _users = dummyUserArray.filter((ele)=> ele.intraID.indexOf(value) !== -1);
-      setUserArray(_users);
-      setState("DONE");
-  }
-  useEffect(()=>{
-    let _interval : number;
-    if (value.length === 0)
-        setState("NONE");
-    else {
-    _interval = setTimeout(findUsers, 500);
-    }
-    return (()=>{
-        if (_interval)
-            clearTimeout(_interval)
-    })
-  },[value])
 
-  const SearchContent : SearchState = {
-    "NONE" : null,
-    "LOAD" : <Loader title="찾는중..."/>,
-    "DONE" : userArray.length!==0 ? userArray.map((ele, idx)=>{
-        return <UserCard key={idx} onClick={()=>{setState("SEND"); setFriend(ele.intraID);}}>
-          <UserName>
-          {`${ele.nickname}(${ele.intraID})`}
-          </UserName>
-          <ChatButton>
-          💬
-          </ChatButton>
-          </UserCard>
-    }) : <div>유저를 찾을 수 없습니다.</div>,
-    "SEND" : <div>친구추가가 완료되었습니다.</div>
+  const getUsers = async () => {
+    setState("LOAD");
+    await axios
+      .get(Url + "user/profiles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((response) => {
+        const _users = response.data;
+        console.log(_users);
+        setUsers([..._users]);
+        setState("DONE");
+      })
+      .catch((error) => {
+        setState("NONE");
+        console.log(error);
+      });
+  };
+
+  const findUsers = () => {
+    setState("LOAD");
+    const _users = users.filter((ele) => ele.intra_id.indexOf(value) !== -1);
+    setFoundUsers([..._users]);
+    setState("DONE");
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    const _interval = setTimeout(findUsers, 500);
+    return () => {
+      clearTimeout(_interval);
+    };
+  }, [value]);
+
+  const SearchContent: SearchState = {
+    NONE: null,
+    LOAD: <Loader title="찾는중..." />,
+    DONE:
+      foundUsers.length !== 0 ? (
+        foundUsers.map((ele, idx) => {
+          return (
+            <UserCard
+              key={idx}
+              onClick={() => {
+                if (!ele.is_friend){
+                  setState("SEND");
+                  addFriendHandler(ele.intra_id);
+                }
+              }}
+            >
+              <UserName>{`${ele.nickname}(${ele.intra_id})`}</UserName>
+              {ele.is_friend ? (
+                <ChatButton>✔</ChatButton>
+              ) : (
+                <ChatButton>💬</ChatButton>
+              )}
+            </UserCard>
+          );
+        })
+      ) : (
+        <div>유저를 찾을 수 없습니다.</div>
+      ),
+    SEND: <div>친구추가가 완료되었습니다.</div>
   };
 
   return (
     <BackDrop modalHandler={modalHandler}>
       <Box>
         <Title>유저찾기 </Title>
-        <InputForm onSubmit={(e)=>{e.preventDefault()}}>
+        <InputForm
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <InputContainer>
             <Input
               value={value}
@@ -271,9 +249,7 @@ const UserSearch = ({ modalHandler, setFriend }: any) => {
             <Bar />
           </InputContainer>
         </InputForm>
-        <ContentWrapper>
-        {SearchContent[state]}
-        </ContentWrapper>
+        <ContentWrapper>{SearchContent[state]}</ContentWrapper>
       </Box>
     </BackDrop>
   );
