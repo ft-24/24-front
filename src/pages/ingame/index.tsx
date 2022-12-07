@@ -127,7 +127,6 @@ const GameRoom = () => {
       console.log("refresh room entered, id : ",id);
       socket.emit('get', {id:id});
       socket.on('get', (data: GameRoomInfo) => {
-      console.log("thisisdata",data);
         if (data) {
           dispatch({type:"ENTER_ROOM", roominfo:data});
         }

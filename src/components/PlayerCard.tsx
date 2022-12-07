@@ -5,6 +5,7 @@ import useSocket from "../context/useSocket";
 import PlayerInfo from "../pages/lobby/components/PlayerInfo";
 import { ReadyContext, PlayerState } from "../pages/ingame/index";
 import { motion } from "framer-motion";
+import { useQueueState } from "../context/QueueHooks";
 
 type DynamicColor = {
   color: string;
@@ -91,6 +92,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
     const [isMine, setIsMine] = useState(false);
     const { intra } = useAuthState();
     const pState = useContext(ReadyContext);
+    const {room:gData} = useQueueState();
 
     useEffect(() => {
       if (props.player.intra_id === intra) {
@@ -124,7 +126,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
               {props.player.intra_id}
             </IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-            {isMine ? (pState.pState !== PlayerState.stay  ? "Set!" : "Ready!") : "props.player.is_ready"}
+            {isMine ? (pState.pState !== PlayerState.stay  ? "Set!" : "Ready!") : gData?.ready.p1}
             </ReadyButton>
           </CardWrapper>
         );
@@ -142,7 +144,7 @@ const PlayerCard = (props: { type: string; player: PlayerInfo }) => {
             <NicknameText>{props.player.nickname}</NicknameText>
             <IntraText color="--light-gray">{props.player.intra_id}</IntraText>
             <ReadyButton disabled={!isMine} onClick={getReady}>
-              {isMine ? (pState.pState !== PlayerState.stay ? "Set!" : "Ready!") : "props.player.is_ready"}
+              {isMine ? (pState.pState !== PlayerState.stay ? "Set!" : "Ready!") : gData?.ready.p2}
             </ReadyButton>
           </CardWrapper>
         );

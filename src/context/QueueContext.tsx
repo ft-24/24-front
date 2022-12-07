@@ -38,7 +38,7 @@ const queueReducer = (state: QueueContextType, action: QueueActionType): QueueCo
             return ({
                 room: {
                     id: _room.id, name: _room.name, access_modifier: _room.access_modifier,
-                    player_list: [..._room.player_list], spectator_list: [..._room.spectator_list]
+                    player_list: [..._room.player_list], spectator_list: [..._room.spectator_list], ready:{..._room.ready}
                 }, queue_state: "ENTER_ROOM", id: _room.id,
             });
         }
