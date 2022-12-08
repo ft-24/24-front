@@ -76,7 +76,7 @@ const Social = () => {
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate}/>
           </ListSection>
         ) : null}
         <MainSection>

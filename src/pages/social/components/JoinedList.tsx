@@ -48,7 +48,7 @@ const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
     return (
         <Container>
             <SectionHeader color='var(--purple)' title="채널목록">
-                <div onClick={()=>setIsListOn(false)}>{"X"}</div>
+                <div style={{cursor: "pointer"}} onClick={()=>setIsListOn(false)}>{"X"}</div>
             </SectionHeader>
             <ChannelSection>
             {
