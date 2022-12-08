@@ -56,7 +56,7 @@ export type Message = {
 	chat: string,
 };
 
-const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn: any, setInfoIntra: any}) => {
+const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
   const pathVar = useParams();
   const target = pathVar ? pathVar.receiver : "undefined";
   const dmPrefix = type === "dm" ? "dm-" : "";
@@ -96,9 +96,17 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
     }
   }
 
+  const forceMoveToHome = () => {
+    navigate('/social/');
+    setLocate("home");
+  }
+
   useEffect(()=>{
+    if (target === "undefined")
+      forceMoveToHome();
+
     window.addEventListener("beforeunload", () => alert("새로고침 시 채팅방 데이터는 날아갑니다"));
-    window.addEventListener("popstate", () => navigate('/social/'))
+    window.addEventListener("popstate", forceMoveToHome)
     joinRoom();
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 

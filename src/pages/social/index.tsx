@@ -48,7 +48,7 @@ const ListSection = styled.div`
 
 const Social = () => {
   const pathVar = useParams();
-  const target = pathVar ? pathVar.receiver : "undefined";
+  const [target, setTarget] = useState<string | undefined>(pathVar ? pathVar.receiver : undefined);
 
   const [locate, setLocate] = useState(target ? "chat" : "home");
   const [type, setType] = useState("dm");
@@ -61,7 +61,7 @@ const Social = () => {
 	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
-    setLocate(target ? "chat" : "home");
+    setLocate(target || target === "" ? "chat" : "home");
     setIsCreateModalOn(false);
   }, [target])
 
@@ -93,9 +93,11 @@ const Social = () => {
               setIsPasswordModalOn={setIsPasswordModalOn}
               setLocate={setLocate}
               setType={setType}
+              setTarget={setTarget}
               /> : 
             <ChatRoom
               type={type}
+              setLocate={setLocate}
               setIsInfoOn={setIsInfoOn}
               setInfoIntra={setInfoIntra} />}
         </MainSection>
@@ -108,8 +110,8 @@ const Social = () => {
           </InfoSection>
         ) : null }
       </Container>
-      {isCreateModalOn ? <CreateChannel modalHandler={() => setIsCreateModalOn(false)} setType={setType} /> : null}
-      {isPasswordModalOn  ? <PasswordInput modalHandler={() => setIsPasswordModalOn(false)} title={target} /> : null}
+      {isCreateModalOn ? <CreateChannel modalHandler={() => setIsCreateModalOn(false)} setType={setType} setTarget={setTarget}/> : null}
+      {isPasswordModalOn  ? <PasswordInput modalHandler={() => setIsPasswordModalOn(false)} title={target} moveToChat={() => {setLocate("chat"); setType("protected"); setTarget(target);}}/> : null}
     </Wrapper>
   );
 };

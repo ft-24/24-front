@@ -29,12 +29,13 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, memberList, setLocate, setType, setIsPasswordModalOn} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate, setType, setTarget, setIsPasswordModalOn} : any) => {
   const { nickname } = useAuthState();
   let navigate = useNavigate();
 
   const onClick = () => {
     if (type === 'protected') {
+      setTarget(receiver);
       setIsPasswordModalOn(true);
     } else {
       setLocate("chat");

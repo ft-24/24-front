@@ -1,6 +1,8 @@
+import axios from "axios";
 import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Url } from "../../constants/Global";
 import { useAuthState } from "../../context/AuthHooks";
 import useSocket from "../../context/useSocket";
 import { BackDrop } from "./ModalUtils";
@@ -72,20 +74,39 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const PasswordInput = ({modalHandler, title} : any) => {
+const PasswordInput = ({modalHandler, title, moveToChat} : any) => {
   const [password, setPassword] = useState<string>("");
-  let isEmpty = true;
-  let navigate = useNavigate();
+  const { token } = useAuthState();
 
-  const { socket } = useSocket();
-  const { intra } = useAuthState();
+  let navigate = useNavigate();
 
   const onChangePassword = (event: { currentTarget: { value: SetStateAction<string>; }; }) => {
     setPassword(event.currentTarget.value);
   }
 
-	const onClickEnter = () => {
-    navigate('/social/' + title);
+	const onClickEnter = async() => {
+    console.log(title, password);
+    if (title && password) {
+      await axios.post(Url + 'channels/pass', {
+        name: title,
+        pass: password,
+      }, {
+        headers: {
+          Authorization:"Bearer " + token
+        }
+      }).then(response => {
+        console.log("passward: " + response.data);
+        if (response.data) {
+          moveToChat();
+          modalHandler();
+          navigate('/social/' + title);
+        } else {
+          alert('Wrong Passward');
+        }
+      }).catch(error => {
+        console.error('post password failed');
+      });
+    }
 	}
 
   return (

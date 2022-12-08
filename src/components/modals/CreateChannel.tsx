@@ -106,7 +106,7 @@ const Radio = ({label, index, select, handler}: {label: string, index: number, s
   )
 }
 
-const CreateChannel = ({modalHandler, setType} : any) => {
+const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState<string>("");
   const [select, setSelect] = useState(1);
