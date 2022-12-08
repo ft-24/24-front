@@ -11,6 +11,7 @@ import CreateChannel from "../../components/modals/CreateChannel";
 import useSocket from "../../context/useSocket";
 import RoomInfo from "./components/RoomInfo";
 import PasswordInput from "../../components/modals/PasswordInput";
+import { SimpleUserInfo } from "./components/SimpleUserInfo";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -52,7 +53,8 @@ const Social = () => {
 
   const [locate, setLocate] = useState(target ? "chat" : "home");
   const [type, setType] = useState("dm");
-  const [infoIntra, setInfoIntra] = useState(undefined);
+  const [infoIntra, setInfoIntra] = useState<string | undefined>(undefined);
+  const [joinedUsers, setJoinedUsers] = useState<SimpleUserInfo[]>([]);
 
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
@@ -98,6 +100,7 @@ const Social = () => {
             <ChatRoom
               type={type}
               setLocate={setLocate}
+              setJoinedUsers={setJoinedUsers}
               setIsInfoOn={setIsInfoOn}
               setInfoIntra={setInfoIntra} />}
         </MainSection>
@@ -105,7 +108,7 @@ const Social = () => {
           <InfoSection>
             {infoIntra !== undefined ?
               <UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra ?? "undefined"} />
-              : <RoomInfo setIsInfoOn={setIsInfoOn} setInfoIntra={setInfoIntra} roomName={target ?? "undefined"} />
+              : <RoomInfo setIsInfoOn={setIsInfoOn} setInfoIntra={setInfoIntra} joinedUsers={joinedUsers} roomName={target ?? "undefined"} />
             }
           </InfoSection>
         ) : null }

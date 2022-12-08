@@ -48,7 +48,14 @@ const dummyUserData: PlayerInfo = {
 	is_my_friend: false,
 }
 
-const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+type Props = {
+	setIsInfoOn: any,
+	intra: string,
+	role?: string,
+	amIOwner?: boolean,
+}
+
+const UserInfo = ({setIsInfoOn, intra, role, amIOwner}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
   const { token } = useAuthState();
   
@@ -104,13 +111,16 @@ const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
-				{
-					userData?.is_my_friend ? 
-						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
-						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+				{userData?.is_my_friend ? 
+					<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+					: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
 				}
 				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+				{amIOwner ?
+					<br />
+					: null
+				}
 			</IconSection>
 		</Container>
 	)
