@@ -57,7 +57,7 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
   return (
     <BackDrop modalHandler={modalHandler}>
       <Box>
-        <Title>게임을 찾았습니다!</Title>
+        <Title>매칭되었습니다!</Title>
         {count}
         <ButtonContainer>
         <SplaButton text="수락" onClickHandler={buttonHandler} />

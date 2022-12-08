@@ -94,7 +94,7 @@ const ButtonText = styled.div`
 
 const GameList = ({ toggleInfo, setTitle }: any) => {
   const [isModalOn, setIsModalOn] = useState(false);
-  const [list, setList] = useState<GameRoomInfo[]>(); //[{name:"fake", id:"fake", access_modifier:"public", player_list:playerList, spectator_list:spectatorList}]);
+  const [list, setList] = useState<GameRoomInfo[]>();
   const { socket } = useSocket();
 
   const RefreshList = () => {

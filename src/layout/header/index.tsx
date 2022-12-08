@@ -7,6 +7,7 @@ import MatchingWaitBall from "../../components/MatchingWaitBall";
 import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
 import MatchingModal from "../../components/modals/MatchingModal";
 import ModalPortal from "../../components/modals/ModalPotal";
+import useSocket from "../../context/useSocket";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -31,6 +32,7 @@ const Header = () => {
   const [matchingModal, setMatchingModal] = useState(false);
   const queueState = useQueueState();
   const queueDispatch = useQueueDispatch();
+  const {socket} = useSocket();
 
   useEffect(()=>{
     if (queueState.queue_state === "INQUEUE") {

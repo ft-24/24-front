@@ -89,11 +89,11 @@ const FriendsList = ({setIsInfoOn, setInfoIntra} : any) => {
 			setOnlineFriends([...onlineArray]);
 		}).catch(error => {
 			console.error('online friends loading failed');
-			const onlineArray : PlayerInfo[] = [];
-			for (let friend of DummyFriends) {
-				onlineArray.push(friend);
-			}
-			setOnlineFriends([...onlineArray]);
+			// const onlineArray : PlayerInfo[] = [];
+			// for (let friend of DummyFriends) {
+			// 	onlineArray.push(friend);
+			// }
+			// setOnlineFriends([...onlineArray]);
 		});
 	}
 

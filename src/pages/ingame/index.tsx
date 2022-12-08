@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom'
 import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
 import useSocket from "../../context/useSocket";
 import { GameRoomInfo } from "../lobby/components/GameRoomInfo";
+import { useAuthState } from "../../context/AuthHooks";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -122,17 +123,41 @@ const GameRoom = () => {
   const {socket} = useSocket();
   const dispatch = useQueueDispatch();
 
-  const RefreshRoom = () => {
-    if (socket && room_id) {
-      socket.emit('get', {id:room_id});
-      socket.on('get', (data: GameRoomInfo) => {
-        if (data) {
-          dispatch({type:"UPDATE", payload:data});
-        }
-      })
-      socket.off('get');
-    }
+  const LeaveRoom = () => {
+    socket?.emit('leave', {id:room_id});
+    dispatch({type:"NONE"});
+    navigate(-2);
   }
+
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+  };
+
+  const preventClose = (e: BeforeUnloadEvent) => {
+    // TODO : 게임중 새로고침 하는거 손보기..
+    e.preventDefault();
+    socket?.emit('leave', {id:room_id});
+    dispatch({type:"NONE"});
+    alert("loading in game is very sinful job...");
+    localStorage.setItem("isRefreshed", "true");
+  };
+   
+  useEffect(() => {
+    if (localStorage.getItem("isRefreshed") === "true") {
+      localStorage.removeItem("isRefreshed");
+      navigate(-2);
+    }
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+      window.addEventListener("beforeunload", preventClose);
+    })();
+   
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, []);
 
   useEffect(() => {
     if (socket) {
@@ -173,7 +198,7 @@ const GameRoom = () => {
       <Container>
         <ReadyContext.Provider value={value}>
           <SectionHeader color="var(--dark-gray)" title={room_info?.name}>
-            <div onClick={() => {navigate(-1); dispatch({type:"NONE"});}}>{"나가기"}</div>
+            <div onClick={LeaveRoom}>{"나가기"}</div>
           </SectionHeader>
           <UserInfoContainer>
             <PlayerContainer>

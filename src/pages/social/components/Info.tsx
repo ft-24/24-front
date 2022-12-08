@@ -6,8 +6,10 @@ import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
-import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
+import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import useSocket from "../../../context/useSocket";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	width: 100%;
@@ -48,9 +50,18 @@ const dummyUserData: PlayerInfo = {
 	is_my_friend: false,
 }
 
+type SendGameRoomData = {
+	name: string,
+	access_modifier: string,
+}
+
 const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   const [userData, setUserData] = useState<PlayerInfo>();
   const { token } = useAuthState();
+  const { socket } = useSocket();
+  const queueDispatch = useQueueDispatch();
+  const navigate = useNavigate();
+  const {room_info, room_id} = useQueueState();
   
   const getData = async() => {
     await axios.get(Url + 'user/profile/' + intra, {
@@ -79,12 +90,31 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
     getData();
   }, [intra]);
 
+  const onClickCreate = () => {
+    const data: SendGameRoomData = {
+      name: '',
+      access_modifier: ''
+    };
+    if (socket) {
+      data.name = '';
+      data.access_modifier = "private";
+      socket.emit("make-room", data, (id: string)=>{
+        console.log("emit response",id);
+        queueDispatch({type: "ENTER", payload: id});
+        socket.emit("join", {id:id});
+        navigate('/game');
+      });
+    }
+  }
+
 	const onClickAdd = () => {
 		console.log("onClickAdd");
 	}
 
 	const onClickPlay = () => {
+		// TODO: put modal
 		console.log("onClickPlay");
+		queueDispatch({type:"INQUEUE"});
 	}
 
 	const onClickBlock = () => {
@@ -109,7 +139,7 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
 						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
 				}
-				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+				<IconButton onClickButton={onClickCreate} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
 		</Container>
