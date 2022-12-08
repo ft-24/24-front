@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Nav from "./components/Nav";
-import Info from "./components/Info";
+import UserInfo from "./components/UserInfo";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
 import JoinedList from "./components/JoinedList";
@@ -9,6 +9,7 @@ import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
 import useSocket from "../../context/useSocket";
+import RoomInfo from "./components/RoomInfo";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -50,7 +51,7 @@ const Social = () => {
 
   const [locate, setLocate] = useState(target ? "chat" : "home");
   const [type, setType] = useState("dm");
-  const [infoIntra, setInfoIntra] = useState("");
+  const [infoIntra, setInfoIntra] = useState(undefined);
 
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
@@ -97,9 +98,12 @@ const Social = () => {
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
-            <Info setIsInfoOn={setIsInfoOn} intra={infoIntra}/>
+            {infoIntra !== undefined ?
+              <UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra ?? "undefined"} />
+              : <RoomInfo setIsInfoOn={setIsInfoOn} setInfoIntra={setInfoIntra} roomName={target ?? "undefined"} />
+            }
           </InfoSection>
-        ) : null}
+        ) : null }
       </Container>
       {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} setType={setType} /> : null}
     </Wrapper>

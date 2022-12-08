@@ -48,7 +48,7 @@ const dummyUserData: PlayerInfo = {
 	is_my_friend: false,
 }
 
-const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   const [userData, setUserData] = useState<PlayerInfo>();
   const { token } = useAuthState();
   
@@ -116,4 +116,4 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	)
 }
 
-export default Info;
+export default UserInfo;

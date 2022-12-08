@@ -152,10 +152,15 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
     }
   }, [socket]);
 
+  const onClickRoomInfo = () => {
+    setInfoIntra(undefined);
+    setIsInfoOn(true);
+  }
+
   return (
     <Container>
       <SectionHeader color="var(--purple)" title={ type === "dm" ? state.nickname + ", " + target : target}>
-        <div onClick={() => setIsInfoOn(true)}>{":"}</div>
+        <div onClick={onClickRoomInfo}>{":"}</div>
       </SectionHeader>
       <ChatSection>
         <ChatContainer>
