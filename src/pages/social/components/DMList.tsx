@@ -17,8 +17,14 @@ const Container = styled.div`
 `
 
 const ChannelSection = styled.div`
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `
 
 const EmptyText = styled.div`

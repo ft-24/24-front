@@ -82,6 +82,12 @@ const ButtonText = styled.div`
 	color: black;
 `
 
+type Room = {
+	room_id: number,
+	name: string,
+	access_modifier: string,
+}
+
 const Home = ({setIsModalOn, setLocate, setType} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 
@@ -93,6 +99,7 @@ const Home = ({setIsModalOn, setLocate, setType} : any) => {
 			Authorization:"Bearer " + token
 		}
 		}).then(response => {
+			console.log(response.data);
 			setList([...response.data.rooms]);
 		}).catch(error => {
 			console.error('Public List loading failed');

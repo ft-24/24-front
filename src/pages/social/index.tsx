@@ -56,7 +56,7 @@ const Social = () => {
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
 	const [isModalOn, setIsModalOn] = useState(false);
-  
+
   useEffect(() => {
     setLocate(target ? "chat" : "home");
     setIsModalOn(false);
@@ -80,7 +80,7 @@ const Social = () => {
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
+            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate} setType={setType} />
           </ListSection>
         ) : null}
         <MainSection>

@@ -5,7 +5,7 @@ import ChatCard from "./ChatCard";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "../../../context/AuthHooks";
 import useSocket from "../../../context/useSocket";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Container = styled.div`
   position: relative;
@@ -69,6 +69,8 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
   const state = useAuthState();
   const { socket } = useSocket();
 
+  let navigate = useNavigate();
+
   const joinRoom = () => {
     if (socket) {
       console.log("emit " + dmPrefix + "join-room:" + target);
@@ -95,16 +97,17 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
   }
 
   useEffect(()=>{
+    window.addEventListener("beforeunload", () => alert("새로고침 시 채팅방 데이터는 날아갑니다"));
+    window.addEventListener("popstate", () => navigate('/social/'))
     joinRoom();
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 
     return () => {
       leaveRoom();
     }
-  },[])
+  },[target])
 
   const scrollDown = () => {
-    console.log("scroll: " + document.documentElement.scrollHeight);
     bottomRef.current?.scrollIntoView({
       behavior: 'smooth'
     });
