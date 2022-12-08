@@ -37,7 +37,7 @@ const JoinedList = ({setIsListOn, setLocate, setType} : any) => {
     const { token, intra } = useAuthState();
   
     const getList = async() => {
-        await axios.get(Url + 'channels/' + intra, {
+        await axios.get(Url + 'channels/joined', {
             headers: {
                 Authorization:"Bearer " + token
             }
@@ -56,7 +56,7 @@ const JoinedList = ({setIsListOn, setLocate, setType} : any) => {
     return (
         <Container>
             <SectionHeader color='var(--purple)' title="채널목록">
-                <div onClick={()=>setIsListOn(false)}>{"X"}</div>
+                <div style={{cursor: "pointer"}} onClick={()=>setIsListOn(false)}>{"X"}</div>
             </SectionHeader>
             <ChannelSection>
             {

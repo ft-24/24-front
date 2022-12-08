@@ -54,7 +54,7 @@ const DMList = ({setIsListOn, setLocate, setType} : any) => {
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="DM목록">
-				<div onClick={()=>setIsListOn(false)}>{"X"}</div>
+				<div style={{cursor: "pointer"}} onClick={()=>setIsListOn(false)}>{"X"}</div>
 			</SectionHeader>
 			<ChannelSection>
 			{

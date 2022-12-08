@@ -94,7 +94,7 @@ const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
-				<div onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
+				<div style={{cursor: "pointer"}} onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
 			</SectionHeader>
 			<ProfileSection>
 				<Avatar.img size="5" src={userData?.profile_url} />

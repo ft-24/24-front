@@ -21,6 +21,7 @@ const Button = styled.button<Role>`
 
 const Text = styled.div`
 	margin: 0.5rem;
+	background:transparent;
 `;
 
 const UserIconButton = ({onClickButton, imgSrc, text, iconSize, role} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string, role: string}) => {
