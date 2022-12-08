@@ -55,45 +55,19 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const DummyFriends: PlayerInfo[] = [
-	{
-		intra_id: "yoahn",
-		nickname: "yoahn",
-		profile_url: "/src/images/hero.png",
-		ladder_score: 1200,
-		is_my_friend: true,
-	},
-	{
-		intra_id: "seonhjeo",
-		nickname: "HOYA",
-		profile_url: "/src/images/hero.png",
-		ladder_score: 1500,
-		is_my_friend: true,
-	},
-]
-
 const FriendsList = ({setIsInfoOn, setInfoIntra} : any) => {
   const [onlineFriends, setOnlineFriends] = useState<PlayerInfo[]>([]);
 	const { token } = useAuthState();
 
   const getFriends = async () => {
 		await axios.get(Url + 'user/friends', {
-				headers: { 'token': 'bearer ' + token },
-				timeout: 1000,
-		}).then(response => {
-			const Friends = response.data;
-			const onlineArray : PlayerInfo[] = [];
-			for (let friend of Friends) {
-				onlineArray.push(friend);
+			headers: {
+				Authorization: 'Bearer ' + token
 			}
-			setOnlineFriends([...onlineArray]);
+		}).then(response => {
+			setOnlineFriends(response.data);
 		}).catch(error => {
 			console.error('online friends loading failed');
-			const onlineArray : PlayerInfo[] = [];
-			for (let friend of DummyFriends) {
-				onlineArray.push(friend);
-			}
-			setOnlineFriends([...onlineArray]);
 		});
 	}
 
