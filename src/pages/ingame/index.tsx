@@ -124,29 +124,54 @@ const GameRoom = () => {
 
   const RefreshRoom = () => {
     if (socket && id) {
-      console.log("refresh room entered, id : ",id);
-      console.log(room?.ready);
       socket.emit('get', {id:id});
       socket.on('get', (data: GameRoomInfo) => {
         if (data) {
           dispatch({type:"ENTER_ROOM", roominfo:data});
         }
       })
+      socket.off('get');
     }
   }
 
   useEffect(() => {
-    RefreshRoom();
-    return () => {
-      socket?.off('get');
+    if (socket) {
+      socket.on('get', (data: GameRoomInfo) => {
+        if (data) {
+          dispatch({type:"ENTER_ROOM", roominfo:data});
+        }
+      })
+      return () => {
+        socket.off('get');
+      }
     }
-  }, [socket, id]);
+  }, [socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('reset', data => {
+        if (!data) {
+          setPState(PlayerState.stay);
+        }
+      })
+      return () => {
+        socket.off('reset');
+      }
+    }
+  }, [socket]);
+
+  // useEffect(() => {
+  //   RefreshRoom();
+  //   return () => {
+  //     socket?.off('get');
+  //   }
+  // }, [socket, id]);
 
 
   return (
     <Wrapper>
       <Container>
-        <button onClick={()=>{RefreshRoom()}}>REFRESH</button>
+        {/* <button onClick={()=>{RefreshRoom()}}>REFRESH</button> */}
         <ReadyContext.Provider value={value}>
           <SectionHeader color="var(--dark-gray)" title={room?.name}>
             <div onClick={() => {navigate(-1); dispatch({type:"NONE"});}}>{"나가기"}</div>

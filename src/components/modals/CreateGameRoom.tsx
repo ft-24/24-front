@@ -132,7 +132,7 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
         navigate('/game');
       });
     }
-	}
+  }
 
   return (
     <BackDrop modalHandler={modalHandler}>

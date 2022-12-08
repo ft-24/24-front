@@ -108,7 +108,7 @@ const GameInfo = ({setInfo, setLocate} : any) => {
 			<PlayerSection>
 				{
 					room?.player_list.map((item : PlayerInfo, index) => (
-						<CardWrapper key={index} type="spectator" player={item}></CardWrapper>
+						<CardWrapper key={index} type="spectator" player={item} isReady={false}></CardWrapper>
 					))
 				}
 			</PlayerSection>
@@ -116,7 +116,7 @@ const GameInfo = ({setInfo, setLocate} : any) => {
 			<PlayerSection>
 				{
 					room?.spectator_list.map((item : PlayerInfo, index) => (
-						<CardWrapper key={index}	 type="spectator" player={item}></CardWrapper>
+						<CardWrapper key={index} type="spectator" player={item} isReady={false}></CardWrapper>
 					))
 				}
 			</PlayerSection>
