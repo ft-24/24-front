@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import Nav from "./components/Nav";
-import Info from "./components/Info";
+import UserInfo from "./components/UserInfo";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
 import JoinedList from "./components/JoinedList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
+import useSocket from "../../context/useSocket";
+import RoomInfo from "./components/RoomInfo";
+import PasswordInput from "../../components/modals/PasswordInput";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -45,18 +48,22 @@ const ListSection = styled.div`
 
 const Social = () => {
   const pathVar = useParams();
-  const target = pathVar ? pathVar.receiver : "undefined";
+  const [target, setTarget] = useState<string | undefined>(pathVar ? pathVar.receiver : undefined);
 
   const [locate, setLocate] = useState(target ? "chat" : "home");
   const [type, setType] = useState("dm");
-  const [infoIntra, setInfoIntra] = useState("");
+  const [infoIntra, setInfoIntra] = useState(undefined);
 
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
-	const [isModalOn, setIsModalOn] = useState(false);
+	const [isCreateModalOn, setIsCreateModalOn] = useState(false);
+	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
-  console.log("target: " + target);
+  useEffect(() => {
+    setLocate(target || target === "" ? "chat" : "home");
+    setIsCreateModalOn(false);
+  }, [target])
 
   return (
     <Wrapper>
@@ -71,32 +78,40 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate}/>
+            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate} setType={setType} />
           </ListSection>
         ) : null}
         <MainSection>
           {locate === "home" ?
             <Home
+              setIsCreateModalOn={setIsCreateModalOn}
+              setIsPasswordModalOn={setIsPasswordModalOn}
               setLocate={setLocate}
-              setIsModalOn={setIsModalOn}
+              setType={setType}
+              setTarget={setTarget}
               /> : 
             <ChatRoom
               type={type}
+              setLocate={setLocate}
               setIsInfoOn={setIsInfoOn}
               setInfoIntra={setInfoIntra} />}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
-            <Info setIsInfoOn={setIsInfoOn} intra={infoIntra}/>
+            {infoIntra !== undefined ?
+              <UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra ?? "undefined"} />
+              : <RoomInfo setIsInfoOn={setIsInfoOn} setInfoIntra={setInfoIntra} roomName={target ?? "undefined"} />
+            }
           </InfoSection>
-        ) : null}
+        ) : null }
       </Container>
-      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} /> : null}
+      {isCreateModalOn ? <CreateChannel modalHandler={() => setIsCreateModalOn(false)} setType={setType} setTarget={setTarget}/> : null}
+      {isPasswordModalOn  ? <PasswordInput modalHandler={() => setIsPasswordModalOn(false)} title={target} moveToChat={() => {setLocate("chat"); setType("protected"); setTarget(target);}}/> : null}
     </Wrapper>
   );
 };

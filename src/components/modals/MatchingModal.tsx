@@ -57,6 +57,7 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
       modalHandler();
     }
   }, [count]);
+  
   const buttonHandler = () => {
     let game;
     if (socket) {

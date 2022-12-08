@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Info from "../social/components/Info";
+import UserInfo from "../social/components/UserInfo";
 import FriendsList from "./components/FriendsList";
-import { UserProps } from "../profile/UserProps";
 import { useAuthState } from "../../context/AuthHooks";
 import GameRoom from "../ingame";
 
@@ -46,7 +45,7 @@ const Private = () => {
 				</MainSection>
 				{isInfoOn ? (
 					<InfoSection>
-						<Info setIsInfoOn={setIsInfoOn} intra={infoIntra} />
+						<UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra} />
 					</InfoSection>
 				) : null}
 			</Container>

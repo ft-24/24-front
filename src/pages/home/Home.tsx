@@ -54,7 +54,6 @@ const Home = () => {
     if (socket) {
       socket.on("invite", (data: GameRoomInfo) => {
         if (data) {
-          console.log("invite");
           queueDispatch({type:"GETQUEUE", payload:data.id});
         }
       })

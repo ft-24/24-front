@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import Avatar from "../../../components/Avatar"
 import { useAuthState } from "../../../context/AuthHooks"
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
 `
 
 const Container = styled.div`
@@ -29,17 +29,24 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate, setType, setTarget, setIsPasswordModalOn} : any) => {
   const { nickname } = useAuthState();
+  let navigate = useNavigate();
 
   const onClick = () => {
-    setLocate("chat");
+    if (type === 'protected') {
+      setTarget(receiver);
+      setIsPasswordModalOn(true);
+    } else {
+      setLocate("chat");
+      setType(type);
+      navigate('/social/' + receiver);
+    }
   }
   
   return (
-    <Link to={'/social/' + receiver}>
-      <Wrapper onClick={()=>{onClick()}}>
-        <Container>
+    <Wrapper onClick={onClick}>
+      <Container>
         <Title>
           {type == "dm" ? (nickname + ", " + receiver) : receiver}
         </Title>
@@ -50,9 +57,8 @@ const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
           })
         }
         </MemberList>
-        </Container>
-      </Wrapper>
-    </Link>
+      </Container>
+    </Wrapper>
   )
 }
 

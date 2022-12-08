@@ -56,7 +56,7 @@ type SendGameRoomData = {
 	access_modifier: string,
 }
 
-const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   const [userData, setUserData] = useState<PlayerInfo>();
   const [matchingBall, setMatchingBall] = useState(false);
   const { token } = useAuthState();
@@ -148,4 +148,4 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	)
 }
 
-export default Info;
+export default UserInfo;

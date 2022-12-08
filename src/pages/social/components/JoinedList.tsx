@@ -17,28 +17,36 @@ const Container = styled.div`
 `
 
 const ChannelSection = styled.div`
+    height: 100%;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 `
 
 const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
-    const [list, setList] = useState<ChannelInfo[]>();
+const JoinedList = ({setIsListOn, setLocate, setType} : any) => {
+    const [list, setList] = useState<ChannelInfo[]>([]);
     const { token, intra } = useAuthState();
   
     const getList = async() => {
-    await axios.get(Url + 'channels/' + intra, {
-    headers: {
-        Authorization:"Bearer " + token
-    }
-    }).then(response => {
-            setList(response.data);
-    }).catch(error => {
-    console.error('Joined List loading failed');
-    });
+        await axios.get(Url + 'channels/joined', {
+            headers: {
+                Authorization:"Bearer " + token
+            }
+        }).then(response => {
+			console.log(response.data);
+            setList(response.data.rooms);
+        }).catch(error => {
+            console.error('Joined List loading failed');
+        });
     }
 
     useEffect(() => {
@@ -57,8 +65,9 @@ const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
 						key={index}
 						type={item.access_modifier}
 						receiver={item.name}
+                        memberList={undefined}
 						setLocate={setLocate}
-						setReceiver={setReceiver} />
+						setType={setType} />
                 )) : <EmptyText>참여중인 채널이 없어요...</EmptyText>
             }
             </ChannelSection>
