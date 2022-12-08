@@ -36,7 +36,6 @@ const ButtonContainer = styled.div`
 
 const MatchingModal = ({ modalHandler }: ModalProps) => {
   const [count, setCount] = useState(10);
-  const queueDispatch = useQueueDispatch();
   const navigator = useNavigate();
   useEffect(() => {
     const timer = setInterval(() => {
@@ -53,13 +52,12 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
     }
   }, [count]);
   const buttonHandler = () => {
-    navigator("/lobby");
-    queueDispatch({ type: "INGAME" });
+    navigator("/game");
   };
   return (
     <BackDrop modalHandler={modalHandler}>
       <Box>
-        <Title>게임을 찾았습니다!</Title>
+        <Title>매칭되었습니다!</Title>
         {count}
         <ButtonContainer>
         <SplaButton text="수락" onClickHandler={buttonHandler} />

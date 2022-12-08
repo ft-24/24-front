@@ -7,8 +7,10 @@ import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
-import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
+import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import useSocket from "../../../context/useSocket";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	width: 100%;
@@ -49,10 +51,19 @@ const dummyUserData: PlayerInfo = {
 	is_my_friend: false,
 }
 
+type SendGameRoomData = {
+	name: string,
+	access_modifier: string,
+}
+
 const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   const [userData, setUserData] = useState<PlayerInfo>();
   const [matchingBall, setMatchingBall] = useState(false);
   const { token } = useAuthState();
+  const { socket } = useSocket();
+  const queueDispatch = useQueueDispatch();
+  const navigate = useNavigate();
+  const {room_info, room_id} = useQueueState();
   
   const matchingBallCancel = () => {
     setMatchingBall(false);
@@ -90,7 +101,20 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	}
 
 	const onClickPlay = () => {
-		setMatchingBall(true);
+		const data: SendGameRoomData = {
+		  name: '',
+		  access_modifier: ''
+		};
+		if (socket && userData) {
+		  console.log(userData.intra_id);
+		  data.access_modifier = "private";
+		  socket.emit("make-room", data, (id: string)=>{
+			console.log(id);
+			queueDispatch({type: "ENTER", payload: id});
+			socket.emit("join", {id:id});
+			navigate('/game');
+		  });
+		}
 	}
 
 	const onClickBlock = () => {

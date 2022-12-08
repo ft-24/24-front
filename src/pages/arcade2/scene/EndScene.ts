@@ -19,8 +19,6 @@ export namespace Pong {
       super(ctx);
       this.score = score;
       this.token = localStorage.getItem('token');
-      
-      this.setArcadeScore(score);
     }
 
     private handleClick = (evt: Event) => {

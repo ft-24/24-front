@@ -1,5 +1,9 @@
+import { Dispatch, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useQueueDispatch } from "../../context/QueueHooks";
+import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
+import { GameRoomInfo } from "../lobby/components/GameRoomInfo";
 import ImageCard from "./ImageCard";
 
 const Layout = styled.div`
@@ -28,15 +32,36 @@ const Wrapper = styled.div`
 
 const Home = () => {
   const queueDispatch = useQueueDispatch();
+  const {socket} = useSocket();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("enter-room", (data: GameRoomInfo) => {
+        if (data) {
+          queueDispatch({type:"ENTER", payload:data.id});
+          queueDispatch({type:"UPDATE", payload:data});
+          navigate('/game');
+        }
+      })
+      return () => {
+        socket.off("enter-room");
+      }
+    }
+  }, [socket]);
+
   const inQueue = () => {
     queueDispatch({type:"INQUEUE"});
+    socket?.emit('queue');
+    console.log("start matching...");
   }
+
 	return (
 		<Layout>
 			<Wrapper>
         <ImageCard text={"Private"} imagePath={"/images/lock.png"} imagePadding="15px" routePath={"/private"}/>
         <ImageCard text={"Public"} imagePath={"/images/earth.png"} imagePadding="25px" routePath={"/lobby"}/>
-        <ImageCard text={"Arcade"} imagePath={"/images/controller.png"} imagePadding="15px" routePath={"/matching"}/>
+        <ImageCard text={"Arcade"} imagePath={"/images/controller.png"} imagePadding="15px" routePath={"/arcade"}/>
         <ImageCard text={"Ladder"} imagePath={"/images/trophy.png"} imagePadding="15px"
         onClickHandler={inQueue}/>
         <ImageCard text={"Social"} imagePath={"/images/chat.png"} imagePadding="20px" routePath={"/social"}/>

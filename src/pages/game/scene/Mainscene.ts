@@ -94,14 +94,11 @@ namespace Pong {
       this.input.bind();
       this.socket.on("result", (data: PongIO.ResultData) => {
         if (data) {
-          console.log(data);
           this.resData = data;
+          this.socket.off("result");
           this.gameContext.loadScene(new EndScene(this.ctx, this.socket, this.resData));
         }
       })
-      return () => {
-        this.socket.off("result");
-      }
     }
 
     unload() {

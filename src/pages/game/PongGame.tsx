@@ -2,7 +2,7 @@ import {useRef, useState, useEffect, useContext} from "react";
 
 import styled from 'styled-components';
 import useSocket from "../../context/useSocket";
-import {ReadyContext, PlayerState} from "../lobby/components/GameRoom";
+import {ReadyContext, PlayerState} from "../ingame/index";
 
 import GameEngine from "./lib/GameEngine";
 import PongIO from "./lib/IO";
@@ -17,7 +17,8 @@ const BackGround = styled.div`
 
 const GameBoard = styled.canvas`
   width : 80%;
-  height : width / 2;
+  max-width: 1440px;
+  height : calc(width / 2);
   top:0;
   bottom: 0;
   left: 0;
@@ -61,12 +62,7 @@ export const PongGame = () => {
       if (recvData) {
         game.draw(recvData);
       }
-  
-      if (game.getSceneNum() === 0) {
-        pState.setPState(PlayerState.stay);
-      }
     }
-    
   }, [game, recvData]);
   
   return (

@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { useQueueDispatch } from "../../../context/QueueHooks"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,19 +24,22 @@ const Title = styled.div`
 `
 
 const MemberList = styled.div`
-    
+
 `
 
-const GameCard = ({toggleInfo, setTitle, title} : any) => {
+const GameCard = ({toggleInfo, setTitle, info} : any) => {
+  const dispatch = useQueueDispatch();
   const onClick = () => {
     toggleInfo();
-    setTitle(title ? title : "No Title");
+    setTitle(info.name ? info.name : "No Title");
+    dispatch({type: "UPDATE", payload: info});
   }
+
   return (
     <Wrapper onClick={()=>{onClick()}}>
       <Container>
       <Title>
-        {title ? title : "No Title"}
+        {info.name ? info.name : "No Title"}
       </Title>
       </Container>
     </Wrapper>

@@ -42,7 +42,7 @@ const MatchingWaitBall = ({ handler }: { handler: VoidFunction }) => {
       dragConstraints={{ left: -500, right: 500, top: -100, bottom: 600 }}
       dragElastic={0.2}
     >
-      <Loader title="게임찾는중..." />
+      <Loader title="매칭중..." />
       <Xbutton onClick={handler}>X</Xbutton>
     </Wrapper>
   );

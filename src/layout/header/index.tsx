@@ -6,6 +6,8 @@ import FriendsButton from "./FriendsButton";
 import MatchingWaitBall from "../../components/MatchingWaitBall";
 import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
 import MatchingModal from "../../components/modals/MatchingModal";
+import ModalPortal from "../../components/modals/ModalPotal";
+import useSocket from "../../context/useSocket";
 
 const HeadBar = styled.div`
   z-index: 8;
@@ -30,21 +32,25 @@ const Header = () => {
   const [matchingModal, setMatchingModal] = useState(false);
   const queueState = useQueueState();
   const queueDispatch = useQueueDispatch();
+  const {socket} = useSocket();
 
   useEffect(()=>{
-    if (queueState.queue_state === "NONE")
-      setMatchingBall(false);
-    else if (queueState.queue_state === "MATCHED") {
+    if (queueState.queue_state === "INQUEUE") {
+      setMatchingBall(true);
+      setMatchingModal(false);
+    }
+    else if (queueState.queue_state === "GETQUEUE") {
       setMatchingBall(false);
       setMatchingModal(true);
     }
-    else if (queueState.queue_state === "INGAME")
+    else {
       setMatchingBall(false);
-    else
-      setMatchingBall(true);
+      setMatchingModal(false);
+    }
   },[queueState]);
 
   const matchingBallCancel = () => {
+    socket?.emit('unqueue');
     setMatchingBall(false);
     queueDispatch({type:"NONE"});
   }
@@ -53,7 +59,7 @@ const Header = () => {
     setMatchingModal(false);
     queueDispatch({type:"NONE"});
   }
-  
+
   return (
     <HeadBar>
       <div>
@@ -69,7 +75,7 @@ const Header = () => {
         <MatchingWaitBall handler={matchingBallCancel}/>
       }
       {matchingModal &&
-        <MatchingModal modalHandler={matchingModalCancel} />
+        <ModalPortal><MatchingModal modalHandler={matchingModalCancel} /></ModalPortal>
       }
     </HeadBar>
   );
