@@ -6,8 +6,8 @@ import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
-import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
+import { SimpleUserInfo } from "./SimpleUserInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -36,33 +36,34 @@ const IconSection = styled.div`
 	width: 100%;
 	flex: 1;
 	display: flex;
-	justify-content: space-evenly;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 `
 
-const dummyUserData: PlayerInfo = {
-  intra_id: 'undefined',
-  nickname: 'undefined',
-  profile_url: '/src/images/hero.png',
-  ladder_score: 1500,
-	is_my_friend: false,
-}
+const IconContainer = styled.div`
+	padding: 1rem;
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+`
 
 type Props = {
 	setIsInfoOn: any,
-	intra: string,
-	role?: string,
-	amIOwner?: boolean,
+	userIntra: string,
+	joinedUsers?: SimpleUserInfo[],
 }
 
-const UserInfo = ({setIsInfoOn, intra, role, amIOwner}: Props) => {
+const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
-  const { token } = useAuthState();
+	const [myRole, setMyRole] = useState<string>("user");
+	const [userRole, setUserRole] = useState<string>("user");
+  const { token, intra } = useAuthState();
   
   const getData = async() => {
-    await axios.get(Url + 'user/profile/' + intra, {
+    await axios.get(Url + 'user/profile/' + userIntra, {
       headers: {
-        Authorization:"Bearer " + token
+        Authorization: "Bearer " + token
       }
     }).then(response => {
       const data: PlayerInfo = response.data;
@@ -74,17 +75,29 @@ const UserInfo = ({setIsInfoOn, intra, role, amIOwner}: Props) => {
           data.profile_url,
 					data.ladder_score,
 					data.is_my_friend,
-				))
+				));
+			setRoleSection();
     }).catch(error => {
-      console.error(intra + ' profile loading failed');
-      setUserData(dummyUserData);
+      console.error(userIntra + ' profile loading failed');
     });
   }
+
+	const setRoleSection = () => {
+		joinedUsers?.forEach(user => {
+			if (user.intra_id === userIntra) {
+				setUserRole(user.role);
+			}
+			if (user.intra_id === intra) {
+				setMyRole(user.role);
+			}
+		});
+		console.log("role: " + myRole + ", " + userRole);
+	}
 
   useEffect(() => {
 		console.log("info on");
     getData();
-  }, [intra]);
+  }, [userIntra]);
 
 	const onClickAdd = () => {
 		console.log("onClickAdd");
@@ -98,6 +111,18 @@ const UserInfo = ({setIsInfoOn, intra, role, amIOwner}: Props) => {
 		console.log("onClickBlock");
 	}
 
+	const onClickGrant = () => {
+		console.log("onClickGrant");
+	}
+
+	const onClickMute = () => {
+		console.log("onClickGrant");
+	}
+
+	const onClickBan = () => {
+		console.log("onClickGrant");
+	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
@@ -107,20 +132,38 @@ const UserInfo = ({setIsInfoOn, intra, role, amIOwner}: Props) => {
 				<Avatar.img size="5" src={userData?.profile_url} />
 				<br></br>
 				<p>{userData ? userData.nickname : "undefined"}</p>
-				<p>{intra}</p>
+				<p>{userIntra}</p>
 				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
 			</ProfileSection>
 			<IconSection>
-				{userData?.is_my_friend ? 
-					<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
-					: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
-				}
-				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
-				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
-				{amIOwner ?
-					<br />
-					: null
-				}
+				<IconContainer>
+					{userData?.is_my_friend ? 
+						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+					}
+					<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+					<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+				</IconContainer>
+				<IconContainer>
+					{myRole === "owner" ?
+						<>
+							{userRole === "admin" ? 
+								<IconButton onClickButton={onClickGrant} icon="🛠" text="관리자박탈" />
+								: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
+							}
+							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+						</>
+						: null
+					}
+					{myRole === "admin" && userRole === "user" ?
+						<>
+							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+						</>
+						: null
+					}
+				</IconContainer>
 			</IconSection>
 		</Container>
 	)

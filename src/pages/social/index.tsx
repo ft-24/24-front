@@ -107,14 +107,33 @@ const Social = () => {
         {isInfoOn ? (
           <InfoSection>
             {infoIntra !== undefined ?
-              <UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra ?? "undefined"} />
-              : <RoomInfo setIsInfoOn={setIsInfoOn} setInfoIntra={setInfoIntra} joinedUsers={joinedUsers} roomName={target ?? "undefined"} />
+              <UserInfo
+                setIsInfoOn={setIsInfoOn}
+                userIntra={infoIntra ?? "undefined"}
+                joinedUsers={joinedUsers} />
+              : <RoomInfo 
+                  setIsInfoOn={setIsInfoOn}
+                  setInfoIntra={setInfoIntra}
+                  joinedUsers={joinedUsers}
+                  roomName={target ?? "undefined"} />
             }
           </InfoSection>
         ) : null }
       </Container>
-      {isCreateModalOn ? <CreateChannel modalHandler={() => setIsCreateModalOn(false)} setType={setType} setTarget={setTarget}/> : null}
-      {isPasswordModalOn  ? <PasswordInput modalHandler={() => setIsPasswordModalOn(false)} title={target} moveToChat={() => {setLocate("chat"); setType("protected"); setTarget(target);}}/> : null}
+      {isCreateModalOn ? <CreateChannel
+                            modalHandler={() => setIsCreateModalOn(false)}
+                            setType={setType}
+                            setTarget={setTarget}
+                            /> : null}
+      {isPasswordModalOn  ? <PasswordInput
+                              modalHandler={() => setIsPasswordModalOn(false)}
+                              title={target}
+                              moveToChat={() => {
+                                            setLocate("chat");
+                                            setType("protected");
+                                            setTarget(target);
+                                          }}
+                            /> : null}
     </Wrapper>
   );
 };
