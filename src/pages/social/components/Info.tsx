@@ -90,31 +90,25 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
     getData();
   }, [intra]);
 
-  const onClickCreate = () => {
-    const data: SendGameRoomData = {
-      name: '',
-      access_modifier: ''
-    };
-    if (socket && userData) {
-      console.log(userData.intra_id);
-      data.name = userData.intra_id;
-      data.access_modifier = "private";
-      socket.emit("make-room", data, (id: string)=>{
-        queueDispatch({type: "ENTER", payload: id});
-        socket.emit("join", {id:id});
-        navigate('/game');
-      });
-    }
-  }
-
 	const onClickAdd = () => {
 		console.log("onClickAdd");
 	}
 
 	const onClickPlay = () => {
-		// TODO: put modal
-		console.log("onClickPlay");
-		queueDispatch({type:"INQUEUE"});
+		const data: SendGameRoomData = {
+		  name: '',
+		  access_modifier: ''
+		};
+		if (socket && userData) {
+		  console.log(userData.intra_id);
+		  data.access_modifier = "private";
+		  socket.emit("make-room", data, (id: string)=>{
+			console.log(id);
+			queueDispatch({type: "ENTER", payload: id});
+			socket.emit("join", {id:id});
+			navigate('/game');
+		  });
+		}
 	}
 
 	const onClickBlock = () => {
@@ -139,7 +133,7 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
 						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
 				}
-				<IconButton onClickButton={onClickCreate} icon="🎮" text="게임" />
+				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
 		</Container>

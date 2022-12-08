@@ -28,14 +28,14 @@ export namespace Pong {
     }
 
     private setArcadeScore = async (score: string) => {
-      await axios.put(Url + 'user/profile/arcade', {
+      await axios.put(Url + 'user/profile', {
         arcade: score
       }, {
             headers: {
               Authorization:"Bearer " + this.token
             }
       }).then (response => {
-        console.log("set arcade score: " + response.status);
+        
       }).catch (error => {
         console.error('score update failed');
       });

@@ -36,7 +36,7 @@ const Home = () => {
 			<Wrapper>
         <ImageCard text={"Private"} imagePath={"/images/lock.png"} imagePadding="15px" routePath={"/private"}/>
         <ImageCard text={"Public"} imagePath={"/images/earth.png"} imagePadding="25px" routePath={"/lobby"}/>
-        <ImageCard text={"Arcade"} imagePath={"/images/controller.png"} imagePadding="15px" routePath={"/matching"}/>
+        <ImageCard text={"Arcade"} imagePath={"/images/controller.png"} imagePadding="15px" routePath={"/arcade"}/>
         <ImageCard text={"Ladder"} imagePath={"/images/trophy.png"} imagePadding="15px"
         onClickHandler={inQueue}/>
         <ImageCard text={"Social"} imagePath={"/images/chat.png"} imagePadding="20px" routePath={"/social"}/>
