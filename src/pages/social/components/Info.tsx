@@ -95,11 +95,11 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
       name: '',
       access_modifier: ''
     };
-    if (socket) {
-      data.name = '';
+    if (socket && userData) {
+      console.log(userData.intra_id);
+      data.name = userData.intra_id;
       data.access_modifier = "private";
       socket.emit("make-room", data, (id: string)=>{
-        console.log("emit response",id);
         queueDispatch({type: "ENTER", payload: id});
         socket.emit("join", {id:id});
         navigate('/game');

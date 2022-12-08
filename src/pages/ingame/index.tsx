@@ -176,12 +176,25 @@ const GameRoom = () => {
     if (socket) {
       socket.on('reset', data => {
         if (!data) {
+          console.log("123");
           setPState(PlayerState.stay);
         }
       })
       return () => {
         socket.off('reset');
       }
+    }
+  }, [socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('quit', data => {
+        if (!data) {
+          console.log("quitting");
+          socket.off('quit');
+          LeaveRoom();
+        }
+      })
     }
   }, [socket]);
 
