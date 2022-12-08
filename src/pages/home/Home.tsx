@@ -50,6 +50,20 @@ const Home = () => {
     }
   }, [socket]);
 
+  useEffect(() => {
+    if (socket) {
+      socket.on("invite", (data: GameRoomInfo) => {
+        if (data) {
+          console.log("invite");
+          queueDispatch({type:"GETQUEUE", payload:data.id});
+        }
+      })
+      return () => {
+        socket.off("invite");
+      }
+    }
+  }, [socket]);
+
   const inQueue = () => {
     queueDispatch({type:"INQUEUE"});
     socket?.emit('queue');

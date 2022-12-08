@@ -92,7 +92,6 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   }
 
   useEffect(() => {
-		console.log("info on");
     getData();
   }, [intra]);
 
@@ -107,9 +106,9 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 		};
 		if (socket && userData) {
 		  console.log(userData.intra_id);
+		  data.name = userData.intra_id;
 		  data.access_modifier = "private";
 		  socket.emit("make-room", data, (id: string)=>{
-			console.log(id);
 			queueDispatch({type: "ENTER", payload: id});
 			socket.emit("join", {id:id});
 			navigate('/game');
