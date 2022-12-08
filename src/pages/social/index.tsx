@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
 import useSocket from "../../context/useSocket";
 import RoomInfo from "./components/RoomInfo";
+import PasswordInput from "../../components/modals/PasswordInput";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -56,11 +57,12 @@ const Social = () => {
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
-	const [isModalOn, setIsModalOn] = useState(false);
+	const [isCreateModalOn, setIsCreateModalOn] = useState(false);
+	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
     setLocate(target ? "chat" : "home");
-    setIsModalOn(false);
+    setIsCreateModalOn(false);
   }, [target])
 
   return (
@@ -87,8 +89,9 @@ const Social = () => {
         <MainSection>
           {locate === "home" ?
             <Home
+              setIsCreateModalOn={setIsCreateModalOn}
+              setIsPasswordModalOn={setIsPasswordModalOn}
               setLocate={setLocate}
-              setIsModalOn={setIsModalOn}
               setType={setType}
               /> : 
             <ChatRoom
@@ -105,7 +108,8 @@ const Social = () => {
           </InfoSection>
         ) : null }
       </Container>
-      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} setType={setType} /> : null}
+      {isCreateModalOn ? <CreateChannel modalHandler={() => setIsCreateModalOn(false)} setType={setType} /> : null}
+      {isPasswordModalOn  ? <PasswordInput modalHandler={() => setIsPasswordModalOn(false)} title={target} /> : null}
     </Wrapper>
   );
 };

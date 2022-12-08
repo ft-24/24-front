@@ -83,7 +83,7 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const Home = ({setIsModalOn, setLocate, setType} : any) => {
+const Home = ({setIsCreateModalOn, setIsPasswordModalOn, setLocate, setType, } : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 
 	const { token } = useAuthState();
@@ -106,7 +106,7 @@ const Home = ({setIsModalOn, setLocate, setType} : any) => {
 	}, []);
 
 	const onClickCreate = () => {
-		setIsModalOn(true);
+		setIsCreateModalOn(true);
 	}
 
 	return (
@@ -127,7 +127,8 @@ const Home = ({setIsModalOn, setLocate, setType} : any) => {
 							receiver={item.name}
 							memberList={undefined}
 							setLocate={setLocate}
-							setType={setType} />
+							setType={setType}
+							setIsPasswordModalOn={setIsPasswordModalOn}/>
 					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
 				}
 				</ChannelContainer>
