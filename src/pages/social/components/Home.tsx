@@ -60,6 +60,7 @@ const ChannelContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-bottom: 1rem;
 `
 
 const EmptyText = styled.div`
@@ -81,12 +82,6 @@ const ButtonText = styled.div`
 	font-size: 1rem;
 	color: black;
 `
-
-type Room = {
-	room_id: number,
-	name: string,
-	access_modifier: string,
-}
 
 const Home = ({setIsModalOn, setLocate, setType} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
