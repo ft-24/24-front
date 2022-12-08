@@ -153,14 +153,14 @@ const CreateChannel = ({modalHandler, setType} : any) => {
         }, (result: string) => {
           console.log(result);
           if (result == "") {
-            setType();
+            setType(access);
             navigate('/social/' + title);
           } else {
             alert(result);
           }
         });
       } else {
-        select === 2 ? alert('제목과 비밀번호를 입력해주세요!') : alert('제목을 입력해주세요!');
+        select === 2 ? alert('Enter the title and password!') : alert('Enter the title!');
       }
     }
 	}

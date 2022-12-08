@@ -82,7 +82,7 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const Home = ({setIsModalOn, setLocate} : any) => {
+const Home = ({setIsModalOn, setLocate, setType} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 
 	const { token } = useAuthState();
@@ -93,7 +93,7 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 			Authorization:"Bearer " + token
 		}
 		}).then(response => {
-			setList(response.data);
+			setList([...response.data.rooms]);
 		}).catch(error => {
 			console.error('Public List loading failed');
 		});
@@ -123,7 +123,9 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 							key={index}
 							type={item.access_modifier}
 							receiver={item.name}
-							setLocate={setLocate} />
+							memberList={undefined}
+							setLocate={setLocate}
+							setType={setType} />
 					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
 				}
 				</ChannelContainer>

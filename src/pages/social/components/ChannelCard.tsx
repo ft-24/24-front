@@ -5,7 +5,7 @@ import { useAuthState } from "../../../context/AuthHooks"
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
 `
 
 const Container = styled.div`
@@ -29,16 +29,17 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
+const ChannelCard = ({type, receiver, memberList, setLocate, setType} : any) => {
   const { nickname } = useAuthState();
 
   const onClick = () => {
     setLocate("chat");
+    setType(type);
   }
   
   return (
-    <Link to={'/social/' + receiver}>
-      <Wrapper onClick={()=>{onClick()}}>
+    <Wrapper onClick={()=>{onClick()}}>
+      <Link to={'/social/' + receiver}>
         <Container>
         <Title>
           {type == "dm" ? (nickname + ", " + receiver) : receiver}
@@ -51,8 +52,8 @@ const ChannelCard = ({type, receiver, memberList, setLocate} : any) => {
         }
         </MemberList>
         </Container>
-      </Wrapper>
-    </Link>
+      </Link>
+    </Wrapper>
   )
 }
 

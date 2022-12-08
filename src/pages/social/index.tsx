@@ -56,9 +56,7 @@ const Social = () => {
   const [isListOn, setIsListOn] = useState(false);
   const [isDMListOn, setIsDMListOn] = useState(false);
 	const [isModalOn, setIsModalOn] = useState(false);
-
-  console.log(target);
-
+  
   useEffect(() => {
     setLocate(target ? "chat" : "home");
     setIsModalOn(false);
@@ -77,12 +75,12 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+            <JoinedList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
           </ListSection>
         ) : null}
         <MainSection>
@@ -90,6 +88,7 @@ const Social = () => {
             <Home
               setLocate={setLocate}
               setIsModalOn={setIsModalOn}
+              setType={setType}
               /> : 
             <ChatRoom
               type={type}
@@ -102,7 +101,7 @@ const Social = () => {
           </InfoSection>
         ) : null}
       </Container>
-      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} setType={() => setType("public")} /> : null}
+      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} setType={setType} /> : null}
     </Wrapper>
   );
 };

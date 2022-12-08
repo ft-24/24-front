@@ -25,7 +25,7 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const DMList = ({setIsListOn, setLocate} : any) => {
+const DMList = ({setIsListOn, setLocate, setType} : any) => {
 	const [list, setList] = useState<PlayerInfo[]>();
   const { token } = useAuthState();
 
@@ -57,7 +57,9 @@ const DMList = ({setIsListOn, setLocate} : any) => {
 						key={index}
 						type="dm"
 						receiver={item.nickname}
-						setLocate={setLocate} />
+						memberList={undefined}
+						setLocate={setLocate}
+						setType={setType} />
 				)) : <EmptyText>참여중인 DM이 없어요...</EmptyText>
 			}
 			</ChannelSection>

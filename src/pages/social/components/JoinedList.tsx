@@ -25,7 +25,7 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
+const JoinedList = ({setIsListOn, setLocate, setType} : any) => {
     const [list, setList] = useState<ChannelInfo[]>();
     const { token, intra } = useAuthState();
   
@@ -57,8 +57,9 @@ const JoinedList = ({setIsListOn, setLocate, setReceiver} : any) => {
 						key={index}
 						type={item.access_modifier}
 						receiver={item.name}
+                        memberList={undefined}
 						setLocate={setLocate}
-						setReceiver={setReceiver} />
+						setType={setType} />
                 )) : <EmptyText>참여중인 채널이 없어요...</EmptyText>
             }
             </ChannelSection>
