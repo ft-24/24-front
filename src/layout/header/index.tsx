@@ -50,6 +50,7 @@ const Header = () => {
   },[queueState]);
 
   const matchingBallCancel = () => {
+    socket?.emit('unqueue');
     setMatchingBall(false);
     queueDispatch({type:"NONE"});
   }

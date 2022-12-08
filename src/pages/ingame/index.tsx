@@ -8,7 +8,6 @@ import {useNavigate} from 'react-router-dom'
 import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
 import useSocket from "../../context/useSocket";
 import { GameRoomInfo } from "../lobby/components/GameRoomInfo";
-import { useAuthState } from "../../context/AuthHooks";
 
 const Wrapper = styled.div`
   width: 100vw;
