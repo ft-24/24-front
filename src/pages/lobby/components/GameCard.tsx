@@ -24,7 +24,7 @@ const Title = styled.div`
 `
 
 const MemberList = styled.div`
-    
+
 `
 
 const GameCard = ({toggleInfo, setTitle, info} : any) => {
@@ -32,9 +32,9 @@ const GameCard = ({toggleInfo, setTitle, info} : any) => {
   const onClick = () => {
     toggleInfo();
     setTitle(info.name ? info.name : "No Title");
-    dispatch({type: "ENTER_ROOM", roominfo: info});
+    dispatch({type: "UPDATE", payload: info});
   }
-  
+
   return (
     <Wrapper onClick={()=>{onClick()}}>
       <Container>

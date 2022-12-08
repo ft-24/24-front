@@ -28,7 +28,7 @@ const MainSection = styled.div`
 `;
 
 const InfoSection = styled.div`
-	flex: 2;	
+	flex: 2;
 `;
 
 const Lobby = () => {
@@ -36,8 +36,6 @@ const Lobby = () => {
 	const [info, setInfo] = useState(false);
 	const [title, setTitle] = useState("");
 	const [roomId, setRoomId] = useState("");
-	const {socket} = useSocket();
-	const dispatch = useQueueDispatch();
 
 	const toggleInfo = () => {
 		info ? setInfo(false) : setInfo(true);

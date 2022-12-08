@@ -85,7 +85,7 @@ const IsME = styled(motion.div)`
   }
 `;
 
-const PlayerCard = (props: { type: string; player: PlayerInfo; isReady: boolean }) => {
+const PlayerCard = (props: { type: string; player: PlayerInfo; isReady?: boolean }) => {
   const RenderCard = () => {
     const { socket } = useSocket();
     const [isMine, setIsMine] = useState(false);

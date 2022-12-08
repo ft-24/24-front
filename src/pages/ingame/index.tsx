@@ -118,16 +118,16 @@ const GameRoom = () => {
   const [pState, setPState] = useState<PlayerState>(PlayerState.stay);
   const value = { pState, setPState };
   const navigate = useNavigate();
-  const {room, id} = useQueueState();
+  const {room_info, room_id} = useQueueState();
   const {socket} = useSocket();
   const dispatch = useQueueDispatch();
 
   const RefreshRoom = () => {
-    if (socket && id) {
-      socket.emit('get', {id:id});
+    if (socket && room_id) {
+      socket.emit('get', {id:room_id});
       socket.on('get', (data: GameRoomInfo) => {
         if (data) {
-          dispatch({type:"ENTER_ROOM", roominfo:data});
+          dispatch({type:"UPDATE", payload:data});
         }
       })
       socket.off('get');
@@ -138,7 +138,7 @@ const GameRoom = () => {
     if (socket) {
       socket.on('get', (data: GameRoomInfo) => {
         if (data) {
-          dispatch({type:"ENTER_ROOM", roominfo:data});
+          dispatch({type:"UPDATE", payload:data});
         }
       })
       return () => {
@@ -165,30 +165,29 @@ const GameRoom = () => {
   //   return () => {
   //     socket?.off('get');
   //   }
-  // }, [socket, id]);
+  // }, [socket, room_id]);
 
 
   return (
     <Wrapper>
       <Container>
-        {/* <button onClick={()=>{RefreshRoom()}}>REFRESH</button> */}
         <ReadyContext.Provider value={value}>
-          <SectionHeader color="var(--dark-gray)" title={room?.name}>
+          <SectionHeader color="var(--dark-gray)" title={room_info?.name}>
             <div onClick={() => {navigate(-1); dispatch({type:"NONE"});}}>{"나가기"}</div>
           </SectionHeader>
           <UserInfoContainer>
             <PlayerContainer>
-              {room?.player_list[0] ? (
-                <PlayerCard type="purple" player={room.player_list[0]} isReady={room.ready.p1} />
+              {room_info?.player_list[0] ? (
+                <PlayerCard type="purple" player={room_info.player_list[0]} isReady={room_info.ready.p1} />
               ) : null}
               <Versus> vs </Versus>
-              {room?.player_list[1] ? (
-                <PlayerCard type="yellow" player={room.player_list[1]} isReady={room.ready.p2}/>
+              {room_info?.player_list[1] ? (
+                <PlayerCard type="yellow" player={room_info.player_list[1]} isReady={room_info.ready.p2}/>
               ) : null}
             </PlayerContainer>
             <ContentHeader>관전중인 사람들</ContentHeader>
             <SpectatorContainer>
-              {room?.spectator_list.map((item: PlayerInfo, index) => (
+              {room_info?.spectator_list.map((item: PlayerInfo, index) => (
                 <PlayerCard
                   key={index}
                   type="spectator"

@@ -33,18 +33,18 @@ const Header = () => {
   const queueDispatch = useQueueDispatch();
 
   useEffect(()=>{
-    if (queueState.queue_state === "NONE")
-      setMatchingBall(false);
-    else if (queueState.queue_state === "MATCHED") {
+    if (queueState.queue_state === "INQUEUE") {
+      setMatchingBall(true);
+      setMatchingModal(false);
+    }
+    else if (queueState.queue_state === "GETQUEUE") {
       setMatchingBall(false);
       setMatchingModal(true);
     }
-    else if (queueState.queue_state === "INGAME")
+    else {
       setMatchingBall(false);
-    else if (queueState.queue_state === "ENTER_ROOM")
-      setMatchingBall(false);
-    else
-      setMatchingBall(true);
+      setMatchingModal(false);
+    }
   },[queueState]);
 
   const matchingBallCancel = () => {
@@ -56,7 +56,7 @@ const Header = () => {
     setMatchingModal(false);
     queueDispatch({type:"NONE"});
   }
-  
+
   return (
     <HeadBar>
       <div>
