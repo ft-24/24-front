@@ -11,6 +11,7 @@ import Lobby from "../pages/lobby";
 import TFAPage from "../auth/TFAPage";
 import Restrict from "../auth/Restrict";
 import ArcadeGamePage from "../pages/arcade/ArcadeGame";
+import ArcadeGamePage2 from "../pages/arcade2/ArcadeGame";
 import Matching from "../pages/matching/Matching";
 import Private from "../pages/private";
 import Test from "../pages/Test";
@@ -66,12 +67,20 @@ const router = createBrowserRouter([
         element: <Social />,
       },
       {
+        path: "social/:receiver",
+        element: <Social />,
+      },
+      {
         path: "game",
         element: <GamePage />,
       },
       {
         path: "arcade",
         element: <ArcadeGamePage />,
+      },
+      {
+        path: "arcade2",
+        element: <ArcadeGamePage2 />,
       },
       {
         path: "matching",

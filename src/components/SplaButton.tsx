@@ -12,14 +12,18 @@ const Container = styled.div`
   font-family: SBAggroM;
   &:hover {
     background-color: var(--dark-gray);
+    & > img {
+      opacity: 1;
+    }
   }
 `;
 
 const Image = styled.img`
   position: absolute;
-  background: none;
+  background: transparent;
   width: 70px;
   height: auto;
+  opacity: 0;
 `;
 
 const FirstImage = styled(Image)`
@@ -30,6 +34,7 @@ const FirstImage = styled(Image)`
 const LastImage = styled(Image)`
   top: 0px;
   left: 100px;
+  transition-delay: 100ms;
 `;
 
 const Text = styled.div`
@@ -39,9 +44,9 @@ const Text = styled.div`
   background: none;
 `;
 
-const SplaButton = ({ text }: { text: string }) => {
+const SplaButton = ({ text, onClickHandler }: { text: string, onClickHandler: VoidFunction }) => {
   return (
-    <Container>
+    <Container onClick={onClickHandler}>
       <FirstImage src="/src/images/splash1.png" alt="" />
       <LastImage src="/src/images/splash2.png" alt="" />
       <Text>{text}</Text>

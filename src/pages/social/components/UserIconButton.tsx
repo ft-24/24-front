@@ -9,12 +9,14 @@ const Wrapper = styled.div`
 `;
 
 const Button = styled.button`
+	cursor: pointer;
 	background: none;
 	border: none;
 `
 
 const Text = styled.div`
 	margin: 0.5rem;
+	background:transparent;
 `;
 
 const UserIconButton = ({onClickButton, imgSrc, text, iconSize} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string}) => {

@@ -64,8 +64,8 @@ const GameContainer = styled.div`
 const PrivateGameRoom = ({setLocate, title} : any) => {
   let playerList = new Array<PlayerInfo>();
 
-	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200));
+	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
+	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
 
 	return (
 		<Container>

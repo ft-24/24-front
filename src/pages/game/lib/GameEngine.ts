@@ -21,8 +21,12 @@ namespace Pong {
       this.scene.draw(recvData);
     }
 
-    update(deltaTime: number) {
-      this.scene.update(deltaTime);
+    update() {
+      this.scene.update();
+    }
+
+    getSceneNum(): number {
+      return this.scene.getSceneNum();
     }
 
     getInput() {

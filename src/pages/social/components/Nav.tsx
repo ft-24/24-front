@@ -17,6 +17,9 @@ const Container = styled.div`
 	padding: 2rem 1rem;
 	border-right: 1px solid white;
 	background: var(--purple);
+	& > p {
+		background: transparent;
+	}
 `
 
 const IconSection = styled.div`
@@ -33,13 +36,14 @@ const IconSection = styled.div`
 `
 
 const Button = styled.div`
+	cursor: pointer;
 	margin: 1rem 0;
 	&:hover {
 		transform: scale(1.5);
 	}
 `
 
-const Nav = ({setLocate, setIsListOn, setIsInfoOn, setInfoIntra}: {setLocate: any, setIsListOn: any, setIsInfoOn: any, setInfoIntra: any}) => {
+const Nav = ({setLocate, setIsDMListOn, setIsListOn, setIsInfoOn, setInfoIntra}: any) => {
   const [image, setimage] = useState("");
   const { token } = useAuthState();
 	const state = useAuthState();
@@ -69,9 +73,9 @@ const Nav = ({setLocate, setIsListOn, setIsInfoOn, setInfoIntra}: {setLocate: an
 			<Container>
 				LOGO
 				<IconSection>
-					<Button onClick={()=>{setLocate("home"); setIsListOn(false); setIsInfoOn(false);}}>🏠</Button>
-					<Button onClick={()=>{setIsListOn(true);}}>👨‍👧‍👦</Button>
-					<Button onClick={()=>{setIsListOn(true);}}>🤫</Button>
+					<Button onClick={()=>{setLocate("home"); setIsDMListOn(false); setIsListOn(false); setIsInfoOn(false);}}>🏠</Button>
+					<Button onClick={()=>{setIsListOn(true); setIsDMListOn(false)}}>👨‍👧‍👦</Button>
+					<Button onClick={()=>{setIsDMListOn(true); setIsListOn(false)}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
 				<UserIconButton onClickButton={onClick} imgSrc={image} text={state.nickname} iconSize="3" />

@@ -43,16 +43,26 @@ const Text = styled.span`
   background: none;
 `
 
-const ImageCard = (props: { text: string, imagePath: string, imagePadding: string, routePath: string }) => {
+const ImageCard = (props: { text: string, imagePath: string, imagePadding: string, routePath?: string, onClickHandler?: VoidFunction }) => {
   return (
     <Wrapper>
+      {
+        props.routePath ? 
       <Link to={props.routePath}>
         <ImageContainer>
           <motion.div whileHover={{ scale: 1.2 }}>
             <Image padding={props.imagePadding} src={props.imagePath}/>
           </motion.div>
         </ImageContainer>
-      </Link>
+      </Link> :
+      <div onClick={props.onClickHandler}>
+        <ImageContainer>
+          <motion.div whileHover={{ scale: 1.2 }}>
+            <Image padding={props.imagePadding} src={props.imagePath}/>
+          </motion.div>
+        </ImageContainer>
+      </div>
+      }
       <TextContainer>
         <Text>{props.text}</Text>
       </TextContainer>

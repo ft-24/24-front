@@ -3,8 +3,11 @@ import Nav from "./components/Nav";
 import Info from "./components/Info";
 import ChatRoom from "./components/ChatRoom";
 import Home from "./components/Home";
-import List from "./components/List";
+import JoinedList from "./components/JoinedList";
 import { useState } from "react";
+import DMList from "./components/DMList";
+import { useParams } from "react-router-dom";
+import CreateChannel from "../../components/modals/CreateChannel";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -41,11 +44,19 @@ const ListSection = styled.div`
 `;
 
 const Social = () => {
-  const [locate, setLocate] = useState("home");
-  const [title, setTitle] = useState("");
+  const pathVar = useParams();
+  const target = pathVar ? pathVar.receiver : "undefined";
+
+  const [locate, setLocate] = useState(target ? "chat" : "home");
+  const [type, setType] = useState("dm");
   const [infoIntra, setInfoIntra] = useState("");
+
   const [isInfoOn, setIsInfoOn] = useState(false);
   const [isListOn, setIsListOn] = useState(false);
+  const [isDMListOn, setIsDMListOn] = useState(false);
+	const [isModalOn, setIsModalOn] = useState(false);
+
+  console.log("target: " + target);
 
   return (
     <Wrapper>
@@ -53,27 +64,31 @@ const Social = () => {
         <NavSection>
           <Nav
             setLocate={setLocate}
+            setIsDMListOn={setIsDMListOn}
             setIsListOn={setIsListOn}
             setIsInfoOn={setIsInfoOn}
             setInfoIntra={setInfoIntra}/>
         </NavSection>
+        {isDMListOn ? (
+          <ListSection>
+            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate}/>
+          </ListSection>
+        ) : null}
         {isListOn ? (
           <ListSection>
-            <List
-              setIsListOn={setIsListOn}
-              setLocate={setLocate}/>
+            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate}/>
           </ListSection>
         ) : null}
         <MainSection>
           {locate === "home" ?
             <Home
               setLocate={setLocate}
-              setTitle={setTitle} /> : null}
-          {locate === "chat" ?
+              setIsModalOn={setIsModalOn}
+              /> : 
             <ChatRoom
-              title={title}
+              type={type}
               setIsInfoOn={setIsInfoOn}
-              setInfoIntra={setInfoIntra} /> : null}
+              setInfoIntra={setInfoIntra} />}
         </MainSection>
         {isInfoOn ? (
           <InfoSection>
@@ -81,6 +96,7 @@ const Social = () => {
           </InfoSection>
         ) : null}
       </Container>
+      {isModalOn ? <CreateChannel modalHandler={() => setIsModalOn(false)} /> : null}
     </Wrapper>
   );
 };

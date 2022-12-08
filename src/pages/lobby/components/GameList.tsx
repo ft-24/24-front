@@ -50,13 +50,36 @@ const ContentHeader = styled.div`
 `
 
 const ChannelContainer = styled.div`
+	position: relative;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 `
 
+const CreateButton = styled.button`
+	position: absolute;
+	z-index: 2;
+  	right: 1rem;
+	bottom: 1rem;
+	border: none;
+	border-radius: 10px;
+	background-color: var(--yellow);
+`
+
+const ButtonText = styled.div`
+	margin: 1rem;
+	font-size: 1rem;
+	color: black;
+`
+
 const GameList = ({toggleInfo, setTitle} : any) => {
 	let toggle = false;
+
+	const onClickCreate = () => {
+		
+	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="Welcome to Pong Game World!"/>
@@ -68,6 +91,9 @@ const GameList = ({toggleInfo, setTitle} : any) => {
 			<ChannelSection>
 				<ChannelContainer>
 					<GameCard toggleInfo={toggleInfo} setTitle={setTitle} title="트센뽀개기"></GameCard>
+					<CreateButton onClick={onClickCreate}>
+						<ButtonText>새 방 만들기</ButtonText>
+					</CreateButton>
 				</ChannelContainer>
 			</ChannelSection>
 		</Container>

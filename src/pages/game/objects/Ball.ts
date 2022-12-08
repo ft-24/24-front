@@ -39,13 +39,13 @@ export namespace Pong {
       }
     }
 
-    update(deltaTime: number) {
+    update() {
       let maxX: number = Constants.Game.CANVAS_WIDTH;
       let maxY: number = Constants.Game.CANVAS_HEIGHT;
 
       // ball moving
-      this.x += this.dx * this.speed * deltaTime;
-      this.y += this.dy * this.speed * deltaTime;
+      this.x += this.dx * this.speed;
+      this.y += this.dy * this.speed;
 
       // ball hit wall
       if (this.x >= maxX || this.x <= 0) {

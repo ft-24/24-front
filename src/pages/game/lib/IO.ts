@@ -25,6 +25,14 @@ namespace PongIO {
     score: ScoreData;
   }
 
+  export interface ResultData {
+    p1: string;
+    p2: string;
+    win: number;
+    p1_score: number;
+    p2_score: number;
+  }
+
   export class Input {
     public prevDir: Direction;
     public direction: Direction;
