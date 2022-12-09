@@ -125,7 +125,6 @@ const CreateGameRoom = ({modalHandler} : ModalProps) => {
       data.name = inputRef.current['value'];
       data.access_modifier = "public";
       socket.emit("make-room", data, (id: string)=>{
-        console.log("emit response",id);
         dispatch({type: "ENTER", payload: id});
         socket.emit("join", {id:id});
         modalHandler();
