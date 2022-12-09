@@ -99,7 +99,6 @@ const Profile = () => {
       }
     }).then(response => {
       const data: UserProps = response.data;
-      console.log(data);
       setUserData(
         prev => prev = new UserProps(
           data.intra_id,

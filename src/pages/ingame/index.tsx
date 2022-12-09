@@ -175,7 +175,7 @@ const GameRoom = () => {
     if (socket) {
       socket.on('reset', data => {
         if (!data) {
-          console.log("123");
+          console.log("resetting");
           setPState(PlayerState.stay);
         }
       })

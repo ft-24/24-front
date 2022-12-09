@@ -52,7 +52,7 @@ const UserName = ({name, children}: {name: string, children: any} ) => {
   }, [name])
 
   const setProfileName = async (name: string) => {
-    await axios.put(Url + 'user/profile/nickname', {
+    await axios.put(Url + 'user/profile', {
       nickname: name
     }, {
           headers: {
