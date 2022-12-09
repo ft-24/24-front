@@ -22,7 +22,7 @@ const Container = styled.div`
 	font-family:NanumSquareL;
 `
 
-const ProfileSection = styled.div`
+const RoomInfoSection = styled.div`
 	width: 100%;
 	flex: 2;
 	display: flex;
@@ -50,11 +50,12 @@ const RoomInfo = ({setIsInfoOn, setInfoIntra, joinedUsers, roomName}: Props) => 
 
 	return (
 		<Container>
-			<SectionHeader color='var(--purple)'>
+			<SectionHeader color='var(--purple)' title='채팅방 정보'>
 				<div onClick={()=>setIsInfoOn(false)}>X</div>
 			</SectionHeader>
-			<ProfileSection>
-			</ProfileSection>
+			<RoomInfoSection>
+				
+			</RoomInfoSection>
 			<SectionHeader color='var(--purple)' title='참여중인 사람들' />
 			<IconSection>
 				{

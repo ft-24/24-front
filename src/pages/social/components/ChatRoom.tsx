@@ -88,7 +88,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     }
   }
 
-  const leaveRoom = async () => {
+  const leaveRoom = () => {
     if (socket) {
       console.log("emit " + dmPrefix + "leave-room: " + target);
       socket.emit(dmPrefix + "leave-room", {name: target});
@@ -109,7 +109,10 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
 
     window.addEventListener("beforeunload", () => {alert("새로고침 시 채팅방 데이터는 날아갑니다")});
     window.addEventListener("popstate", forceMoveToHome)
+
     joinRoom();
+    getJoinedUsers();
+
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 
     return () => {
@@ -117,7 +120,8 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     }
   },[target])
 
-  const scrollDown = () => {
+  const scrollDown = async () => {
+    await new Promise((resolve, reject) => setTimeout(resolve, 100));
     bottomRef.current?.scrollIntoView({
       behavior: 'smooth'
     });
@@ -138,10 +142,6 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
       console.error(target + ' room infomation loading failed');
     });
   }
-
-  useEffect(() => {
-    getJoinedUsers();
-  }, []);
 
   useEffect(() => {
     if (receiveMessage) {

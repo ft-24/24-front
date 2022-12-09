@@ -86,7 +86,6 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
       }
     }).then(response => {
       const data: PlayerInfo = response.data;
-      console.log(data);
       setUserData(
         prev => prev = new PlayerInfo(
           data.intra_id,
@@ -102,15 +101,19 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
   }
 
 	const setRoleSection = () => {
-		joinedUsers?.forEach(user => {
-			if (user.intra_id === userIntra) {
-				setUserRole(user.role);
-			}
-			if (user.intra_id === intra) {
-				setMyRole(user.role);
-			}
-		});
-		console.log("role: " + myRole + ", " + userRole);
+		if (joinedUsers) {
+			joinedUsers.forEach(user => {
+				if (user.intra_id === userIntra) {
+					setUserRole(user.role);
+				}
+				if (user.intra_id === intra) {
+					setMyRole(user.role);
+				}
+			});
+		} else {
+			setMyRole('user');
+			setUserRole('user');
+		}
 	}
 
   useEffect(() => {
@@ -166,36 +169,38 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 				<p>{userIntra}</p>
 				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
 			</ProfileSection>
-			<IconSection>
-				<IconContainer>
-					{userData?.is_my_friend ? 
-						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
-						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
-					}
-					<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
-					<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
-				</IconContainer>
-				<IconContainer>
-					{myRole === "owner" ?
-						<>
-							{userRole === "admin" ? 
-								<IconButton onClickButton={onClickGrant} icon="🛠" text="관리자박탈" />
-								: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
-							}
-							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
-						</>
-						: null
-					}
-					{myRole === "admin" && userRole === "user" ?
-						<>
-							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
-						</>
-						: null
-					}
-				</IconContainer>
-			</IconSection>
+			{userIntra === intra ? null :
+				<IconSection>
+					<IconContainer>
+						{userData?.is_my_friend ? 
+							<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+							: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+						}
+						<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+						<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+					</IconContainer>
+					<IconContainer>
+						{myRole === "owner" ?
+							<>
+								{userRole === "admin" ? 
+									<IconButton onClickButton={onClickGrant} icon="🛠" text="관리자박탈" />
+									: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
+								}
+								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+							</>
+							: null
+						}
+						{myRole === "admin" && userRole === "user" ?
+							<>
+								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+							</>
+							: null
+						}
+					</IconContainer>
+				</IconSection>
+			}
       {matchingBall &&
       	<InvitingWaitBall handler={matchingBallCancel}/>
       }
