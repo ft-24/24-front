@@ -70,6 +70,9 @@ const Social = () => {
       setLocate("chat");
       localStorage.removeItem("TMP_DM_OP");
     }
+    if(!target) {
+      setLocate("home");
+    }
     setIsCreateModalOn(false);
   }, [target])
 

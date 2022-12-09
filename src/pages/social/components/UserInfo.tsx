@@ -9,7 +9,7 @@ import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
 import IconButton from "./IconButton";
 import { SimpleUserInfo } from "./SimpleUserInfo";
-import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import { useQueueDispatch } from "../../../context/QueueHooks";
 import useSocket from "../../../context/useSocket";
 import { useNavigate } from "react-router-dom";
 
@@ -93,6 +93,7 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
           data.profile_url,
 					data.ladder_score,
 					data.is_my_friend,
+					data.is_blocked
 				));
 			setRoleSection();
     }).catch(error => {
@@ -141,8 +142,24 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 		}
 	}
 
-	const onClickBlock = () => {
-		console.log("onClickBlock");
+	const onClickBlock = async () => {
+    await axios.put(Url + 'user/block', {
+				intra_id: userIntra,
+				is_blocked: userData?.is_blocked,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			console.log(response.data);
+			if(response.data) {
+
+			} else {
+
+			}
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
 	const onClickGrant = () => {

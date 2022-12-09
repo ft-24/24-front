@@ -104,7 +104,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
   }
 
   useEffect(()=>{
-    if (target === "undefined")
+    if (target === "undefined" || target === undefined)
       forceMoveToHome();
 
     window.addEventListener("beforeunload", () => {alert("새로고침 시 채팅방 데이터는 날아갑니다")});
