@@ -1,0 +1,23 @@
+version: '3'
+services:
+  # back: 
+  #   build: 
+  #     context: "./back"
+  #     dockerfile: dockerfile 
+  #   container_name: "back" 
+  #   working_dir: "/app/back" 
+  #   ports: 
+  #     - "5001:5001"
+  #   links: 
+  #     - "noderedis"
+  front: 
+    build: 
+      context: "."
+      dockerfile: Dockerfile 
+    container_name: "front" 
+    working_dir: "/app/front" 
+    ports: 
+      - "5173:5173"
+  # noderedis: 
+  #   image: "redis:3"
+  #   container_name: "noderedis"
