@@ -27,7 +27,7 @@ const Text = styled.div`
 type Props = {
 	onClickButton: any,
 	imgSrc: string,
-	text: string | undefined,
+	text?: string | undefined,
 	iconSize: string,
 	role?: string
 }
@@ -39,7 +39,7 @@ const UserIconButton = ({onClickButton, imgSrc, text, iconSize, role} : Props) =
 			<Button onClick={onClickButton} role={role ?? 'user'}>
 				<Avatar.img size={iconSize} src={imgSrc} />
 			</Button>
-			<Text>{text}</Text>
+			{text ? <Text>{text}</Text> : null}
 		</Wrapper>
 	);
 }

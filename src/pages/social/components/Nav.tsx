@@ -78,7 +78,7 @@ const Nav = ({setLocate, setIsDMListOn, setIsListOn, setIsInfoOn, setInfoIntra}:
 					<Button onClick={()=>{setIsDMListOn(true); setIsListOn(false)}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<UserIconButton onClickButton={onClick} imgSrc={image} text={state.nickname} iconSize="3" />
+				<UserIconButton onClickButton={onClick} imgSrc={image} iconSize="3" />
 			</Container>
 	)
 }
