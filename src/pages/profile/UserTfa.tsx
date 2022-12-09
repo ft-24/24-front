@@ -40,7 +40,7 @@ const UserTfa = ({isTfaOn} : {isTfaOn : boolean}) => {
 
   const onClickTfa = async () => {
     await axios.put(Url + 'user/profile', {
-        two_auth: tfa
+        two_auth: !tfa
     }, {
           headers: {
             Authorization:"Bearer " + token
