@@ -208,7 +208,10 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 							: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
 						}
 						<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
-						<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+						{userData?.is_blocked ?
+							<IconButton onClickButton={onClickBlock} icon="❌" text="차단해제" />
+							:  <IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+						}
 					</IconContainer>
 					<IconContainer>
 						{myRole === "owner" ?

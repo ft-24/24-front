@@ -78,6 +78,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
       console.log("emit " + dmPrefix + "join-room:" + target);
       socket.emit(dmPrefix + "join-room", {name: target});
       socket.on(dmPrefix + "messages", (data: Message[]) => {
+        console.log("on");
         if (data) {
           setChatLog([...data]);
         }
