@@ -71,6 +71,7 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 
   const { token, intra } = useAuthState();
   const { socket } = useSocket();
+
   const queueDispatch = useQueueDispatch();
   const navigate = useNavigate();
   
