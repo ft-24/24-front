@@ -154,7 +154,7 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 
   useEffect(() => {
     getData();
-  }, [userIntra]);
+  }, [userIntra, joinedUsers]);
 
 	const onClickProfile = () => {
 		navigate('/profile/' + userIntra);
@@ -230,38 +230,23 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
     });
 	}
 
-	const onClickSet = async () => {
-		if (!userData) {
+	const onClickAdmin = async () => {
+		if (!userData || !socket) {
+			console.log("There is no socket");
 			return;
 		}
-    await axios.put(Url + 'channels/admin', {
-				intra_id: userIntra,
-				room_name: roomName,
-			},{
-      headers: {
-        Authorization:"Bearer " + token
-      }
-    }).then(response => {
-    }).catch(error => {
-      console.error('DM List loading failed');
-    });
-	}
-
-	const onClickUnset = async () => {
-		if (!userData) {
-			return;
-		}
-    // await axios.put(Url + 'channels/admin', {
-		// 		intra_id: userIntra,
-		// 		room_name: roomName,
-		// 	},{
-    //   headers: {
-    //     Authorization:"Bearer " + token
-    //   }
-    // }).then(response => {
-    // }).catch(error => {
-    //   console.error('DM List loading failed');
-    // });
+		console.log("emit admin set: " + userIntra + ", cur role: " + userRole);
+		socket.emit("admin", {
+			intra_id: userIntra,
+			room_name: roomName,
+			is_admin: userRole === 'admin' ? true : false,
+		}, (status: boolean)=>{
+			if (status) {
+				setUserRole('admin');
+			} else {
+				setUserRole('user');
+			}
+		});
 	}
 
 	const onClickMute = async () => {
@@ -329,8 +314,8 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 						{myRole === "owner" ?
 							<>
 								{userRole === "admin" ? 
-									<IconButton onClickButton={onClickUnset} icon="🛠" text="관리자박탈" />
-									: <IconButton onClickButton={onClickSet} icon="🛠" text="관리자임명" />
+									<IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자박탈" />
+									: <IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자임명" />
 								}
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
 								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />

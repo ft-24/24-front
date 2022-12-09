@@ -78,7 +78,6 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
       console.log("emit " + dmPrefix + "join-room:" + target);
       socket.emit(dmPrefix + "join-room", {name: target});
       socket.on(dmPrefix + "messages", (data: Message[]) => {
-        console.log("on");
         if (data) {
           setChatLog([...data]);
         }
@@ -138,6 +137,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
 			}
     }).then(response => {
       console.log("room users: ");
+      console.log(response.data);
 			setJoinedUsers(response.data);
     }).catch(error => {
       console.error(target + ' room infomation loading failed');
@@ -178,8 +178,10 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
         }
       });
       if (type !== "dm") {
-        socket.on("patch", (nickname: string) => {
-          console.log("patch: " + nickname);
+        console.log("socket on patch");
+        socket.on("fetch", (nickname: string) => {
+          console.log("fetch: " + nickname);
+          getJoinedUsers();
         });
       }
       return () => {
