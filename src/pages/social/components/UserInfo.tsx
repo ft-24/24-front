@@ -32,24 +32,23 @@ const ProfileSection = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	font-family:SBAggroL;
 `
 
-const IconSection = styled.div`
-	background: var(--light-gray);
-	border-radius: 1rem 1rem 0 0;
-	width: 100%;
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+const Nickname = styled.div`
+	padding: 1rem 0 0.5rem;
+	font-family:SBAggroM;
+	font-size: 1.5rem;
 `
 
-const IconContainer = styled.div`
-	padding: 1rem;
-	width: 100%;
-	display: flex;
-	justify-content: space-evenly;
+const Intra = styled.div`
+	padding-bottom: 0.5rem;
+	color: var(--light-gray);
+`
+
+const LadderScore = styled.div`
+	padding-bottom: 2rem;
+
 `
 
 const Button = styled.button`
@@ -67,6 +66,25 @@ const Button = styled.button`
 		color: var(--white);
   }
 `;
+
+const IconSection = styled.div`
+	background: var(--light-gray);
+	border-radius: 1rem 1rem 0 0;
+	width: 100%;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`
+
+const IconContainer = styled.div`
+	background-color: rgba(0, 0, 0, 0);
+	padding: 1rem;
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+`
 
 type Props = {
 	setIsInfoOn: any,
@@ -101,16 +119,15 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
         Authorization: "Bearer " + token
       }
     }).then(response => {
-      const data: PlayerInfo = response.data;
-			console.log(data);
+			console.log(response.data);
       setUserData(
         prev => prev = new PlayerInfo(
-          data.intra_id,
-          data.nickname,
-          data.profile_url,
-					data.ladder_score,
-					data.is_my_friend,
-					data.is_blocked
+          response.data.intra_id,
+          response.data.nickname,
+          response.data.profile_url,
+					response.data.stats.ladder_score,
+					response.data.is_my_friend,
+					response.data.is_blocked
 				));
 			setRoleSection();
     }).catch(error => {
@@ -231,10 +248,9 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 			</SectionHeader>
 			<ProfileSection>
 				<Avatar.img size="5" src={userData?.profile_url} />
-				<br></br>
-				<p>{userData ? userData.nickname : "undefined"}</p>
-				<p>{userIntra}</p>
-				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
+				<Nickname>{userData ? userData.nickname : "undefined"}</Nickname>
+				<Intra>{userIntra}</Intra>
+				<LadderScore>🎖️ {userData ? userData.ladder_score : "???"}</LadderScore>
 				<Button onClick={onClickProfile}>프로필 보기</Button>
 			</ProfileSection>
 			{userIntra === intra ? null :
