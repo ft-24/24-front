@@ -63,7 +63,6 @@ const Social = () => {
 	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
-    setLocate(target || target === "" ? "chat" : "home");
     setIsCreateModalOn(false);
   }, [target])
 
@@ -124,6 +123,7 @@ const Social = () => {
                             modalHandler={() => setIsCreateModalOn(false)}
                             setType={setType}
                             setTarget={setTarget}
+                            setLocate={setLocate}
                             /> : null}
       {isPasswordModalOn  ? <PasswordInput
                               modalHandler={() => setIsPasswordModalOn(false)}

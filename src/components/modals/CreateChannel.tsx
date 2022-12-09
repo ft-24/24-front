@@ -106,7 +106,7 @@ const Radio = ({label, index, select, handler}: {label: string, index: number, s
   )
 }
 
-const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
+const CreateChannel = ({modalHandler, setType, setTarget, setLocate} : any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState<string>("");
   const [select, setSelect] = useState(1);
@@ -155,6 +155,7 @@ const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
           if (result == "") {
             setType(access);
             setTarget(title);
+            setLocate('chat');
             navigate('/social/' + title);
           } else {
             alert(result);

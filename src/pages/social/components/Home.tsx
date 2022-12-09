@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import CreateChannel from "../../../components/modals/CreateChannel";
 import SectionHeader from "../../../components/SectionHeader";
 import SimpleCard from "../../../components/SimpleCard";
 import { Url } from "../../../constants/Global";
@@ -102,7 +101,8 @@ const Home = ({setIsCreateModalOn, setIsPasswordModalOn, setLocate, setType, set
 	}
 
 	useEffect(() => {
-			getList();
+		getList();
+		setTarget(undefined);
 	}, []);
 
 	const onClickCreate = () => {
