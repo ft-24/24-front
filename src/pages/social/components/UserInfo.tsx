@@ -58,25 +58,22 @@ type Props = {
 	joinedUsers?: SimpleUserInfo[],
 }
 
-const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
-  const [userData, setUserData] = useState<PlayerInfo>();
-	const [myRole, setMyRole] = useState<string>("user");
-	const [userRole, setUserRole] = useState<string>("user");
-  const { token, intra } = useAuthState();
-  
 type SendGameRoomData = {
 	name: string,
 	access_modifier: string,
 }
 
-const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
+	const [myRole, setMyRole] = useState<string>("user");
+	const [userRole, setUserRole] = useState<string>("user");
   const [matchingBall, setMatchingBall] = useState(false);
-  const { token } = useAuthState();
+
+  const { token, intra } = useAuthState();
   const { socket } = useSocket();
+
   const queueDispatch = useQueueDispatch();
   const navigate = useNavigate();
-  const {room_info, room_id} = useQueueState();
   
   const matchingBallCancel = () => {
     setMatchingBall(false);
