@@ -20,7 +20,7 @@ const Slider = styled.div`
 `;
 
 const SlideTrack = styled.div`
-  animation: ${scroll} 40s linear infinite;
+  animation: ${scroll} 20s linear infinite;
   display: flex;
   width: calc(250px * 16);
   gap: 2rem;
@@ -58,6 +58,7 @@ const TitleWrapper = styled.div`
   font-weight: 700;
   font-size: 4rem;
   margin-top: 4rem;
+	margin-left: 6rem;
 `;
 
 const Stacks = () => {

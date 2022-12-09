@@ -14,6 +14,7 @@ const TitleWrapper = styled.div`
 	width:100%;
 	font-weight: 700;
 	font-size: 4em;
+	margin-left: 3rem;
 `;
 
 const FeaturesContainer = styled.div`
