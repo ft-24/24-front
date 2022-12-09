@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 import styled from "styled-components";
 import CardWrapper from "../../../components/PlayerCard";
 import PlayerInfo from "./PlayerInfo";
 import SectionHeader from "../../../components/SectionHeader";
+import { useQueueDispatch, useQueueState } from "../../../context/QueueHooks";
+import { useNavigate } from "react-router-dom";
+import useSocket from "../../../context/useSocket";
 
 const Container = styled.div`
 	width: 100%;
@@ -21,7 +24,7 @@ const Title = styled.div`
 	display: block;
 	font-family: SBAggroM;
 	font-size: 1.5rem;
-	padding: 0.5rem;	
+	padding: 0.5rem;
 	background: var(--purple);
 	text-shadow: 0 2px 0 black;
 `
@@ -33,7 +36,7 @@ const ContentHeader = styled.div`
 	font-size: 1.5rem;
 	line-height: 60px;
   height: 60px;
-	padding: 0.5rem;	
+	padding: 0.5rem;
 	background: var(--light-gray);
 	text-shadow: 0 2px 0 black;
 `;
@@ -83,22 +86,15 @@ const Text = styled.div`
 	font-family: SBAggroM;
 `;
 
-const GameInfo = ({setInfo, setLocate, title} : any) => {
+const GameInfo = ({setInfo, setLocate} : any) => {
   const [hover, setHover] = useState(false);
-	
-  let playerList = new Array<PlayerInfo>();
-	let spectatorList = new Array<PlayerInfo>();
-
-	playerList.push(new PlayerInfo("sunhkim", "mocha-kim", "/src/images/earth.jpg", 1500, true));
-	playerList.push(new PlayerInfo("yoahn", "yoahn", "/src/images/game.jpg", 1200, true));
-
-	spectatorList.push(new PlayerInfo("seonhjeo", "seonhjeo", "some link", 1500, true))
-	spectatorList.push(new PlayerInfo("chanhuil", "chanhuil", "some link", 1600, false))
-	spectatorList.push(new PlayerInfo("young-ch", "young-ch", "some link", 1600, false))
+	const {room_info} = useQueueState();
+	const {socket} = useSocket();
+	const navigate = useNavigate();
 
 	const enterLobby = () => {
-		setLocate("lobby");
-		setInfo(false);
+		socket?.emit("join", {id:room_info?.id});
+		navigate("/game");
 	}
 
 	return (
@@ -106,24 +102,25 @@ const GameInfo = ({setInfo, setLocate, title} : any) => {
 			<SectionHeader color='var(--purple)'>
 				{setInfo ? <div onClick={()=>setInfo(false)}>{"X"}</div> : null}
 			</SectionHeader>
-			<Title>{title}</Title>
-			<ContentHeader>게임하는 사람들</ContentHeader>	
+			<Title>{room_info?.name}</Title>
+			<ContentHeader>게임하는 사람들</ContentHeader>
 			<PlayerSection>
 				{
-					playerList.map((item : PlayerInfo, index) => (
-						<CardWrapper key={index} type="spectator" player={item}></CardWrapper>
+					room_info?.player_list.map((item : PlayerInfo, index) => (
+						<CardWrapper key={index} type="spectator" player={item} isReady={false}></CardWrapper>
+
 					))
 				}
 			</PlayerSection>
-			<ContentHeader>관전중인 사람들</ContentHeader>	
+			<ContentHeader>관전중인 사람들</ContentHeader>
 			<PlayerSection>
 				{
-					spectatorList.map((item : PlayerInfo, index) => (
-						<CardWrapper key={index}	 type="spectator" player={item}></CardWrapper>
+					room_info?.spectator_list.map((item : PlayerInfo, index) => (
+						<CardWrapper key={index} type="spectator" player={item} isReady={false}></CardWrapper>
 					))
 				}
 			</PlayerSection>
-			<IconSection>	
+			<IconSection>
 				<StyledButton
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
@@ -131,18 +128,18 @@ const GameInfo = ({setInfo, setLocate, title} : any) => {
 					>
 					{hover ?
 						<>
-							<motion.div 
+							<motion.div
 								style={{ position: "absolute", top: "-2.5rem", left: "-2.5rem"}}
 								animate={{ opacity: 1 }}
 								transition={{ from: 0, duration: 0.1 }}
 								>
 								<Image src="/src/images/splash1.png" size="7rem" z-index="2"/>
 							</motion.div>
-							<motion.div 
+							<motion.div
 								style={{ position: "absolute", bottom: "-1rem", right: "-2rem"}}
 								animate={{ opacity: 1 }}
 								transition={{ from: 0, duration: 0.3 }}
-								>	
+								>
 								<Image src="/src/images/splash2.png" size="5rem" z-index="1"/>
 							</motion.div>
 						</>

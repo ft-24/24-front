@@ -2,12 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import InvitingWaitBall from "../../../components/InvitingWaitBall";
 import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
-import { UserProps } from "../../profile/UserProps"
 import IconButton from "./IconButton";
+import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import useSocket from "../../../context/useSocket";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	width: 100%;
@@ -48,10 +51,24 @@ const dummyUserData: PlayerInfo = {
 	is_my_friend: false,
 }
 
-const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+type SendGameRoomData = {
+	name: string,
+	access_modifier: string,
+}
+
+const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   const [userData, setUserData] = useState<PlayerInfo>();
+  const [matchingBall, setMatchingBall] = useState(false);
   const { token } = useAuthState();
+  const { socket } = useSocket();
+  const queueDispatch = useQueueDispatch();
+  const navigate = useNavigate();
+  const {room_info, room_id} = useQueueState();
   
+  const matchingBallCancel = () => {
+    setMatchingBall(false);
+  }
+
   const getData = async() => {
     await axios.get(Url + 'user/profile/' + intra, {
       headers: {
@@ -75,7 +92,6 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
   }
 
   useEffect(() => {
-		console.log("info on");
     getData();
   }, [intra]);
 
@@ -84,7 +100,20 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 	}
 
 	const onClickPlay = () => {
-		console.log("onClickPlay");
+		const data: SendGameRoomData = {
+		  name: '',
+		  access_modifier: ''
+		};
+		if (socket && userData) {
+		  console.log(userData.intra_id);
+		  data.name = userData.intra_id;
+		  data.access_modifier = "private";
+		  socket.emit("make-room", data, (id: string)=>{
+			queueDispatch({type: "ENTER", payload: id});
+			socket.emit("join", {id:id});
+			navigate('/game');
+		  });
+		}
 	}
 
 	const onClickBlock = () => {
@@ -112,8 +141,11 @@ const Info = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
 				<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 				<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 			</IconSection>
+      {matchingBall &&
+      	<InvitingWaitBall handler={matchingBallCancel}/>
+      }
 		</Container>
 	)
 }
 
-export default Info;
+export default UserInfo;

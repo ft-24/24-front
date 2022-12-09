@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useQueueDispatch } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
 import GameInfo from "./components/GameInfo";
 import GameList from "./components/GameList";
-import GameRoom from "./components/GameRoom";
+import GameRoom from "../ingame/index";
 
 const Wrapper = styled.div`
 	width: 100vw;
@@ -26,13 +28,14 @@ const MainSection = styled.div`
 `;
 
 const InfoSection = styled.div`
-	flex: 2;	
+	flex: 2;
 `;
 
 const Lobby = () => {
 	const [locate, setLocate] = useState("home");
 	const [info, setInfo] = useState(false);
 	const [title, setTitle] = useState("");
+	const [roomId, setRoomId] = useState("");
 
 	const toggleInfo = () => {
 		info ? setInfo(false) : setInfo(true);
@@ -43,11 +46,11 @@ const Lobby = () => {
 			<Container>
 				<MainSection>
           {locate === "home" ? <GameList toggleInfo={toggleInfo} setTitle={setTitle}></GameList> : null}
-          {locate === "lobby" ? <GameRoom setLocate={setLocate} title={title}></GameRoom> : null}
+          {locate === "lobby" ? <GameRoom></GameRoom> : null}
 				</MainSection>
 				{info ? (
 					<InfoSection>
-						<GameInfo setInfo={setInfo} setLocate={setLocate} title={title} />
+						<GameInfo setInfo={setInfo} setLocate={setLocate} title={title} id={roomId}/>
 					</InfoSection>
 				) : null}
 			</Container>

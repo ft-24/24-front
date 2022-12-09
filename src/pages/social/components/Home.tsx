@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CreateChannel from "../../../components/modals/CreateChannel";
 import SectionHeader from "../../../components/SectionHeader";
+import SimpleCard from "../../../components/SimpleCard";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import ChannelCard from "./ChannelCard";
@@ -20,10 +21,10 @@ const Container = styled.div`
 const NoticeSection = styled.div`
 	flex: 1;
 	display: flex;
-	justify-content: flex-start;
+	max-height: 5.5rem;
+	justify-content: center;
 	flex-direction: column;
 	font-family: SBAggroM;
-	margin-top: 1rem;
 `
 
 const ChannelSection = styled.div`
@@ -59,6 +60,7 @@ const ChannelContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding-bottom: 1rem;
 `
 
 const EmptyText = styled.div`
@@ -81,7 +83,7 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const Home = ({setIsModalOn, setLocate} : any) => {
+const Home = ({setIsCreateModalOn, setIsPasswordModalOn, setLocate, setType, setTarget} : any) => {
 	const [list, setList] = useState<ChannelInfo[]>();
 
 	const { token } = useAuthState();
@@ -92,7 +94,8 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 			Authorization:"Bearer " + token
 		}
 		}).then(response => {
-			setList(response.data);
+			console.log(response.data);
+			setList([...response.data.rooms]);
 		}).catch(error => {
 			console.error('Public List loading failed');
 		});
@@ -103,15 +106,16 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 	}, []);
 
 	const onClickCreate = () => {
-		setIsModalOn(true);
+		setIsCreateModalOn(true);
 	}
 
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)' title="welcome home!"/>
 			<ContentHeader>공지사항</ContentHeader>
-			<NoticeSection>
-			</NoticeSection>
+				<NoticeSection>
+					<SimpleCard text="매너있는 채팅 부탁드립니다."/>
+				</NoticeSection>
 			<ContentHeader>공개채널</ContentHeader>
 			<ChannelSection>
 				<ChannelContainer>
@@ -121,7 +125,11 @@ const Home = ({setIsModalOn, setLocate} : any) => {
 							key={index}
 							type={item.access_modifier}
 							receiver={item.name}
-							setLocate={setLocate} />
+							memberList={undefined}
+							setLocate={setLocate}
+							setType={setType}
+							setTarget={setTarget}
+							setIsPasswordModalOn={setIsPasswordModalOn}/>
 					)) : <EmptyText>열려있는 채널이 없어요...</EmptyText>
 				}
 				</ChannelContainer>

@@ -5,9 +5,7 @@ import ChatCard from "./ChatCard";
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "../../../context/AuthHooks";
 import useSocket from "../../../context/useSocket";
-import axios from "axios";
-import { Url } from "../../../constants/Global";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Container = styled.div`
   position: relative;
@@ -58,102 +56,76 @@ export type Message = {
 	chat: string,
 };
 
-const DummyMessages: Message[] = [
-  {
-    nickname: "other",
-    intra_id: "other",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:11",
-    chat: "테스트",
-  },
-  {
-    nickname: "young-ch",
-    intra_id: "young-ch",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:12",
-    chat: "테스트",
-  },
-  {
-    nickname: "young-ch",
-    intra_id: "young-ch",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:12",
-    chat: "테스트",
-  },
-  {
-    nickname: "young-ch",
-    intra_id: "young-ch",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:12",
-    chat: "테스트",
-  },
-  {
-    nickname: "other",
-    intra_id: "other",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:13",
-    chat: "테스트",
-  },
-  {
-    nickname: "other",
-    intra_id: "other",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:14",
-    chat: "테스트",
-  },
-  {
-    nickname: "other",
-    intra_id: "other",
-    profile_url: "/src/images/hero.png",
-    time: "2022-11-11 11:14",
-    chat: "테스트",
-  },
-];
-
-const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn: any, setInfoIntra: any}) => {
+const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
   const pathVar = useParams();
   const target = pathVar ? pathVar.receiver : "undefined";
-  const eventName = type === "dm" ? "dm-message" : "message";
+  const dmPrefix = type === "dm" ? "dm-" : "";
+  const bottomRef = useRef<HTMLDivElement>(null);
   
   const [sendMessage, setSendMessage] = useState<Message | null>();
   const [receiveMessage, setReceiveMessage] = useState<Message | null>();
-  const lastChat = useRef<HTMLDivElement>(null);
-  const [chatLog, setChatLog] = useState<Message[]>();
+  const [chatLog, setChatLog] = useState<Message[]>([]);
 
   const state = useAuthState();
   const { socket } = useSocket();
-  const { token } = useAuthState();
 
-  const getChatLog = async () => {
-    await axios.get(Url + 'channel/dsinfa/dsofi', {
-      headers: {
-        Authorization:"Bearer " + token
-      }, 
-      timeout: 1000,
-    }).then(response => {
-      const data: Message[] = response.data;
-      setChatLog([...data]);
-    }).catch(error => {
-      console.error('message log loading failed');
-      setChatLog([...DummyMessages]);
-    });
+  let navigate = useNavigate();
+
+  const joinRoom = () => {
+    if (socket) {
+      console.log("emit " + dmPrefix + "join-room:" + target);
+      socket.emit(dmPrefix + "join-room", {name: target});
+      socket.on(dmPrefix + "messages", (data: Message[]) => {
+        if (data) {
+          setChatLog([...data]);
+        }
+      });
+      scrollDown();
+    } else {
+      console.log("There is no socket");
+    }
+  }
+
+  const leaveRoom = async () => {
+    if (socket) {
+      console.log("emit " + dmPrefix + "leave-room: " + target);
+      socket.emit(dmPrefix + "leave-room", {name: target});
+      socket.off(dmPrefix + "messages");
+    } else {
+      console.log("There is no socket");
+    }
+  }
+
+  const forceMoveToHome = () => {
+    navigate('/social/');
+    setLocate("home");
   }
 
   useEffect(()=>{
-    getChatLog();
-  },[])
+    if (target === "undefined")
+      forceMoveToHome();
+
+    window.addEventListener("beforeunload", () => alert("새로고침 시 채팅방 데이터는 날아갑니다"));
+    window.addEventListener("popstate", forceMoveToHome)
+    joinRoom();
+    console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
+
+    return () => {
+      leaveRoom();
+    }
+  },[target])
 
   const scrollDown = () => {
-    lastChat?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
+    bottomRef.current?.scrollIntoView({
+      behavior: 'smooth'
     });
   }
 
   useEffect(() => {
     if (receiveMessage) {
+      console.log("push");
       chatLog?.push(receiveMessage);
+      console.log(chatLog);
       setReceiveMessage(null);
       scrollDown();
     }
@@ -163,8 +135,8 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
     if (sendMessage) {
       if (socket) {
         chatLog?.push(sendMessage);
-        console.log("emit " + eventName + ":" + sendMessage.chat + ", " + target);
-        socket.emit(eventName, {msg: sendMessage.chat , receiver: target});
+        console.log("emit " + dmPrefix + "message:" + sendMessage.chat + ", " + target);
+        socket.emit(dmPrefix + "message", {msg: sendMessage.chat , receiver: target});
         scrollDown();
       } else {
         console.log("There is no socket");
@@ -175,25 +147,31 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
 
   useEffect(() => {
     if (socket) {
-      socket.on(eventName, (data: Message) => {
+      socket.on(dmPrefix + "message", (data: Message) => {
         if (data) {
           console.log("receive: " + data);
+          console.log(data);
           setReceiveMessage(data);
         }
-      })
+      });
       return () => {
-        socket.off(eventName);
+        socket.off(dmPrefix + "message");
       }
     }
   }, [socket]);
 
+  const onClickRoomInfo = () => {
+    setInfoIntra(undefined);
+    setIsInfoOn(true);
+  }
+
   return (
     <Container>
       <SectionHeader color="var(--purple)" title={ type === "dm" ? state.nickname + ", " + target : target}>
-        <div onClick={() => setIsInfoOn(true)}>{":"}</div>
+        <div onClick={onClickRoomInfo}>{":"}</div>
       </SectionHeader>
       <ChatSection>
-        <ChatContainer ref={lastChat}>
+        <ChatContainer>
           {chatLog?.map((item: Message, index) => {
             const isMe = (item.intra_id == state.intra) ? true : false;
             return (
@@ -206,6 +184,7 @@ const ChatRoom = ({type, setIsInfoOn, setInfoIntra}: {type: string, setIsInfoOn:
               ></ChatCard>
             );
           })}
+          <div ref={bottomRef} />
         </ChatContainer>
       </ChatSection>
       <InputSection>

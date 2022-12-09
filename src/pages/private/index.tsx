@@ -1,10 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
-import PrivateGameRoom from "./components/PrivateGameRoom";
-import Info from "../social/components/Info";
+import UserInfo from "../social/components/UserInfo";
 import FriendsList from "./components/FriendsList";
-import { UserProps } from "../profile/UserProps";
 import { useAuthState } from "../../context/AuthHooks";
+import GameRoom from "../ingame";
 
 const Wrapper = styled.div`
 	width: 100vw;
@@ -42,11 +41,11 @@ const Private = () => {
 			<Container>
 				<MainSection>
           {locate === "home" ? <FriendsList setIsInfoOn={() => setIsInfoOn(true)} setInfoIntra={setInfoIntra} /> : null}
-          {locate === "lobby" ? <PrivateGameRoom setLocate={setLocate} title={state.nickname + (infoIntra ? infoIntra : "undefined")} /> : null}
+          {locate === "lobby" ? <GameRoom /> : null}
 				</MainSection>
 				{isInfoOn ? (
 					<InfoSection>
-						<Info setIsInfoOn={setIsInfoOn} intra={infoIntra} />
+						<UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra} />
 					</InfoSection>
 				) : null}
 			</Container>

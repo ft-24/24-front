@@ -8,10 +8,15 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
-	cursor: pointer;
+type Role = {
+	role: string,
+}
+
+const Button = styled.button<Role>`
 	background: none;
-	border: none;
+	padding: ${(props) => (props.role === 'user' ? '0' : '0.1rem')};
+	border-radius: 50%;
+	border: ${(props) => (props.role === 'user' ? 'none' : 'solid var(--purple)')};
 `
 
 const Text = styled.div`
@@ -19,10 +24,11 @@ const Text = styled.div`
 	background:transparent;
 `;
 
-const UserIconButton = ({onClickButton, imgSrc, text, iconSize} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string}) => {
+const UserIconButton = ({onClickButton, imgSrc, text, iconSize, role} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string, role: string}) => {
 	return (
 		<Wrapper>
-			<Button onClick={onClickButton}>
+			{role === 'owner' ? <div>👑</div> : null}
+			<Button onClick={onClickButton} role={role}>
 				<Avatar.img size={iconSize} src={imgSrc} />
 			</Button>
 			<Text>{text}</Text>
