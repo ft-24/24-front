@@ -179,14 +179,14 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
         }
       });
       if (type !== "dm") {
-        console.log("socket on patch");
-        socket.on("fetch", (nickname: string) => {
-          console.log("fetch: " + nickname);
+        console.log("socket on fetch");
+        socket.on("fetch", () => {
+          console.log("receive fetch");
           getJoinedUsers();
         });
       }
       return () => {
-        socket.off(dmPrefix + "message");
+        socket.off("fetch");
       }
     }
   }, [socket]);
