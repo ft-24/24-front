@@ -86,6 +86,7 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
       }
     }).then(response => {
       const data: PlayerInfo = response.data;
+			console.log(data);
       setUserData(
         prev => prev = new PlayerInfo(
           data.intra_id,
@@ -154,23 +155,7 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
         Authorization:"Bearer " + token
       }
     }).then(response => {
-			const tmp = new PlayerInfo(
-				userData.intra_id,
-				userData.nickname,
-				userData.profile_url,
-				userData.ladder_score,
-				userData.is_my_friend,
-				userData.is_blocked
-			)
-			setUserData(
-				prev => prev = new PlayerInfo(
-					tmp.intra_id,
-					tmp.nickname,
-					tmp.profile_url,
-					tmp.ladder_score,
-					tmp.is_my_friend,
-					response.data,
-				));
+			getData();
     }).catch(error => {
       console.error('DM List loading failed');
     });

@@ -3,16 +3,16 @@ class PlayerInfo {
   nickname: string;
   profile_url: string;
   ladder_score: number;
-  is_my_friend: boolean;
-  is_blocked:boolean;
+  is_my_friend?: boolean;
+  is_blocked?:boolean;
 
   constructor(
     i: string,
     n: string,
     img: string,
     ladder_score: number,
-    is_my_friend: boolean,
-    is_blocked:boolean) {
+    is_my_friend?: boolean,
+    is_blocked?:boolean) {
     this.intra_id = i;
 		this.nickname = n;
 		this.profile_url = img;
