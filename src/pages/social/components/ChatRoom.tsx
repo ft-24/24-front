@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "../../../context/AuthHooks";
 import useSocket from "../../../context/useSocket";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { Url } from "../../../constants/Global";
 
 const Container = styled.div`
   position: relative;
@@ -56,7 +58,7 @@ export type Message = {
 	chat: string,
 };
 
-const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
+const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: any) => {
   const pathVar = useParams();
   const target = pathVar ? pathVar.receiver : "undefined";
   const dmPrefix = type === "dm" ? "dm-" : "";
@@ -66,7 +68,7 @@ const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
   const [receiveMessage, setReceiveMessage] = useState<Message | null>();
   const [chatLog, setChatLog] = useState<Message[]>([]);
 
-  const state = useAuthState();
+  const { intra, nickname, token } = useAuthState();
   const { socket } = useSocket();
 
   let navigate = useNavigate();
@@ -105,7 +107,7 @@ const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
     if (target === "undefined")
       forceMoveToHome();
 
-    window.addEventListener("beforeunload", () => alert("새로고침 시 채팅방 데이터는 날아갑니다"));
+    window.addEventListener("beforeunload", () => {alert("새로고침 시 채팅방 데이터는 날아갑니다")});
     window.addEventListener("popstate", forceMoveToHome)
     joinRoom();
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
@@ -120,6 +122,26 @@ const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
       behavior: 'smooth'
     });
   }
+
+  const getJoinedUsers = async() => {
+    await axios.get(Url + 'channels/users/', {
+      headers: {
+        Authorization:"Bearer " + token
+      },
+			data: {
+				room_name: target
+			}
+    }).then(response => {
+      console.log("room users: ");
+			setJoinedUsers(response.data);
+    }).catch(error => {
+      console.error(target + ' room infomation loading failed');
+    });
+  }
+
+  useEffect(() => {
+    getJoinedUsers();
+  }, []);
 
   useEffect(() => {
     if (receiveMessage) {
@@ -154,6 +176,11 @@ const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
           setReceiveMessage(data);
         }
       });
+      if (type !== "dm") {
+        socket.on("patch", (nickname: string) => {
+          console.log("patch: " + nickname);
+        });
+      }
       return () => {
         socket.off(dmPrefix + "message");
       }
@@ -167,13 +194,13 @@ const ChatRoom = ({type, setLocate, setIsInfoOn, setInfoIntra}: any) => {
 
   return (
     <Container>
-      <SectionHeader color="var(--purple)" title={ type === "dm" ? state.nickname + ", " + target : target}>
+      <SectionHeader color="var(--purple)" title={ type === "dm" ? nickname + ", " + target : target}>
         <div onClick={onClickRoomInfo}>{":"}</div>
       </SectionHeader>
       <ChatSection>
         <ChatContainer>
           {chatLog?.map((item: Message, index) => {
-            const isMe = (item.intra_id == state.intra) ? true : false;
+            const isMe = (item.intra_id == intra) ? true : false;
             return (
               <ChatCard
                 key={index}

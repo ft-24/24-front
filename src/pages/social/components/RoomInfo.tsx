@@ -6,6 +6,7 @@ import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
 import IconButton from "./IconButton";
+import { SimpleUserInfo } from "./SimpleUserInfo";
 import UserIconButton from "./UserIconButton";
 
 const Container = styled.div`
@@ -35,37 +36,14 @@ const IconSection = styled.div`
 	display: flex;
 `
 
-type SimpleUserInfo = {
-	intra_id: string,
-	nickname: string,
-	profiles_url : string,
-	role: string,
+type Props = {
+	setIsInfoOn: any,
+	setInfoIntra: any,
+	joinedUsers: SimpleUserInfo[],
+	roomName: string,
 }
 
-const RoomInfo = ({setIsInfoOn, setInfoIntra, roomName}: {setIsInfoOn: any, setInfoIntra: any, roomName: string}) => {
-  const [list, setList] = useState<SimpleUserInfo[]>([]);
-  const { token } = useAuthState();
-  
-  const getData = async() => {
-    await axios.get(Url + 'channels/users/', {
-      headers: {
-        Authorization:"Bearer " + token
-      },
-			data: {
-				room_name: roomName
-			}
-    }).then(response => {
-      console.log(response.data);
-			setList(response.data);
-    }).catch(error => {
-      console.error(roomName + ' room infomation loading failed');
-    });
-  }
-
-	useEffect(() => {
-		getData();
-	}, [])
-
+const RoomInfo = ({setIsInfoOn, setInfoIntra, joinedUsers, roomName}: Props) => {
 	const onClick = ({intra}: {intra: string}) => {
 		setInfoIntra(intra);
 	}
@@ -80,7 +58,7 @@ const RoomInfo = ({setIsInfoOn, setInfoIntra, roomName}: {setIsInfoOn: any, setI
 			<SectionHeader color='var(--purple)' title='참여중인 사람들' />
 			<IconSection>
 				{
-					list && (list.length > 0) ? list.map((item: SimpleUserInfo, index) => (
+					joinedUsers && (joinedUsers.length > 0) ? joinedUsers.map((item: SimpleUserInfo, index) => (
 						<UserIconButton 
 							onClickButton={onClick}
 							imgSrc={item.profiles_url}
