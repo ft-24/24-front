@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuthState } from "../../context/AuthHooks";
 import { Url } from "../../constants/Global";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserSearch from "../../components/modals/UserSearch";
 import ModalPortal from "../../components/modals/ModalPotal";
 
@@ -76,9 +76,10 @@ const ButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const StyledLink = styled(Link)`
+const DMButton = styled.button`
   text-decoration: none;
   background: transparent;
+  border: none;
 `;
 
 const DeleteButton = styled.div`
@@ -118,6 +119,7 @@ const Sidebar = () => {
   const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
   const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
   const [searchFriendModal, setSearchFriendModal] = useState(false);
+  const navigate = useNavigate();
 
   const getFriends = async () => {
     await axios
@@ -185,6 +187,11 @@ const Sidebar = () => {
     getFriends();
   }, []);
 
+  const onClickDM = (intra: string) => {
+    navigate("/social/" + intra);
+    localStorage.setItem("TMP_DM_OP", intra);
+  }
+
   return (
     <Wrapper className="sidebar">
       <Container>
@@ -196,7 +203,7 @@ const Sidebar = () => {
                 <OnlineText>{item.nickname}</OnlineText>
               </NameContainer>
               <ButtonContainer>
-                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DMButton onClick={() => onClickDM(item.intra_id)}>💬</DMButton>
                 <DeleteButton
                   onClick={() => {
                     deleteFriendHandler(item.intra_id);
@@ -216,7 +223,7 @@ const Sidebar = () => {
                 <OfflineText>{item.nickname}</OfflineText>
               </NameContainer>
               <ButtonContainer>
-                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DMButton onClick={() => onClickDM(item.intra_id)}>💬</DMButton>
                 <DeleteButton
                   onClick={() => {
                     deleteFriendHandler(item.intra_id);

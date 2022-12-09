@@ -63,6 +63,13 @@ const Social = () => {
 	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
+    const targetIntra = localStorage.getItem("TMP_DM_OP");
+    if(targetIntra) {
+      setTarget(targetIntra);
+      setType("dm")
+      setLocate("chat");
+      localStorage.removeItem("TMP_DM_OP");
+    }
     setIsCreateModalOn(false);
   }, [target])
 
