@@ -143,20 +143,34 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 	}
 
 	const onClickBlock = async () => {
+		if (!userData) {
+			return;
+		}
     await axios.put(Url + 'user/block', {
 				intra_id: userIntra,
-				is_blocked: userData?.is_blocked,
+				is_blocked: userData.is_blocked,
 			},{
       headers: {
         Authorization:"Bearer " + token
       }
     }).then(response => {
-			console.log(response.data);
-			if(response.data) {
-
-			} else {
-
-			}
+			const tmp = new PlayerInfo(
+				userData.intra_id,
+				userData.nickname,
+				userData.profile_url,
+				userData.ladder_score,
+				userData.is_my_friend,
+				userData.is_blocked
+			)
+			setUserData(
+				prev => prev = new PlayerInfo(
+					tmp.intra_id,
+					tmp.nickname,
+					tmp.profile_url,
+					tmp.ladder_score,
+					tmp.is_my_friend,
+					response.data,
+				));
     }).catch(error => {
       console.error('DM List loading failed');
     });

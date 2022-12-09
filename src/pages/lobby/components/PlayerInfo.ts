@@ -17,8 +17,8 @@ class PlayerInfo {
 		this.nickname = n;
 		this.profile_url = img;
     this.ladder_score = ladder_score;
-    this.is_my_friend = is_my_friend;
-    this.is_blocked = is_blocked;
+    this.is_my_friend = is_my_friend ?? false;
+    this.is_blocked = is_blocked ?? false;
   }
 }
 
