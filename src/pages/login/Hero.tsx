@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 import { Url } from "../../constants/Global";
+import { VITE_ENV_TEST } from "../../constants/Global";
 
 const Wrapper = styled.div`
   position: relative;
@@ -96,7 +97,7 @@ const Hero = ({onClickHandler} : any) => {
   return (
     <Wrapper>
       <SectionWrapper>
-        <Title>ft_transcendence</Title>
+        <Title>{VITE_ENV_TEST}</Title>
         <SubTitle>트뽀</SubTitle>
         <ArticleWrapper>
           <Article>
