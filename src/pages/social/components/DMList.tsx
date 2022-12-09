@@ -62,7 +62,7 @@ const DMList = ({setIsListOn, setLocate, setType} : any) => {
 					<ChannelCard
 						key={index}
 						type="dm"
-						receiver={item.nickname}
+						receiver={item.intra_id}
 						memberList={undefined}
 						setLocate={setLocate}
 						setType={setType} />

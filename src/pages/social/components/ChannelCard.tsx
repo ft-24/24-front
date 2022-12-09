@@ -34,8 +34,8 @@ const ChannelCard = ({type, receiver, memberList, setLocate, setType, setTarget,
   let navigate = useNavigate();
 
   const onClick = () => {
+    setTarget(receiver);
     if (type === 'protected') {
-      setTarget(receiver);
       setIsPasswordModalOn(true);
     } else {
       setLocate("chat");

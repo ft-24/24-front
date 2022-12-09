@@ -1,11 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import SectionHeader from "../../../components/SectionHeader";
-import { Url } from "../../../constants/Global";
-import { useAuthState } from "../../../context/AuthHooks";
-import PlayerInfo from "../../lobby/components/PlayerInfo";
-import IconButton from "./IconButton";
 import { SimpleUserInfo } from "./SimpleUserInfo";
 import UserIconButton from "./UserIconButton";
 
@@ -22,11 +17,19 @@ const Container = styled.div`
 	font-family:NanumSquareL;
 `
 
-const ProfileSection = styled.div`
+const RoomInfoSection = styled.div`
 	width: 100%;
 	flex: 2;
 	display: flex;
 	flex-direction: column;
+`
+
+const Label = styled.div`
+
+`
+
+const Text = styled.div`
+
 `
 
 const IconSection = styled.div`
@@ -44,22 +47,26 @@ type Props = {
 }
 
 const RoomInfo = ({setIsInfoOn, setInfoIntra, joinedUsers, roomName}: Props) => {
+	useEffect(() => {
+	}, [joinedUsers]);
+
 	const onClick = ({intra}: {intra: string}) => {
 		setInfoIntra(intra);
 	}
-
 	return (
 		<Container>
-			<SectionHeader color='var(--purple)'>
+			<SectionHeader color='var(--purple)' title='채팅방 정보'>
 				<div onClick={()=>setIsInfoOn(false)}>X</div>
 			</SectionHeader>
-			<ProfileSection>
-			</ProfileSection>
+			<RoomInfoSection>
+				<Label>방 이름: </Label><Text>{roomName}</Text>
+			</RoomInfoSection>
 			<SectionHeader color='var(--purple)' title='참여중인 사람들' />
 			<IconSection>
 				{
 					joinedUsers && (joinedUsers.length > 0) ? joinedUsers.map((item: SimpleUserInfo, index) => (
-						<UserIconButton 
+						<UserIconButton
+							key={index}
 							onClickButton={onClick}
 							imgSrc={item.profiles_url}
 							text={item.nickname ?? "undefined"}

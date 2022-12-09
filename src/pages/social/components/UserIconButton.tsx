@@ -24,14 +24,22 @@ const Text = styled.div`
 	background:transparent;
 `;
 
-const UserIconButton = ({onClickButton, imgSrc, text, iconSize, role} : {onClickButton: any, imgSrc: string, text: string | undefined, iconSize: string, role: string}) => {
+type Props = {
+	onClickButton: any,
+	imgSrc: string,
+	text?: string | undefined,
+	iconSize: string,
+	role?: string
+}
+
+const UserIconButton = ({onClickButton, imgSrc, text, iconSize, role} : Props) => {
 	return (
 		<Wrapper>
 			{role === 'owner' ? <div>👑</div> : null}
-			<Button onClick={onClickButton} role={role}>
+			<Button onClick={onClickButton} role={role ?? 'user'}>
 				<Avatar.img size={iconSize} src={imgSrc} />
 			</Button>
-			<Text>{text}</Text>
+			{text ? <Text>{text}</Text> : null}
 		</Wrapper>
 	);
 }

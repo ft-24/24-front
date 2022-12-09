@@ -9,7 +9,7 @@ import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
 import IconButton from "./IconButton";
 import { SimpleUserInfo } from "./SimpleUserInfo";
-import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import { useQueueDispatch } from "../../../context/QueueHooks";
 import useSocket from "../../../context/useSocket";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +32,40 @@ const ProfileSection = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	font-family:SBAggroL;
 `
+
+const Nickname = styled.div`
+	padding: 1rem 0 0.5rem;
+	font-family:SBAggroM;
+	font-size: 1.5rem;
+`
+
+const Intra = styled.div`
+	padding-bottom: 0.5rem;
+	color: var(--light-gray);
+`
+
+const LadderScore = styled.div`
+	padding-bottom: 2rem;
+
+`
+
+const Button = styled.button`
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  line-height: 2.2em;
+  padding: 0 0.62em;
+  color: var(--light-gray);
+  border: none;
+  border-radius: 0.25em;
+  background-color: --black;
+  box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+  &:hover {
+		color: var(--white);
+  }
+`;
 
 const IconSection = styled.div`
 	background: var(--light-gray);
@@ -46,6 +79,7 @@ const IconSection = styled.div`
 `
 
 const IconContainer = styled.div`
+	background-color: rgba(0, 0, 0, 0);
 	padding: 1rem;
 	width: 100%;
 	display: flex;
@@ -55,6 +89,7 @@ const IconContainer = styled.div`
 type Props = {
 	setIsInfoOn: any,
 	userIntra: string,
+	roomName?: string,
 	joinedUsers?: SimpleUserInfo[],
 }
 
@@ -63,7 +98,7 @@ type SendGameRoomData = {
 	access_modifier: string,
 }
 
-const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
+const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
 	const [myRole, setMyRole] = useState<string>("user");
 	const [userRole, setUserRole] = useState<string>("user");
@@ -85,15 +120,15 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
         Authorization: "Bearer " + token
       }
     }).then(response => {
-      const data: PlayerInfo = response.data;
-      console.log(data);
+			console.log(response.data);
       setUserData(
         prev => prev = new PlayerInfo(
-          data.intra_id,
-          data.nickname,
-          data.profile_url,
-					data.ladder_score,
-					data.is_my_friend,
+          response.data.intra_id,
+          response.data.nickname,
+          response.data.profile_url,
+					response.data.stats.ladder_score,
+					response.data.is_my_friend,
+					response.data.is_blocked
 				));
 			setRoleSection();
     }).catch(error => {
@@ -102,23 +137,62 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
   }
 
 	const setRoleSection = () => {
-		joinedUsers?.forEach(user => {
-			if (user.intra_id === userIntra) {
-				setUserRole(user.role);
-			}
-			if (user.intra_id === intra) {
-				setMyRole(user.role);
-			}
-		});
-		console.log("role: " + myRole + ", " + userRole);
+		if (joinedUsers) {
+			joinedUsers.forEach(user => {
+				if (user.intra_id === userIntra) {
+					setUserRole(user.role);
+				}
+				if (user.intra_id === intra) {
+					setMyRole(user.role);
+				}
+			});
+		} else {
+			setMyRole('user');
+			setUserRole('user');
+		}
 	}
 
   useEffect(() => {
     getData();
-  }, [userIntra]);
+  }, [userIntra, joinedUsers]);
 
-	const onClickAdd = () => {
-		console.log("onClickAdd");
+	const onClickProfile = () => {
+		navigate('/profile/' + userIntra);
+	}
+
+	const onClickAdd = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'user/friends', {
+				intra_id: userIntra,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			getData();
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
+	}
+
+	const onClickDelete = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.delete(Url + 'user/friends', {
+      headers: {
+        Authorization:"Bearer " + token
+      },
+			data: {
+				intra_id: userIntra,
+			}
+    }).then(response => {
+			getData();
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
 	const onClickPlay = () => {
@@ -138,20 +212,77 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 		}
 	}
 
-	const onClickBlock = () => {
-		console.log("onClickBlock");
+	const onClickBlock = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'user/block', {
+				intra_id: userIntra,
+				is_blocked: userData.is_blocked,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			getData();
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
-	const onClickGrant = () => {
-		console.log("onClickGrant");
+	const onClickAdmin = async () => {
+		if (!userData || !socket) {
+			console.log("There is no socket");
+			return;
+		}
+		console.log("emit admin set: " + userIntra + ", cur role: " + userRole);
+		socket.emit("admin", {
+			intra_id: userIntra,
+			room_name: roomName,
+			is_admin: userRole === 'admin' ? true : false,
+		}, (status: boolean)=>{
+			if (status) {
+				setUserRole('admin');
+			} else {
+				setUserRole('user');
+			}
+		});
 	}
 
-	const onClickMute = () => {
-		console.log("onClickGrant");
+	const onClickMute = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'channels/mute', {
+				intra_id: userIntra,
+				room_name: roomName,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			console.log(response.status);
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
-	const onClickBan = () => {
-		console.log("onClickGrant");
+	const onClickBan = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'channels/ban', {
+				intra_id: userIntra,
+				room_name: roomName,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			console.log(response.status);
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
 	return (
@@ -161,46 +292,51 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 			</SectionHeader>
 			<ProfileSection>
 				<Avatar.img size="5" src={userData?.profile_url} />
-				<br></br>
-				<p>{userData ? userData.nickname : "undefined"}</p>
-				<p>{userIntra}</p>
-				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
+				<Nickname>{userData ? userData.nickname : "undefined"}</Nickname>
+				<Intra>{userIntra}</Intra>
+				<LadderScore>🎖️ {userData ? userData.ladder_score : "???"}</LadderScore>
+				<Button onClick={onClickProfile}>프로필 보기</Button>
 			</ProfileSection>
-			<IconSection>
-				<IconContainer>
-					{userData?.is_my_friend ? 
-						<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
-						: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
-					}
-					<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
-					<IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
-				</IconContainer>
-				<IconContainer>
-					{myRole === "owner" ?
-						<>
-							{userRole === "admin" ? 
-								<IconButton onClickButton={onClickGrant} icon="🛠" text="관리자박탈" />
-								: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
-							}
-							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
-						</>
-						: null
-					}
-					{myRole === "admin" && userRole === "user" ?
-						<>
-							<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-							<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
-						</>
-						: null
-					}
-				</IconContainer>
-			</IconSection>
+			{userIntra === intra ? null :
+				<IconSection>
+					<IconContainer>
+						{userData?.is_my_friend ? 
+							<IconButton onClickButton={onClickDelete} icon="♡" text="친구삭제" />
+							 : <IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
+						}
+						<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
+						{userData?.is_blocked ?
+							<IconButton onClickButton={onClickBlock} icon="❌" text="차단해제" />
+							:  <IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
+						}
+					</IconContainer>
+					<IconContainer>
+						{myRole === "owner" ?
+							<>
+								{userRole === "admin" ? 
+									<IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자박탈" />
+									: <IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자임명" />
+								}
+								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
+							</>
+							: null
+						}
+						{myRole === "admin" && userRole === "user" ?
+							<>
+								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
+							</>
+							: null
+						}
+					</IconContainer>
+				</IconSection>
+			}
       {matchingBall &&
       	<InvitingWaitBall handler={matchingBallCancel}/>
       }
 		</Container>
-	)
+	);
 }
 
 export default UserInfo;

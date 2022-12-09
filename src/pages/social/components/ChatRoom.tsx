@@ -88,7 +88,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     }
   }
 
-  const leaveRoom = async () => {
+  const leaveRoom = () => {
     if (socket) {
       console.log("emit " + dmPrefix + "leave-room: " + target);
       socket.emit(dmPrefix + "leave-room", {name: target});
@@ -104,12 +104,15 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
   }
 
   useEffect(()=>{
-    if (target === "undefined")
+    if (target === "undefined" || target === undefined)
       forceMoveToHome();
 
     window.addEventListener("beforeunload", () => {alert("새로고침 시 채팅방 데이터는 날아갑니다")});
     window.addEventListener("popstate", forceMoveToHome)
+
     joinRoom();
+    getJoinedUsers();
+
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 
     return () => {
@@ -117,7 +120,8 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     }
   },[target])
 
-  const scrollDown = () => {
+  const scrollDown = async () => {
+    await new Promise((resolve, reject) => setTimeout(resolve, 100));
     bottomRef.current?.scrollIntoView({
       behavior: 'smooth'
     });
@@ -133,15 +137,12 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
 			}
     }).then(response => {
       console.log("room users: ");
+      console.log(response.data);
 			setJoinedUsers(response.data);
     }).catch(error => {
       console.error(target + ' room infomation loading failed');
     });
   }
-
-  useEffect(() => {
-    getJoinedUsers();
-  }, []);
 
   useEffect(() => {
     if (receiveMessage) {
@@ -177,8 +178,10 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
         }
       });
       if (type !== "dm") {
-        socket.on("patch", (nickname: string) => {
-          console.log("patch: " + nickname);
+        console.log("socket on patch");
+        socket.on("fetch", (nickname: string) => {
+          console.log("fetch: " + nickname);
+          getJoinedUsers();
         });
       }
       return () => {
