@@ -89,6 +89,7 @@ const IconContainer = styled.div`
 type Props = {
 	setIsInfoOn: any,
 	userIntra: string,
+	roomName?: string,
 	joinedUsers?: SimpleUserInfo[],
 }
 
@@ -97,7 +98,7 @@ type SendGameRoomData = {
 	access_modifier: string,
 }
 
-const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
+const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
 	const [myRole, setMyRole] = useState<string>("user");
 	const [userRole, setUserRole] = useState<string>("user");
@@ -229,16 +230,74 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
     });
 	}
 
-	const onClickGrant = () => {
-		console.log("onClickGrant");
+	const onClickSet = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'channels/admin', {
+				intra_id: userIntra,
+				room_name: roomName,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
-	const onClickMute = () => {
-		console.log("onClickGrant");
+	const onClickUnset = async () => {
+		if (!userData) {
+			return;
+		}
+    // await axios.put(Url + 'channels/admin', {
+		// 		intra_id: userIntra,
+		// 		room_name: roomName,
+		// 	},{
+    //   headers: {
+    //     Authorization:"Bearer " + token
+    //   }
+    // }).then(response => {
+    // }).catch(error => {
+    //   console.error('DM List loading failed');
+    // });
 	}
 
-	const onClickBan = () => {
-		console.log("onClickGrant");
+	const onClickMute = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'channels/mute', {
+				intra_id: userIntra,
+				room_name: roomName,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			console.log(response.status);
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
+	}
+
+	const onClickBan = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'channels/ban', {
+				intra_id: userIntra,
+				room_name: roomName,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			console.log(response.status);
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
 	return (
@@ -270,8 +329,8 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 						{myRole === "owner" ?
 							<>
 								{userRole === "admin" ? 
-									<IconButton onClickButton={onClickGrant} icon="🛠" text="관리자박탈" />
-									: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
+									<IconButton onClickButton={onClickUnset} icon="🛠" text="관리자박탈" />
+									: <IconButton onClickButton={onClickSet} icon="🛠" text="관리자임명" />
 								}
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
 								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />

@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
-import useSocket from "../../context/useSocket";
 import RoomInfo from "./components/RoomInfo";
 import PasswordInput from "../../components/modals/PasswordInput";
 import { SimpleUserInfo } from "./components/SimpleUserInfo";
@@ -119,6 +118,7 @@ const Social = () => {
               <UserInfo
                 setIsInfoOn={setIsInfoOn}
                 userIntra={infoIntra ?? "undefined"}
+                roomName={target ?? "undefined"}
                 joinedUsers={joinedUsers} />
               : <RoomInfo 
                   setIsInfoOn={setIsInfoOn}
