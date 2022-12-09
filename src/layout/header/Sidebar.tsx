@@ -147,16 +147,14 @@ const Sidebar = () => {
   const addFriendHandler = async (friend_intra_name: string) => {
     try {
       const response = await axios.put(
-          Url + "user/friends",
-          {
-            intra_id: friend_intra_name,
+        Url + "user/friends", {
+          intra_id: friend_intra_name,
+        }, {
+          headers: {
+            Authorization: "Bearer " + token,
           },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-          )
+        }
+      );
       getFriends();
     } catch (error) {
       console.error("add friend failed", friend_intra_name);

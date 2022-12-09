@@ -122,8 +122,39 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
     getData();
   }, [userIntra]);
 
-	const onClickAdd = () => {
-		console.log("onClickAdd");
+	const onClickAdd = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.put(Url + 'user/friends', {
+				intra_id: userIntra,
+			},{
+      headers: {
+        Authorization:"Bearer " + token
+      }
+    }).then(response => {
+			getData();
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
+	}
+
+	const onClickDelete = async () => {
+		if (!userData) {
+			return;
+		}
+    await axios.delete(Url + 'user/friends', {
+      headers: {
+        Authorization:"Bearer " + token
+      },
+			data: {
+				intra_id: userIntra,
+			}
+    }).then(response => {
+			getData();
+    }).catch(error => {
+      console.error('DM List loading failed');
+    });
 	}
 
 	const onClickPlay = () => {
@@ -189,8 +220,8 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 				<IconSection>
 					<IconContainer>
 						{userData?.is_my_friend ? 
-							<IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
-							: <IconButton onClickButton={onClickAdd} icon="♡" text="친구삭제" />
+							<IconButton onClickButton={onClickDelete} icon="♡" text="친구삭제" />
+							 : <IconButton onClickButton={onClickAdd} icon="❤️" text="친구추가" />
 						}
 						<IconButton onClickButton={onClickPlay} icon="🎮" text="게임" />
 						{userData?.is_blocked ?
