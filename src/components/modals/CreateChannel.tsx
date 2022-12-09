@@ -154,6 +154,7 @@ const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
           console.log(result);
           if (result == "") {
             setType(access);
+            setTarget(title);
             navigate('/social/' + title);
           } else {
             alert(result);
