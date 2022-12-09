@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useQueueDispatch } from "../../context/QueueHooks";
+import { useQueueDispatch, useQueueState } from "../../context/QueueHooks";
+import useSocket from "../../context/useSocket";
 import SplaButton from "../SplaButton";
 import { BackDrop, ModalProps } from "./ModalUtils";
+import { GameRoomInfo } from "../../pages/lobby/components/GameRoomInfo";
 
 const Box = styled.div`
   width: 24rem;
@@ -36,8 +38,11 @@ const ButtonContainer = styled.div`
 
 const MatchingModal = ({ modalHandler }: ModalProps) => {
   const [count, setCount] = useState(10);
-  const queueDispatch = useQueueDispatch();
-  const navigator = useNavigate();
+  const navigate = useNavigate();
+  const {room_id} = useQueueState();
+  const dispatch = useQueueDispatch();
+  const {socket} = useSocket();
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCount((prev) => prev - 1);
@@ -52,14 +57,31 @@ const MatchingModal = ({ modalHandler }: ModalProps) => {
       modalHandler();
     }
   }, [count]);
+  
   const buttonHandler = () => {
-    navigator("/lobby");
-    queueDispatch({ type: "INGAME" });
+    let game;
+    if (socket) {
+      socket.emit('join', {id:room_id});
+      socket.on('get', (data: GameRoomInfo) => {
+        game = data;
+        if (data) {
+          dispatch({type:"UPDATE", payload:data});
+        } else {
+          dispatch({type:"NONE"});
+        }
+      })
+      socket.off('get');
+      if (game) {
+        navigate('/game');
+      }  else {
+        modalHandler();
+      }
+    }
   };
   return (
     <BackDrop modalHandler={modalHandler}>
       <Box>
-        <Title>게임을 찾았습니다!</Title>
+        <Title>게임에 초대받았습니다!</Title>
         {count}
         <ButtonContainer>
         <SplaButton text="수락" onClickHandler={buttonHandler} />

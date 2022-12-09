@@ -14,7 +14,6 @@ const Wrapper = styled(motion.div)`
   border-radius: 50%;
   background: var(--white);
   color: var(--dark-gray);
-  box-shadow: 5px 5px 10px var(--dark-gray);
 `;
 
 const Xbutton = styled.div`
@@ -35,17 +34,17 @@ const Xbutton = styled.div`
   }
 `;
 
-const MatchingWaitBall = ({ handler }: { handler: VoidFunction }) => {
+const InvitingWaitBall = ({ handler }: { handler: VoidFunction }) => {
   return (
     <Wrapper
       drag
       dragConstraints={{ left: -500, right: 500, top: -100, bottom: 600 }}
       dragElastic={0.2}
     >
-      <Loader title="매칭중..." />
+      <Loader title="수락을 기다리는중..." />
       <Xbutton onClick={handler}>X</Xbutton>
     </Wrapper>
   );
 };
 
-export default MatchingWaitBall;
+export default InvitingWaitBall;

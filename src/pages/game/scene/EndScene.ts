@@ -22,7 +22,6 @@ export namespace Pong {
 
     // Bounds 'this' to the class
     private handleClick = (evt: Event) => {
-      console.log("clickeed");
       this.gameContext.loadScene(new Mainscene(this.ctx, this.socket));
     }
 

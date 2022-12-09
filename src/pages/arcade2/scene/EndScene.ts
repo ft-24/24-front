@@ -19,8 +19,6 @@ export namespace Pong {
       super(ctx);
       this.score = score;
       this.token = localStorage.getItem('token');
-      
-      this.setArcadeScore(score);
     }
 
     private handleClick = (evt: Event) => {
@@ -28,7 +26,7 @@ export namespace Pong {
     }
 
     private setArcadeScore = async (score: string) => {
-      await axios.put(Url + 'user/profile/arcade', {
+      await axios.put(Url + 'user/profile', {
         arcade: score
       }, {
             headers: {

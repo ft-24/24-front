@@ -2,12 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
+import InvitingWaitBall from "../../../components/InvitingWaitBall";
 import SectionHeader from "../../../components/SectionHeader";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
 import PlayerInfo from "../../lobby/components/PlayerInfo";
 import IconButton from "./IconButton";
 import { SimpleUserInfo } from "./SimpleUserInfo";
+import { useQueueState, useQueueDispatch } from "../../../context/QueueHooks";
+import useSocket from "../../../context/useSocket";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 	width: 100%;
@@ -60,6 +64,24 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 	const [userRole, setUserRole] = useState<string>("user");
   const { token, intra } = useAuthState();
   
+type SendGameRoomData = {
+	name: string,
+	access_modifier: string,
+}
+
+const UserInfo = ({setIsInfoOn, intra}: {setIsInfoOn: any, intra: string}) => {
+  const [userData, setUserData] = useState<PlayerInfo>();
+  const [matchingBall, setMatchingBall] = useState(false);
+  const { token } = useAuthState();
+  const { socket } = useSocket();
+  const queueDispatch = useQueueDispatch();
+  const navigate = useNavigate();
+  const {room_info, room_id} = useQueueState();
+  
+  const matchingBallCancel = () => {
+    setMatchingBall(false);
+  }
+
   const getData = async() => {
     await axios.get(Url + 'user/profile/' + userIntra, {
       headers: {
@@ -95,7 +117,6 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 	}
 
   useEffect(() => {
-		console.log("info on");
     getData();
   }, [userIntra]);
 
@@ -104,7 +125,20 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 	}
 
 	const onClickPlay = () => {
-		console.log("onClickPlay");
+		const data: SendGameRoomData = {
+		  name: '',
+		  access_modifier: ''
+		};
+		if (socket && userData) {
+		  console.log(userData.intra_id);
+		  data.name = userData.intra_id;
+		  data.access_modifier = "private";
+		  socket.emit("make-room", data, (id: string)=>{
+			queueDispatch({type: "ENTER", payload: id});
+			socket.emit("join", {id:id});
+			navigate('/game');
+		  });
+		}
 	}
 
 	const onClickBlock = () => {
@@ -165,6 +199,9 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 					}
 				</IconContainer>
 			</IconSection>
+      {matchingBall &&
+      	<InvitingWaitBall handler={matchingBallCancel}/>
+      }
 		</Container>
 	)
 }
