@@ -11,6 +11,7 @@ import { Url } from '../../constants/Global';
 import UserName from './UserName';
 import UserImage from './UserImage';
 import UserTfa from './UserTfa';
+import { useParams } from 'react-router-dom';
 
 const Layout = styled.div`
   min-height: 100vh;
@@ -85,11 +86,14 @@ const DummyUserData: UserProps = {
 }
 
 const Profile = () => {
+  const pathVar = useParams();
+  const intra = pathVar ? pathVar.intra : "";
+  
   const [userData, setUserData] = useState<UserProps>();
   const { token } = useAuthState();
   
   const getData = async() => {
-    await axios.get(Url + 'user/profile', {
+    await axios.get(Url + 'user/profile/' + (intra === undefined || intra === "" ? "" : intra), {
       headers: {
         Authorization:"Bearer " + token
       }
@@ -113,6 +117,10 @@ const Profile = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [pathVar]);
 
   if (userData === undefined) {
     return (

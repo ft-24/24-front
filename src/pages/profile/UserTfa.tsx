@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Url } from "../../constants/Global";
 import { useAuthState } from "../../context/AuthHooks";
@@ -33,6 +33,10 @@ const UserTfa = ({isTfaOn} : {isTfaOn : boolean}) => {
   const [tfa, setTfa] = useState(isTfaOn);
 	const [hover, setHover] = useState(false);
   const { token } = useAuthState();
+
+  useEffect(() => {
+    setTfa(isTfaOn);
+  }, [isTfaOn])
 
   const onClickTfa = async () => {
     await axios.put(Url + 'user/profile/tfa', {

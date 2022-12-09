@@ -52,6 +52,22 @@ const IconContainer = styled.div`
 	justify-content: space-evenly;
 `
 
+const Button = styled.button`
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
+  line-height: 2.2em;
+  padding: 0 0.62em;
+  color: var(--light-gray);
+  border: none;
+  border-radius: 0.25em;
+  background-color: --black;
+  box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+  &:hover {
+		color: var(--white);
+  }
+`;
+
 type Props = {
 	setIsInfoOn: any,
 	userIntra: string,
@@ -121,6 +137,10 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
   useEffect(() => {
     getData();
   }, [userIntra]);
+
+	const onClickProfile = () => {
+		navigate('/profile/' + userIntra);
+	}
 
 	const onClickAdd = async () => {
 		if (!userData) {
@@ -215,6 +235,7 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 				<p>{userData ? userData.nickname : "undefined"}</p>
 				<p>{userIntra}</p>
 				<p>🎖️ {userData ? userData.ladder_score : "???"}</p>
+				<Button onClick={onClickProfile}>프로필 보기</Button>
 			</ProfileSection>
 			{userIntra === intra ? null :
 				<IconSection>
@@ -237,14 +258,14 @@ const UserInfo = ({setIsInfoOn, userIntra, joinedUsers}: Props) => {
 									: <IconButton onClickButton={onClickGrant} icon="🛠" text="관리자임명" />
 								}
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
 							</>
 							: null
 						}
 						{myRole === "admin" && userRole === "user" ?
 							<>
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🚫" text="강제퇴장" />
+								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
 							</>
 							: null
 						}

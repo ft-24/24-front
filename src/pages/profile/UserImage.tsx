@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Url } from "../../constants/Global";
 import { useAuthState } from "../../context/AuthHooks";
@@ -42,6 +42,10 @@ const UserImage = ({profile_url} : {profile_url : string}) => {
   const [image, setImage] = useState(profile_url);
   const { token } = useAuthState();
 
+  useEffect(() => {
+    setImage(profile_url);
+  }, [profile_url])
+  
   const setProfileImage = async (file: any) => {
     const formData = new FormData();
     formData.append('image', file);

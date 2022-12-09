@@ -56,6 +56,10 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: "profile/:intra",
+        element: <Profile />,
+      },
+      {
         path: "private",
         element: <Private />,
       },
