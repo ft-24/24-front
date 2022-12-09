@@ -21,7 +21,8 @@ const Container = styled.div`
 const ChatSection = styled.div`
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   &::-webkit-scrollbar {
     width: 0.5rem;
   }
