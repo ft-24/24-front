@@ -35,7 +35,7 @@ const UserTfa = ({isTfaOn} : {isTfaOn : boolean}) => {
   const { token } = useAuthState();
 
   const onClickTfa = async () => {
-    await axios.put(Url + 'user/profile/tfa', {
+    await axios.put(Url + 'user/profile', {
         two_auth: tfa
     }, {
           headers: {
