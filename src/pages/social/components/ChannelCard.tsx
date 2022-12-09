@@ -29,7 +29,17 @@ const MemberList = styled.div`
     
 `
 
-const ChannelCard = ({type, receiver, memberList, setLocate, setType, setTarget, setIsPasswordModalOn} : any) => {
+type Props = {
+  type: string,
+  receiver: string,
+  memberList: any,
+  setLocate: any,
+  setType: any,
+  setTarget: any,
+  setIsPasswordModalOn?: any,
+}
+
+const ChannelCard = ({type, receiver, memberList, setLocate, setType, setTarget, setIsPasswordModalOn} : Props) => {
   const { nickname } = useAuthState();
   let navigate = useNavigate();
 

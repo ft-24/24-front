@@ -62,13 +62,17 @@ const Social = () => {
 	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
-    const targetIntra = localStorage.getItem("TMP_DM_OP");
-    if(targetIntra) {
-      setTarget(targetIntra);
+    const targetNickname = localStorage.getItem("TMP_DM_OP");
+    console.log(targetNickname);
+    if(targetNickname) {
+      setTarget(targetNickname);
       setType("dm")
       setLocate("chat");
       localStorage.removeItem("TMP_DM_OP");
     }
+  }, [pathVar])
+
+  useEffect(() => {
     if(!target) {
       setLocate("home");
     }
@@ -88,12 +92,21 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
+            <DMList
+              setIsListOn={setIsDMListOn}
+              setLocate={setLocate}
+              setType={setType}
+              setTarget={setTarget} />
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate} setType={setType} setTarget={setTarget} setIsPasswordModalOn={setIsPasswordModalOn} />
+            <JoinedList
+              setIsListOn={setIsListOn}
+              setLocate={setLocate}
+              setType={setType}
+              setTarget={setTarget}
+              setIsPasswordModalOn={setIsPasswordModalOn} />
           </ListSection>
         ) : null}
         <MainSection>

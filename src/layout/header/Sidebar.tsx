@@ -6,6 +6,7 @@ import { Url } from "../../constants/Global";
 import { Link, useNavigate } from "react-router-dom";
 import UserSearch from "../../components/modals/UserSearch";
 import ModalPortal from "../../components/modals/ModalPotal";
+import useSocket from "../../context/useSocket";
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -116,6 +117,7 @@ const Button = styled.div`
 
 const Sidebar = () => {
   const { token } = useAuthState();
+  const { socket } = useSocket();
   const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
   const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
   const [searchFriendModal, setSearchFriendModal] = useState(false);
@@ -144,11 +146,11 @@ const Sidebar = () => {
       });
   };
 
-  const addFriendHandler = async (friend_intra_name: string) => {
+  const addFriendHandler = async (friend_intra: string) => {
     try {
       const response = await axios.put(
         Url + "user/friends", {
-          intra_id: friend_intra_name,
+          intra_id: friend_intra,
         }, {
           headers: {
             Authorization: "Bearer " + token,
@@ -157,19 +159,19 @@ const Sidebar = () => {
       );
       getFriends();
     } catch (error) {
-      console.error("add friend failed", friend_intra_name);
+      console.error("add friend failed", friend_intra);
       throw (error);
     }
   };
 
-  const deleteFriendHandler = async (friend_intra_name: string) => {
+  const deleteFriendHandler = async (friend_intra: string) => {
     await axios
       .delete(Url + "user/friends", {
         headers: {
           Authorization: "Bearer " + token,
         },
         data: {
-          intra_id: friend_intra_name,
+          intra_id: friend_intra,
         },
       })
       .then((response) => {
@@ -177,7 +179,7 @@ const Sidebar = () => {
         getFriends();
       })
       .catch((error) => {
-        console.error("add friend failed", friend_intra_name);
+        console.error("add friend failed", friend_intra);
       });
   };
 
@@ -185,9 +187,15 @@ const Sidebar = () => {
     getFriends();
   }, []);
 
-  const onClickDM = (intra: string) => {
-    navigate("/social/" + intra);
-    localStorage.setItem("TMP_DM_OP", intra);
+  const onClickDM = (friend_intra: string) => {
+    if (socket) {
+      console.log("emit dm-create-room: " + friend_intra);
+      socket.emit("dm-create-room", {intra_id: friend_intra});
+    } else {
+      console.log("There is no socket");
+    }
+    navigate("/social/" + friend_intra);
+    localStorage.setItem("TMP_DM_OP", friend_intra);
   }
 
   return (

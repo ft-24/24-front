@@ -97,6 +97,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     } else {
       console.log("There is no socket");
     }
+    setChatLog([]);
   }
 
   const forceMoveToHome = () => {
@@ -112,7 +113,9 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
     window.addEventListener("popstate", forceMoveToHome)
 
     joinRoom();
-    getJoinedUsers();
+    if (type !== "dm") {
+      getJoinedUsers();
+    }
 
     console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 
