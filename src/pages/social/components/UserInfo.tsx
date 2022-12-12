@@ -12,6 +12,9 @@ import { SimpleUserInfo } from "./SimpleUserInfo";
 import { useQueueDispatch } from "../../../context/QueueHooks";
 import useSocket from "../../../context/useSocket";
 import { useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { add, NotificationProps, remove } from "../../../components/array-utils";
+import { CloseButton } from "../../../components/CloseButton";
 
 const Container = styled.div`
 	width: 100%;
@@ -26,6 +29,7 @@ const Container = styled.div`
 `
 
 const ProfileSection = styled.div`
+	position: relative;
 	width: 100%;
 	flex: 2;
 	display: flex;
@@ -67,6 +71,30 @@ const Button = styled.button`
   }
 `;
 
+const NotificationSection = styled.ul`
+	position: absolute;
+	align-content: flex-end;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	display: flex;
+	bottom: 1rem;
+	background-color: rgba(0, 0, 0, 0);
+`
+
+const Notification = styled(motion.li)`
+	padding: 0 1rem;
+  width: 300px;
+  background: var(--light-gray);
+  margin: 10px;
+	height: 2rem;
+	line-height: 2.2rem;
+	justify-content: center;
+	align-items: center;
+  border-radius: 10px;
+	list-style-type: none;
+`
+
 const IconSection = styled.div`
 	background: var(--light-gray);
 	border-radius: 1rem 1rem 0 0;
@@ -102,7 +130,9 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
 	const [myRole, setMyRole] = useState<string>("user");
 	const [userRole, setUserRole] = useState<string>("user");
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [matchingBall, setMatchingBall] = useState(false);
+	let notiIndex = 0;
 
   const { token, intra } = useAuthState();
   const { socket } = useSocket();
@@ -155,6 +185,19 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
   useEffect(() => {
     getData();
   }, [userIntra, joinedUsers]);
+
+	useEffect(() => {
+		console.log("update");
+	}, [notifications]);
+
+	const showNotification = (item: NotificationProps) => {
+		setNotifications(add(notifications, item))
+		notiIndex++;
+		item.index = notiIndex;
+		setTimeout(() => {
+			setNotifications(remove(notifications, item));
+		}, 1000);
+	}
 
 	const onClickProfile = () => {
 		navigate('/profile/' + userIntra);
@@ -224,6 +267,7 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
         Authorization:"Bearer " + token
       }
     }).then(response => {
+			showNotification({index: 0, text: '해당 유저가 블락되었습니다.'});
 			getData();
     }).catch(error => {
       console.error('DM List loading failed');
@@ -243,8 +287,10 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 		}, (status: boolean)=>{
 			if (status) {
 				setUserRole('admin');
+				showNotification({index: 0, text: '관리자 권한이 부여되었습니다.'});
 			} else {
 				setUserRole('user');
+				showNotification({index: 0, text: '관리자 권한이 박탈되었습니다.'});
 			}
 		});
 	}
@@ -261,7 +307,7 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
         Authorization:"Bearer " + token
       }
     }).then(response => {
-			console.log(response.status);
+			showNotification({index: 0, text: '해당 유저가 뮤트되었습니다.'});
     }).catch(error => {
       console.error('DM List loading failed');
     });
@@ -279,7 +325,7 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
         Authorization:"Bearer " + token
       }
     }).then(response => {
-			console.log(response.status);
+			showNotification({index: 0, text: '해당 유저가 밴되었습니다.'});
     }).catch(error => {
       console.error('DM List loading failed');
     });
@@ -291,6 +337,20 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 				<div style={{cursor: "pointer"}} onClick={()=>setIsInfoOn(false)}>{"<<"}</div>
 			</SectionHeader>
 			<ProfileSection>
+				<NotificationSection>
+					<AnimatePresence initial={false}>
+						{notifications.map((item: NotificationProps, index) => (
+							<Notification
+								key={index}
+								initial={{ opacity: 0, y: 50, scale: 0.3 }}
+								animate={{ opacity: 1, y: 0, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+							>
+								{item.text}
+							</Notification>
+						))}
+					</AnimatePresence>
+				</NotificationSection>
 				<Avatar.img size="5" src={userData?.profile_url} />
 				<Nickname>{userData ? userData.nickname : "undefined"}</Nickname>
 				<Intra>{userIntra}</Intra>
