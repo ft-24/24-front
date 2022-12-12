@@ -134,13 +134,10 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
   }
 
   const getJoinedUsers = async() => {
-    await axios.get(Url + 'channels/users/', {
+    await axios.get(Url + 'channels/users/' + target, {
       headers: {
         Authorization:"Bearer " + token
       },
-			data: {
-				room_name: target
-			}
     }).then(response => {
       console.log("room users: ");
       console.log(response.data);
