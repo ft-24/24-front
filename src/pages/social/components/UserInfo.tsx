@@ -185,10 +185,6 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
     getData();
   }, [userIntra, joinedUsers]);
 
-	useEffect(() => {
-		console.log("update");
-	}, [notifications]);
-
 	const showNotification = (item: NotificationProps) => {
 		setNotifications(add(notifications, item))
 		notiIndex++;
@@ -330,6 +326,13 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
     });
 	}
 
+	const onClickKick = async () => {
+    if (socket && userData) {
+      console.log("emit " + "kick " + userData.intra_id + " from " + roomName);
+      socket.emit("kick", {name: roomName, intra_id: userData.intra_id});
+    }
+	}
+
 	return (
 		<Container>
 			<SectionHeader color='var(--purple)'>
@@ -377,14 +380,16 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 									: <IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자임명" />
 								}
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
+								<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
+								<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
 							</>
 							: null
 						}
 						{myRole === "admin" && userRole === "user" ?
 							<>
 								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🚫" text="영구채금" />
+								<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
+								<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
 							</>
 							: null
 						}

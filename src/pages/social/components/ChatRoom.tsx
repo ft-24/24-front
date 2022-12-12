@@ -189,6 +189,10 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
           console.log("receive fetch");
           getJoinedUsers();
         });
+        socket.on("kick", (name: string) => {
+          if (name === target)
+            forceMoveToHome();
+        });
       }
       return () => {
         socket.off("fetch");
