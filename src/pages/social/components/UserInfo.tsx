@@ -14,7 +14,6 @@ import useSocket from "../../../context/useSocket";
 import { useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { add, NotificationProps, remove } from "../../../components/array-utils";
-import { CloseButton } from "../../../components/CloseButton";
 
 const Container = styled.div`
 	width: 100%;

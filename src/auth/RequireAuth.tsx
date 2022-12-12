@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthState } from "../context/AuthHooks";
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const { token } = useAuthState();
-  const [isAuthorized, setIsAuthorized] = useState(token!==undefined);
+  const navigate = useNavigate();
   useEffect(()=>{
-    setIsAuthorized(token!==undefined);
+    if (token === undefined)
+      navigate("/login", {replace: true});
   },[token]);
-  if (!isAuthorized) return <Navigate to="/login" replace={true} />;
   return children;
 };
 
