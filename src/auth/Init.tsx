@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthDispatch } from "../context/AuthHooks";
 import { flushSync } from "react-dom";
 
-const Auth = () => {
+const Init = () => {
   const dispatch = useAuthDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Auth = () => {
     if (idx >= 0) {
       const token = location.search.slice(7);
       flushSync(() => dispatch({ type: "LOGIN", payload: token }));
-      flushSync(() => navigate("/"), { replace: true });
+      flushSync(() => navigate("/profile"), { replace: true });
     } else {
       navigate("/login", { replace: true });
     }
@@ -21,4 +21,4 @@ const Auth = () => {
   return <></>;
 };
 
-export default Auth;
+export default Init;

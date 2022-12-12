@@ -53,18 +53,19 @@ const InputSection = styled.div`
 
 export type Message = {
 	nickname: string,
+  isRoomInfoOn: boolean,
 	intra_id: string,
   profile_url: string,
 	time: string,
 	chat: string,
 };
 
-const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: any) => {
+const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: any) => {
   const pathVar = useParams();
   const target = pathVar ? pathVar.receiver : "undefined";
   const dmPrefix = type === "dm" ? "dm-" : "";
   const bottomRef = useRef<HTMLDivElement>(null);
-  
+
   const [sendMessage, setSendMessage] = useState<Message | null>();
   const [receiveMessage, setReceiveMessage] = useState<Message | null>();
   const [chatLog, setChatLog] = useState<Message[]>([]);
@@ -98,6 +99,7 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
       console.log("There is no socket");
     }
     setChatLog([]);
+    setIsInfoOn(false);
   }
 
   const forceMoveToHome = () => {
@@ -187,12 +189,24 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
           console.log("receive fetch");
           getJoinedUsers();
         });
+        socket.on("kick", (name: string) => {
+          if (name === target)
+            forceMoveToHome();
+        });
       }
       return () => {
         socket.off("fetch");
       }
     }
   }, [socket]);
+
+  const onClickQuitRoom = () => {
+    if (socket) {
+      console.log("emit " + "quit-room: " + target);
+      socket.emit("quit-room", {name: target});
+    }
+    forceMoveToHome();
+  }
 
   const onClickRoomInfo = () => {
     setInfoIntra(undefined);
@@ -202,7 +216,8 @@ const ChatRoom = ({type, setLocate, setJoinedUsers, setIsInfoOn, setInfoIntra}: 
   return (
     <Container>
       <SectionHeader color="var(--purple)" title={ type === "dm" ? nickname + ", " + target : target}>
-        <div onClick={onClickRoomInfo}>{":"}</div>
+        {isRoomInfoOn ? <div onClick={onClickQuitRoom}>방 나가기</div>
+          : <div onClick={onClickRoomInfo}>{":"}</div>}
       </SectionHeader>
       <ChatSection>
         <ChatContainer>

@@ -63,7 +63,7 @@ const Social = () => {
 
   useEffect(() => {
     const targetNickname = localStorage.getItem("TMP_DM_OP");
-    console.log(targetNickname);
+    console.log("current target: " + targetNickname);
     if(targetNickname) {
       setTarget(targetNickname);
       setType("dm")
@@ -120,6 +120,7 @@ const Social = () => {
               /> : 
             <ChatRoom
               type={type}
+              isRoomInfoOn={isInfoOn && infoIntra === undefined}
               setLocate={setLocate}
               setJoinedUsers={setJoinedUsers}
               setIsInfoOn={setIsInfoOn}

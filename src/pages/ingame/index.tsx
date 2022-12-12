@@ -137,7 +137,7 @@ const GameRoom = () => {
   const LeaveRoom = () => {
     socket?.emit('leave', {id:room_id});
     dispatch({type:"NONE"});
-    navigate(-2);
+    navigate("/");
   }
 
   const preventGoBack = () => {
