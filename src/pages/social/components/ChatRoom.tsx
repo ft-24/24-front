@@ -76,7 +76,7 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
   let navigate = useNavigate();
 
   const joinRoom = () => {
-    if (socket) {
+    if (socket && target) {
       console.log("emit " + dmPrefix + "join-room:" + target);
       socket.emit(dmPrefix + "join-room", {name: target});
       socket.on(dmPrefix + "messages", (data: Message[]) => {
@@ -86,17 +86,17 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
       });
       scrollDown();
     } else {
-      console.log("There is no socket");
+      console.error("There is no socket");
     }
   }
 
   const leaveRoom = () => {
-    if (socket) {
+    if (socket && target) {
       console.log("emit " + dmPrefix + "leave-room: " + target);
       socket.emit(dmPrefix + "leave-room", {name: target});
       socket.off(dmPrefix + "messages");
     } else {
-      console.log("There is no socket");
+      console.error("There is no socket");
     }
     setChatLog([]);
     setIsInfoOn(false);
@@ -108,18 +108,17 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
   }
 
   useEffect(()=>{
-    if (target === "undefined" || target === undefined)
+    if (target === "undefined" || target === undefined) {
       forceMoveToHome();
-
-    window.addEventListener("beforeunload", () => {alert("새로고침 시 채팅방 데이터는 날아갑니다")});
-    window.addEventListener("popstate", forceMoveToHome)
-
-    joinRoom();
-    if (type !== "dm") {
-      getJoinedUsers();
+    } else {
+      window.addEventListener("popstate", forceMoveToHome)
+  
+      joinRoom();
+      if (type !== "dm") {
+        getJoinedUsers();
+      }
+      console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
     }
-
-    console.log("===== chat room info =====\n" + "type: " + type + "\ntarget: " + target);
 
     return () => {
       leaveRoom();
@@ -165,7 +164,7 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
         socket.emit(dmPrefix + "message", {msg: sendMessage.chat , receiver: target});
         scrollDown();
       } else {
-        console.log("There is no socket");
+        console.error("There is no socket");
       }
       setSendMessage(null);
     }
@@ -187,7 +186,7 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
           getJoinedUsers();
         });
         socket.on("kick", (name: string) => {
-          console.log("receive kick");
+          console.log("receive kick " + name + ", " + target);
           if (name === target)
             forceMoveToHome();
         });
