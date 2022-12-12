@@ -12,4 +12,5 @@ export type GameRoomInfo = {
 	player_list: PlayerInfo[],
 	spectator_list: PlayerInfo[],
 	ready: PReady,
+	turbo: boolean,
 }
