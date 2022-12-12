@@ -26,7 +26,7 @@ const LogoButton = () => {
 
   return (
 	<Logo>
-	<StyledLink to="/" onClick={leaveRoom}>로 고</StyledLink>
+	<StyledLink to="/" onClick={leaveRoom}>Splapong</StyledLink>
   </Logo>
 )
 }

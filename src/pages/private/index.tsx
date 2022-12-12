@@ -45,7 +45,7 @@ const Private = () => {
 				</MainSection>
 				{isInfoOn ? (
 					<InfoSection>
-						<UserInfo setIsInfoOn={setIsInfoOn} intra={infoIntra} />
+						<UserInfo setIsInfoOn={setIsInfoOn} userIntra={infoIntra} />
 					</InfoSection>
 				) : null}
 			</Container>

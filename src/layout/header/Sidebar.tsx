@@ -3,9 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuthState } from "../../context/AuthHooks";
 import { Url } from "../../constants/Global";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserSearch from "../../components/modals/UserSearch";
 import ModalPortal from "../../components/modals/ModalPotal";
+import useSocket from "../../context/useSocket";
 
 const Wrapper = styled.div`
   z-index: 4;
@@ -76,9 +77,10 @@ const ButtonContainer = styled.div`
   cursor: pointer;
 `;
 
-const StyledLink = styled(Link)`
+const DMButton = styled.button`
   text-decoration: none;
   background: transparent;
+  border: none;
 `;
 
 const DeleteButton = styled.div`
@@ -115,9 +117,11 @@ const Button = styled.div`
 
 const Sidebar = () => {
   const { token } = useAuthState();
+  const { socket } = useSocket();
   const [onlineFriends, setOnlineFriends] = useState<Friend[]>([]);
   const [offlineFriends, setOfflineFriends] = useState<Friend[]>([]);
   const [searchFriendModal, setSearchFriendModal] = useState(false);
+  const navigate = useNavigate();
 
   const getFriends = async () => {
     await axios
@@ -142,34 +146,32 @@ const Sidebar = () => {
       });
   };
 
-  const addFriendHandler = async (friend_intra_name: string) => {
+  const addFriendHandler = async (friend_intra: string) => {
     try {
       const response = await axios.put(
-          Url + "user/friends",
-          {
-            intra_id: friend_intra_name,
+        Url + "user/friends", {
+          intra_id: friend_intra,
+        }, {
+          headers: {
+            Authorization: "Bearer " + token,
           },
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-            },
-          }
-          )
+        }
+      );
       getFriends();
     } catch (error) {
-      console.error("add friend failed", friend_intra_name);
+      console.error("add friend failed", friend_intra);
       throw (error);
     }
   };
 
-  const deleteFriendHandler = async (friend_intra_name: string) => {
+  const deleteFriendHandler = async (friend_intra: string) => {
     await axios
       .delete(Url + "user/friends", {
         headers: {
           Authorization: "Bearer " + token,
         },
         data: {
-          intra_id: friend_intra_name,
+          intra_id: friend_intra,
         },
       })
       .then((response) => {
@@ -177,13 +179,24 @@ const Sidebar = () => {
         getFriends();
       })
       .catch((error) => {
-        console.error("add friend failed", friend_intra_name);
+        console.error("add friend failed", friend_intra);
       });
   };
 
   useEffect(() => {
     getFriends();
   }, []);
+
+  const onClickDM = (friend_intra: string) => {
+    if (socket) {
+      console.log("emit dm-create-room: " + friend_intra);
+      socket.emit("dm-create-room", {intra_id: friend_intra});
+    } else {
+      console.log("There is no socket");
+    }
+    navigate("/social/" + friend_intra);
+    localStorage.setItem("TMP_DM_OP", friend_intra);
+  }
 
   return (
     <Wrapper className="sidebar">
@@ -196,7 +209,7 @@ const Sidebar = () => {
                 <OnlineText>{item.nickname}</OnlineText>
               </NameContainer>
               <ButtonContainer>
-                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DMButton onClick={() => onClickDM(item.intra_id)}>💬</DMButton>
                 <DeleteButton
                   onClick={() => {
                     deleteFriendHandler(item.intra_id);
@@ -216,7 +229,7 @@ const Sidebar = () => {
                 <OfflineText>{item.nickname}</OfflineText>
               </NameContainer>
               <ButtonContainer>
-                <StyledLink to={"/social/" + item.nickname}>💬</StyledLink>
+                <DMButton onClick={() => onClickDM(item.intra_id)}>💬</DMButton>
                 <DeleteButton
                   onClick={() => {
                     deleteFriendHandler(item.intra_id);

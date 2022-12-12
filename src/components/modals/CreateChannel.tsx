@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthState } from "../../context/AuthHooks";
 import useSocket from "../../context/useSocket";
-import Private from "../../pages/private";
-import SplaButton from "../SplaButton";
-import { BackDrop, ModalProps } from "./ModalUtils";
+import Radio from "../Radio";
+import { BackDrop } from "./ModalUtils";
 
 const Box = styled.div`
   position: relative;
@@ -83,30 +82,7 @@ const ButtonText = styled.div`
 	color: black;
 `
 
-const RadioButton = styled.input`
-  align-self: center;
-`
-
-const Label= styled.label`
-  margin: 0.5rem;
-  color: black;
-  background: none;
-`
-
-const Radio = ({label, index, select, handler}: {label: string, index: number, select: number, handler: any}) => {
-  return (
-    <>
-      <RadioButton 
-        type="radio"
-        value={index}
-        checked={select === index}
-        onChange={() => handler(index)} />
-      <Label>{label}</Label>
-    </>
-  )
-}
-
-const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
+const CreateChannel = ({modalHandler, setType, setTarget, setLocate} : any) => {
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState<string>("");
   const [select, setSelect] = useState(1);
@@ -144,16 +120,17 @@ const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
           break;
       }
       if (!isEmpty) {
-        console.log("emit create");
+        console.log("emit create-room");
         socket.emit('create-room', {
           name:title,
           password:password,
           owner_id:intra,
           access_modifier:access
         }, (result: string) => {
-          console.log(result);
           if (result == "") {
             setType(access);
+            setTarget(title);
+            setLocate('chat');
             navigate('/social/' + title);
           } else {
             alert(result);
@@ -177,9 +154,9 @@ const CreateChannel = ({modalHandler, setType, setTarget} : any) => {
             maxLength={28}
             onChange={onChangeTitle} />
           <Column>
-            <Radio label="Public" index={1} select={select} handler={setSelect} />
-            <Radio label="Protected" index={2} select={select} handler={setSelect} />
-            <Radio label="Private" index={3} select={select} handler={setSelect} />
+            <Radio label="Public" color="black" index={1} select={select} handler={setSelect} />
+            <Radio label="Protected" color="black" index={2} select={select} handler={setSelect} />
+            <Radio label="Private" color="black" index={3} select={select} handler={setSelect} />
           </Column>
           {select === 2 ? <InputPassword
                             id="input_password"

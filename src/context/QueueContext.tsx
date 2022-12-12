@@ -41,7 +41,7 @@ const queueReducer = (state: QueueContextType, action: QueueActionType): QueueCo
             const _info = action.payload;
             return ({room_id: _info.id , queue_state: "UPDATE",
             room_info: { id: _info.id, name: _info.name, access_modifier: _info.access_modifier,
-                         player_list: [..._info.player_list], spectator_list: [..._info.spectator_list], ready: {..._info.ready}}
+                         player_list: [..._info.player_list], spectator_list: [..._info.spectator_list], ready: {..._info.ready}, turbo: _info.turbo}
             });
         }
         case "NONE": {

@@ -97,7 +97,7 @@ const Hero = ({onClickHandler} : any) => {
   return (
     <Wrapper>
       <SectionWrapper>
-        <Title>{VITE_ENV_TEST}</Title>
+        <Title>FT_TRANCENDENCE</Title>
         <SubTitle>트뽀</SubTitle>
         <ArticleWrapper>
           <Article>

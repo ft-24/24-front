@@ -16,6 +16,7 @@ import Matching from "../pages/matching/Matching";
 import Private from "../pages/private";
 import Test from "../pages/Test";
 import GameRoom from "../pages/ingame";
+import Init from "../auth/Init";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,14 @@ const router = createBrowserRouter([
     element: (
       <Restrict>
         <Auth />,
+      </Restrict>
+    ),
+  },
+  {
+    path: "/init",
+    element: (
+      <Restrict>
+        <Init />,
       </Restrict>
     ),
   },
@@ -53,6 +62,10 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "profile/:intra",
         element: <Profile />,
       },
       {

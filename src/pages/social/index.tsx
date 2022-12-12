@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import DMList from "./components/DMList";
 import { useParams } from "react-router-dom";
 import CreateChannel from "../../components/modals/CreateChannel";
-import useSocket from "../../context/useSocket";
 import RoomInfo from "./components/RoomInfo";
 import PasswordInput from "../../components/modals/PasswordInput";
 import { SimpleUserInfo } from "./components/SimpleUserInfo";
@@ -63,7 +62,20 @@ const Social = () => {
 	const [isPasswordModalOn, setIsPasswordModalOn] = useState(false);
 
   useEffect(() => {
-    setLocate(target || target === "" ? "chat" : "home");
+    const targetNickname = localStorage.getItem("TMP_DM_OP");
+    console.log("current target: " + targetNickname);
+    if(targetNickname) {
+      setTarget(targetNickname);
+      setType("dm")
+      setLocate("chat");
+      localStorage.removeItem("TMP_DM_OP");
+    }
+  }, [pathVar])
+
+  useEffect(() => {
+    if(!target) {
+      setLocate("home");
+    }
     setIsCreateModalOn(false);
   }, [target])
 
@@ -80,12 +92,21 @@ const Social = () => {
         </NavSection>
         {isDMListOn ? (
           <ListSection>
-            <DMList setIsListOn={setIsDMListOn} setLocate={setLocate} setType={setType} />
+            <DMList
+              setIsListOn={setIsDMListOn}
+              setLocate={setLocate}
+              setType={setType}
+              setTarget={setTarget} />
           </ListSection>
         ) : null}
         {isListOn ? (
           <ListSection>
-            <JoinedList setIsListOn={setIsListOn} setLocate={setLocate} setType={setType} setTarget={setTarget} setIsPasswordModalOn={setIsPasswordModalOn} />
+            <JoinedList
+              setIsListOn={setIsListOn}
+              setLocate={setLocate}
+              setType={setType}
+              setTarget={setTarget}
+              setIsPasswordModalOn={setIsPasswordModalOn} />
           </ListSection>
         ) : null}
         <MainSection>
@@ -99,6 +120,7 @@ const Social = () => {
               /> : 
             <ChatRoom
               type={type}
+              isRoomInfoOn={isInfoOn && infoIntra === undefined}
               setLocate={setLocate}
               setJoinedUsers={setJoinedUsers}
               setIsInfoOn={setIsInfoOn}
@@ -110,6 +132,7 @@ const Social = () => {
               <UserInfo
                 setIsInfoOn={setIsInfoOn}
                 userIntra={infoIntra ?? "undefined"}
+                roomName={target ?? "undefined"}
                 joinedUsers={joinedUsers} />
               : <RoomInfo 
                   setIsInfoOn={setIsInfoOn}
@@ -124,6 +147,7 @@ const Social = () => {
                             modalHandler={() => setIsCreateModalOn(false)}
                             setType={setType}
                             setTarget={setTarget}
+                            setLocate={setLocate}
                             /> : null}
       {isPasswordModalOn  ? <PasswordInput
                               modalHandler={() => setIsPasswordModalOn(false)}

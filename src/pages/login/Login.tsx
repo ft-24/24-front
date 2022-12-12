@@ -40,7 +40,6 @@ const Login = () => {
 
   return (
     <Wrapper>
-      <TestButton onClick={testClick}>TESTLOGIN</TestButton>
       <Hero onClickHandler={onClickHandler}/>
       <Members ref={ref}/>
       <Stacks />

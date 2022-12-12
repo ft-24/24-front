@@ -6,6 +6,7 @@ import PlayerInfo from "../../lobby/components/PlayerInfo";
 import axios from "axios";
 import { Url } from "../../../constants/Global";
 import { useAuthState } from "../../../context/AuthHooks";
+import { SimpleUserInfo } from "./SimpleUserInfo";
 
 const Container = styled.div`
 	width: 100%;
@@ -31,12 +32,17 @@ const EmptyText = styled.div`
 	padding: 1rem;
 `
 
-const DMList = ({setIsListOn, setLocate, setType} : any) => {
-	const [list, setList] = useState<PlayerInfo[]>();
+type User = {
+	intra_id: string,
+	nickname: string,
+}
+
+const DMList = ({setIsListOn, setLocate, setType, setTarget} : any) => {
+	const [list, setList] = useState<User[]>();
   const { token } = useAuthState();
 
 	const getList = async() => {
-    await axios.get(Url + 'user/profile', {
+    await axios.get(Url + 'channels/dm', {
       headers: {
         Authorization:"Bearer " + token
       }
@@ -58,14 +64,15 @@ const DMList = ({setIsListOn, setLocate, setType} : any) => {
 			</SectionHeader>
 			<ChannelSection>
 			{
-				list && (list.length > 0) ? list.map((item: PlayerInfo, index) => (
+				list && (list.length > 0) ? list.map((item: User, index) => (
 					<ChannelCard
 						key={index}
 						type="dm"
-						receiver={item.nickname}
+						receiver={item.intra_id}
 						memberList={undefined}
 						setLocate={setLocate}
-						setType={setType} />
+						setType={setType}
+						setTarget={setTarget} />
 				)) : <EmptyText>참여중인 DM이 없어요...</EmptyText>
 			}
 			</ChannelSection>

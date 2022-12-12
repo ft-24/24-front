@@ -63,7 +63,7 @@ const PlayerContainer = styled.div`
 const Versus = styled.div`
   width: 5vw;
   text-align: center;
-  line-height: 20vh;
+  line-height: 5vh;
 `;
 
 const SpectatorContainer = styled.div`
@@ -90,6 +90,17 @@ const ContentHeader = styled.div`
   padding: 1rem;
   background: var(--dark-gray);
   text-shadow: 0 2px 0 black;
+`;
+
+const TopDown = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FastButton = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const GameContainer = styled.div`
@@ -121,11 +132,12 @@ const GameRoom = () => {
   const {room_info, room_id} = useQueueState();
   const {socket} = useSocket();
   const dispatch = useQueueDispatch();
+  const [isTurbo, setIsTurbo] = useState(false);
 
   const LeaveRoom = () => {
     socket?.emit('leave', {id:room_id});
     dispatch({type:"NONE"});
-    navigate(-2);
+    navigate("/");
   }
 
   const preventGoBack = () => {
@@ -141,6 +153,20 @@ const GameRoom = () => {
     localStorage.setItem("isRefreshed", "true");
   };
    
+  const setTurbo = (e: React.FormEvent<HTMLInputElement>) => {
+    if (room_info) {
+      setIsTurbo(room_info.turbo);
+    }
+  }
+
+  const GetTurbo = () => {
+    if (room_info && pState === PlayerState.stay) {
+      let temp = room_info.turbo;
+      temp = !temp;
+      socket?.emit('turbo', {is_turbo: temp});
+    }
+  }
+
   useEffect(() => {
     if (localStorage.getItem("isRefreshed") === "true") {
       localStorage.removeItem("isRefreshed");
@@ -175,7 +201,7 @@ const GameRoom = () => {
     if (socket) {
       socket.on('reset', data => {
         if (!data) {
-          console.log("123");
+          console.log("resetting");
           setPState(PlayerState.stay);
         }
       })
@@ -197,6 +223,7 @@ const GameRoom = () => {
     }
   }, [socket]);
 
+
   // useEffect(() => {
   //   RefreshRoom();
   //   return () => {
@@ -217,7 +244,10 @@ const GameRoom = () => {
               {room_info?.player_list[0] ? (
                 <PlayerCard type="purple" player={room_info.player_list[0]} isReady={room_info.ready.p1} />
               ) : null}
-              <Versus> vs </Versus>
+              <TopDown>
+                <Versus> vs </Versus>
+                <FastButton htmlFor="speed"><input type="checkbox" id="speed" onClick={GetTurbo} checked={room_info? room_info.turbo : isTurbo} onChange={setTurbo}/>X2</FastButton>
+              </TopDown>
               {room_info?.player_list[1] ? (
                 <PlayerCard type="yellow" player={room_info.player_list[1]} isReady={room_info.ready.p2}/>
               ) : null}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Url } from "../../constants/Global";
 import { useAuthState } from "../../context/AuthHooks";
@@ -47,8 +47,12 @@ const UserName = ({name, children}: {name: string, children: any} ) => {
     setTemp(event.currentTarget.value);
   }
 
+  useEffect(() => {
+    setNickname(name);
+  }, [name])
+
   const setProfileName = async (name: string) => {
-    await axios.put(Url + 'user/profile/nickname', {
+    await axios.put(Url + 'user/profile', {
       nickname: name
     }, {
           headers: {

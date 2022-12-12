@@ -17,6 +17,7 @@ const Sender = styled.div``;
 
 const MessageContainer = styled.div<Props>`
   display: flex;
+  max-width: 100%;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: ${(props) => (props.isMe ? `flex-end` : `flex-start`)};
@@ -24,6 +25,9 @@ const MessageContainer = styled.div<Props>`
 `;
 
 const MessageBubble = styled.div<Props>`
+  display: inline-block;
+  word-break:break-all;
+  max-width: 100%;
   padding: 1rem;
   margin-top: 1rem;
   background: ${(props) => (props.isMe ? `var(--purple)` : `var(--white)`)};
@@ -32,6 +36,7 @@ const MessageBubble = styled.div<Props>`
 `;
 
 const TimeBar = styled.div`
+  max-width: 100%;
   margin-top: 1rem;
   align-self: flex-end;
 `;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Avatar from "../../../components/Avatar";
 import { Url } from "../../../constants/Global";
@@ -47,6 +48,7 @@ const Nav = ({setLocate, setIsDMListOn, setIsListOn, setIsInfoOn, setInfoIntra}:
   const [image, setimage] = useState("");
   const { token } = useAuthState();
 	const state = useAuthState();
+	const navigate = useNavigate();
 	
   const getData = async() => {
     await axios.get(Url + 'user/profile', {
@@ -73,12 +75,12 @@ const Nav = ({setLocate, setIsDMListOn, setIsListOn, setIsInfoOn, setInfoIntra}:
 			<Container>
 				LOGO
 				<IconSection>
-					<Button onClick={()=>{setLocate("home"); setIsDMListOn(false); setIsListOn(false); setIsInfoOn(false);}}>🏠</Button>
+					<Button onClick={()=>{setLocate("home"); navigate('/social'); setIsDMListOn(false); setIsListOn(false); setIsInfoOn(false);}}>🏠</Button>
 					<Button onClick={()=>{setIsListOn(true); setIsDMListOn(false)}}>👨‍👧‍👦</Button>
 					<Button onClick={()=>{setIsDMListOn(true); setIsListOn(false)}}>🤫</Button>
 				</IconSection>
 				<p>you</p>
-				<UserIconButton onClickButton={onClick} imgSrc={image} text={state.nickname} iconSize="3" />
+				<UserIconButton onClickButton={onClick} imgSrc={image} iconSize="3" />
 			</Container>
 	)
 }

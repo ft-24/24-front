@@ -42,7 +42,6 @@ const JoinedList = ({setIsListOn, setLocate, setType, setTarget, setIsPasswordMo
                 Authorization:"Bearer " + token
             }
         }).then(response => {
-			console.log(response.data);
             setList(response.data.rooms);
         }).catch(error => {
             console.error('Joined List loading failed');
