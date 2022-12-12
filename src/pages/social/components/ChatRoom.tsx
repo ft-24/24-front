@@ -187,6 +187,7 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
           getJoinedUsers();
         });
         socket.on("kick", (name: string) => {
+          console.log("receive kick");
           if (name === target)
             forceMoveToHome();
         });

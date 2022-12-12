@@ -78,16 +78,6 @@ const Title = styled.div`
   margin: 2rem 0 1rem;
 `
 
-const InputTitle = styled.input`
-	width : 90%;
-  border-radius: 1rem;
-  border: none;
-  background-color: var(--light-light-gray);
-  margin: 1rem;
-  padding: 0.5rem 1rem;
-  color: black;
-`
-
 const InputPassword = styled.input`
   border: 1px solid var(--light-light-gray);
   background-color: white;
@@ -123,6 +113,8 @@ const IconSection = styled.div`
 	width: 100%;
 	flex: 1;
 	display: flex;
+	justify-content: center;
+	padding: 1rem;
 `
 
 type Props = {

@@ -180,10 +180,6 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 					setMyRole(user.role);
 				}
 			});
-			console.log(myRole + ", " + userRole);
-		} else {
-			setMyRole('undefined');
-			setUserRole('undefined');
 		}
 	}
 
