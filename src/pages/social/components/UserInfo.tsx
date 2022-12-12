@@ -113,6 +113,11 @@ const IconContainer = styled.div`
 	justify-content: space-evenly;
 `
 
+const EmptyText = styled.div`
+	padding: 1rem;
+	color: var(--light-gray);
+`
+
 type Props = {
 	setIsInfoOn: any,
 	userIntra: string,
@@ -127,8 +132,8 @@ type SendGameRoomData = {
 
 const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
   const [userData, setUserData] = useState<PlayerInfo>();
-	const [myRole, setMyRole] = useState<string>("user");
-	const [userRole, setUserRole] = useState<string>("user");
+	const [myRole, setMyRole] = useState<string>("undefined");
+	const [userRole, setUserRole] = useState<string>("undefined");
   const [notifications, setNotifications] = useState<NotificationProps[]>([]);
   const [matchingBall, setMatchingBall] = useState(false);
 	let notiIndex = 0;
@@ -177,8 +182,8 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 			});
 			console.log(myRole + ", " + userRole);
 		} else {
-			setMyRole('user');
-			setUserRole('user');
+			setMyRole('undefined');
+			setUserRole('undefined');
 		}
 	}
 
@@ -373,28 +378,30 @@ const UserInfo = ({setIsInfoOn, userIntra, roomName, joinedUsers}: Props) => {
 							:  <IconButton onClickButton={onClickBlock} icon="❌" text="차단" />
 						}
 					</IconContainer>
-					<IconContainer>
-						{myRole === "owner" ?
-							<>
-								{userRole === "admin" ? 
-									<IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자박탈" />
-									: <IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자임명" />
-								}
-								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
-								<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
-							</>
-							: null
-						}
-						{myRole === "admin" && userRole === "user" ?
-							<>
-								<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
-								<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
-								<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
-							</>
-							: null
-						}
-					</IconContainer>
+					{ myRole !== "undefined" && userRole !== "undefined" ? 
+						<IconContainer>
+							{myRole === "owner" ?
+								<>
+									{userRole === "admin" ? 
+										<IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자박탈" />
+										: <IconButton onClickButton={onClickAdmin} icon="🛠" text="관리자임명" />
+									}
+									<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+									<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
+									<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
+								</>
+								: null
+							}
+							{myRole === "admin" && userRole === "user" ?
+								<>
+									<IconButton onClickButton={onClickMute} icon="💤" text="채팅금지" />
+									<IconButton onClickButton={onClickBan} icon="🔇" text="영구채금" />
+									<IconButton onClickButton={onClickKick} icon="🚫" text="강제추방" />
+								</>
+								: null
+							}
+						</IconContainer>
+					: null }
 				</IconSection>
 			}
       {matchingBall &&
