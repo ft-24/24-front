@@ -107,6 +107,29 @@ const ChatRoom = ({type, isRoomInfoOn, setLocate, setJoinedUsers, setIsInfoOn, s
     setLocate("home");
   }
 
+  const preventClose = (e: BeforeUnloadEvent) => {
+    // TODO : 게임중 새로고침 하는거 손보기..
+    e.preventDefault();
+    localStorage.setItem("isRefreshed", "true");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("isRefreshed") === "true") {
+      localStorage.removeItem("isRefreshed");
+      navigate(-2);
+    }
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", forceMoveToHome);
+      window.addEventListener("beforeunload", preventClose);
+    })();
+   
+    return () => {
+      window.removeEventListener("beforeunload", preventClose);
+      window.removeEventListener("popstate", forceMoveToHome);
+    };
+  }, []);
+
   useEffect(()=>{
     if (target === "undefined" || target === undefined) {
       forceMoveToHome();
