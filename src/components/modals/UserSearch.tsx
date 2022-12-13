@@ -166,7 +166,7 @@ const UserSearch = ({ modalHandler, addFriendHandler }: any) => {
   const getUsers = async () => {
     setState("LOAD");
     await axios
-      .get(Url + "user/profile", {
+      .get(Url + "user/profiles", {
         headers: {
           Authorization: "Bearer " + token,
         },
